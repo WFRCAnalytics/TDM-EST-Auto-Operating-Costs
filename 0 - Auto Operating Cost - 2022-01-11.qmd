@@ -1,0 +1,117 @@
+---
+title: Auto Operating Costs Calculation
+subtitle: Estimating Auto Operating Costs for Travel Demand Model
+author:
+ - name: Pukar Bhandari
+   email: pukar.bhandari@wfrc.utah.gov
+   affiliation:
+     - name: Wasatch Front Regional Council
+       url: "https://wfrc.utah.gov/"
+date: "2025-09-17"
+
+format: html
+execute:
+   eval: true
+jupyter: python3
+---
+
+This document is just replicating the excel sheet located in `/archive-v9.0/1 - Auto Operating Costs - 2022-01-11.xlsx`.
+
+## Import Libraries
+
+``` python
+!pip install pandas openpyxl
+# OR
+!conda install pandas openpyxl
+```
+
+```{python}
+import pandas as pd
+```
+
+## Read Raw Data
+
+### BTS Table 3-11
+
+Sales Price of Transportation Fuel to End-Users \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/sales-price-transportation-fuel-end-users-current-cents-gallon)\]
+
+File URL: https://www.bts.gov/sites/bts.dot.gov/files/2024-03/table_03_11_032824.xlsx
+
+```{python}
+# Set file Path
+path_3_11 = "archive-v9.0\\Support Data\\BTS - National - Auto Cost & Gas Price.xlsx"
+
+# Read Excel file directly from URL
+df_3_11 = pd.read_excel(path_3_11, sheet_name='3-11', header=1, usecols="A:AH", nrows=10) # update cols later for new data
+
+# display the data
+df_3_11
+```
+
+### BTS Table 3-12
+
+Price Trends of Gasoline v. Other Consumer Goods and Services \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/price-trends-gasoline-v-other-consumer-goods-and-services)\]
+
+File URL: https://www.bts.gov/sites/bts.dot.gov/files/2024-03/table_03_12_032824_1.xlsx
+
+```{python}
+# Set file path
+path_3_12 = "archive-v9.0\\Support Data\\BTS - National - Auto Cost & Gas Price.xlsx"
+
+# Read Excel file directly from URL
+df_3_12 = pd.read_excel(path_3_12, sheet_name='3-12', header=1, usecols="A:AJ", nrows=15) # update cols later for new data
+
+# display the data
+df_3_12
+```
+
+### BTS Table 3-25
+
+Average Wage and Salary Accruals per Full-Time Equivalent Employee by Transportation Industry \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/average-wage-and-salary-accruals-full-time-equivalent-employee-transportation-industry-naics)\]
+
+File URL: https://www.bts.gov/sites/bts.dot.gov/files/2022-10/table_03_25_102122.xlsx
+
+```{python}
+# Set file path
+path_3_25 = "archive-v9.0\\Support Data\\BTS - National - Income-Wage.xlsx"
+
+# Read Excel file directly from URL
+df_3_25 = pd.read_excel(path_3_25, sheet_name='3-25', header=1, usecols="A:X", nrows=10) # update cols later for new data
+
+# display the data
+df_3_25
+```
+
+### BTS Table 4-11
+
+Light Duty Vehicle, Short Wheel Base and Motorcycle Fuel Consumption and Travel \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/light-duty-vehicle-short-wheel-base-and-motorcycle-fuel-consumption-and-travel)]
+
+File URL: https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_11_032825.xlsx
+
+```{python}
+# Set file path
+path_4_11 = "archive-v9.0\\Support Data\\BTS - National - Fuel Efficiency.xlsx"
+
+# Read Excel file directly from URL
+df_4_11 = pd.read_excel(path_4_11, sheet_name='4-11', header=1, usecols="A:AK", nrows=18) # update cols later for new data
+
+# display the data
+df_4_11
+```
+
+### BTS Table 4-12
+
+Light Duty Vehicle, Long Wheel Base Fuel Consumption and Travel \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/other-2-axle-4-tire-vehicle-fuel-consumption-and-travel-0)\]
+
+File URL: https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_12M_032725.xlsx
+
+```{python}
+# Set file path
+path_4_12 = "archive-v9.0\\Support Data\\BTS - National - Fuel Efficiency.xlsx"
+
+# Read Excel file directly from URL
+df_4_12 = pd.read_excel(path_4_12, sheet_name='4-12', header=1, usecols="A:AI", nrows=6) # update cols later for new data
+
+# display the data
+df_4_12
+```
