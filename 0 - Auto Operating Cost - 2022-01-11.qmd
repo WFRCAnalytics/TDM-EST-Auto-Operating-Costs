@@ -429,3 +429,147 @@ df_DrivingCosts.columns = [
 # display the data
 df_DrivingCosts
 ```
+
+## Intermediate Cost Calculations
+
+### Transportation Expenditures
+
+```{python}
+# Define the range of years
+years = list(range(1990, 2021))  # Creating a list of years
+
+# Ensure column names are strings in both DataFrames to avoid indexing issues
+df_PersonalExpenditure.columns = df_PersonalExpenditure.columns.astype(str)
+df_AverageCost.columns = df_AverageCost.columns.astype(str)
+
+# Extract the 'Transportation Cost Percent of Total' for the years 1990-2020 from row 2
+transportation_cost_percent_of_total = df_PersonalExpenditure.loc[2, '1990':'2020']
+
+# Extract the 'Gasoline Cost of Transportation' for the years 1990-2020 from row 2
+gasoline_cost_of_transportation = df_AverageCost.loc[2, '1990':'2020']
+
+# Create a DataFrame to combine the extracted data
+df_TransportationExpenditure = pd.DataFrame({
+    "Year": years,  # The years from 1990 to 2020
+    "Transportation Percent of Total": transportation_cost_percent_of_total.values,
+    "Gasoline Cost of Transportation": gasoline_cost_of_transportation.values
+})
+
+# TODO: Did not understand the logic for this
+df_TransportationExpenditure["Gasoline Percent of Total"] = df_TransportationExpenditure["Gasoline Cost of Transportation"] * df_TransportationExpenditure["Transportation Percent of Total"] / 100
+
+df_TransportationExpenditure
+```
+
+```{python}
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Plotting the data using Seaborn and Matplotlib
+plt.figure(figsize=(10, 6))
+
+# Plot Transportation Cost Percent of Total with a blue line
+sns.lineplot(x='Year', y='Transportation Percent of Total', data=df_TransportationExpenditure,
+             color='#0070C0', linewidth=2.5, label='Transportation % of Total Expenditure')
+
+# Plot Gasoline Percent of Total with a red line
+sns.lineplot(x='Year', y='Gasoline Percent of Total', data=df_TransportationExpenditure,
+             color='#FF0000', linewidth=2.5, label='Gasoline % of Total Expenditure')
+
+# Plotting the linear trend lines with dashed lines
+# sns.regplot(x='Year', y='Transportation Percent of Total', data=df_TransportationExpenditure,
+#             scatter=False, color='#0070C0',
+#             line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
+
+# sns.regplot(x='Year', y='Gasoline Percent of Total', data=df_TransportationExpenditure,
+#             scatter=False, color='#FF0000',
+#             line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
+
+# Customize the plot
+plt.title('Transportation as a Percent of Total Expenditure',
+          fontsize=16, fontweight='bold', pad=20)
+plt.xlabel('Year', fontsize=13)
+plt.ylabel('% of Total Expenditure', fontsize=13)
+
+# Show all x-axis labels with 90-degree rotation
+plt.xticks(df_TransportationExpenditure['Year'], rotation=90)
+
+plt.legend(loc='upper right', fontsize=11)
+
+# Set y-axis limits to extend to 14
+plt.ylim(0, 14)
+
+# Add major and minor grid lines for better readability
+plt.grid(True, alpha=0.3, linestyle='-', linewidth=0.5, which='major')
+
+# Improve layout
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+from sklearn.linear_model import LinearRegression
+
+# Fit models and predict 2019
+X = df_TransportationExpenditure['Year'].values.reshape(-1, 1)
+transport_pred = LinearRegression().fit(X, df_TransportationExpenditure['Transportation Percent of Total']).predict([[2019]])[0]
+gasoline_pred = LinearRegression().fit(X, df_TransportationExpenditure['Gasoline Percent of Total']).predict([[2019]])[0]
+
+# Get actual 2019 values and create comparison
+transport_actual = df_TransportationExpenditure.loc[29, 'Transportation Percent of Total']  # 2019 is index 29
+gasoline_actual = df_TransportationExpenditure.loc[29, 'Gasoline Percent of Total']
+
+pd.DataFrame({
+    'Actual_2019': [transport_actual, gasoline_actual],
+    'Predicted_2019': [transport_pred, gasoline_pred]
+}, index=['Transportation %', 'Gasoline %'])
+```
+
+```{python}
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+
+# Assuming df_TransportationExpenditure is already loaded
+
+# Ensure 'Year' is numeric
+df_TransportationExpenditure['Year'] = pd.to_numeric(df_TransportationExpenditure['Year'], errors='coerce')
+
+# Define X (features)
+X = df_TransportationExpenditure['Year'].values.reshape(-1, 1)
+
+# Train model for Transportation %
+model_transport = LinearRegression().fit(X, df_TransportationExpenditure['Transportation Percent of Total'])
+df_TransportationExpenditure['Predicted_Transportation %'] = model_transport.predict(X)
+
+# Train model for Gasoline %
+model_gasoline = LinearRegression().fit(X, df_TransportationExpenditure['Gasoline Percent of Total'])
+df_TransportationExpenditure['Predicted_Gasoline %'] = model_gasoline.predict(X)
+
+# Create comparison DataFrame
+comparison_df = df_TransportationExpenditure[['Year',
+    'Transportation Percent of Total', 'Predicted_Transportation %',
+    'Gasoline Percent of Total', 'Predicted_Gasoline %'
+]]
+
+comparison_df.head(10)  # just to preview first 10 rows
+```
+
+### Auto Cost - Variable-Fixed
+
+
+### Auto Cost
+
+
+### Vehicle Miles - Trucks
+
+
+### Fuel Economy
+
+
+### Fuel Costs
+
+
+## Auto Operating Costs
+
+
+## Export
