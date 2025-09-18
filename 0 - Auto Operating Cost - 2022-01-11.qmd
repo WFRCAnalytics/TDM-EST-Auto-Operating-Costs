@@ -31,87 +31,401 @@ import pandas as pd
 
 ## Read Raw Data
 
-### BTS Table 3-11
+### 3-11
 
-Sales Price of Transportation Fuel to End-Users \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/sales-price-transportation-fuel-end-users-current-cents-gallon)\]
+Table 3-11: Sales Price of Transportation Fuel to End-Users \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/sales-price-transportation-fuel-end-users-current-cents-gallon)\]
 
 File URL: https://www.bts.gov/sites/bts.dot.gov/files/2024-03/table_03_11_032824.xlsx
 
 ```{python}
-# Set file Path
-path_3_11 = "archive-v9.0\\Support Data\\BTS - National - Auto Cost & Gas Price.xlsx"
-
 # Read Excel file directly from URL
-df_3_11 = pd.read_excel(path_3_11, sheet_name='3-11', header=1, usecols="A:AH", nrows=10) # update cols later for new data
+df_3_11 = pd.read_excel(
+  "archive-v9.0\\Support Data\\BTS - National - Auto Cost & Gas Price.xlsx",
+  sheet_name="3-11",
+  header=1,
+  usecols="A:AH", # TODO: update cols later for new data
+  nrows=10
+)
 
 # display the data
 df_3_11
 ```
 
-### BTS Table 3-12
+### 3-12
 
-Price Trends of Gasoline v. Other Consumer Goods and Services \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/price-trends-gasoline-v-other-consumer-goods-and-services)\]
+Table 3-12: Price Trends of Gasoline v. Other Consumer Goods and Services \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/price-trends-gasoline-v-other-consumer-goods-and-services)\]
 
 File URL: https://www.bts.gov/sites/bts.dot.gov/files/2024-03/table_03_12_032824_1.xlsx
 
 ```{python}
-# Set file path
-path_3_12 = "archive-v9.0\\Support Data\\BTS - National - Auto Cost & Gas Price.xlsx"
-
 # Read Excel file directly from URL
-df_3_12 = pd.read_excel(path_3_12, sheet_name='3-12', header=1, usecols="A:AJ", nrows=15) # update cols later for new data
+df_3_12 = pd.read_excel(
+  "archive-v9.0\\Support Data\\BTS - National - Auto Cost & Gas Price.xlsx",
+  sheet_name="3-12",
+  header=1,
+  usecols="A:AJ", # TODO: update cols later for new data
+  nrows=15
+)
 
 # display the data
 df_3_12
 ```
 
-### BTS Table 3-25
+### 3-25
 
-Average Wage and Salary Accruals per Full-Time Equivalent Employee by Transportation Industry \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/average-wage-and-salary-accruals-full-time-equivalent-employee-transportation-industry-naics)\]
+Table 3-25: Average Wage and Salary Accruals per Full-Time Equivalent Employee by Transportation Industry \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/average-wage-and-salary-accruals-full-time-equivalent-employee-transportation-industry-naics)\]
 
 File URL: https://www.bts.gov/sites/bts.dot.gov/files/2022-10/table_03_25_102122.xlsx
 
 ```{python}
-# Set file path
-path_3_25 = "archive-v9.0\\Support Data\\BTS - National - Income-Wage.xlsx"
-
 # Read Excel file directly from URL
-df_3_25 = pd.read_excel(path_3_25, sheet_name='3-25', header=1, usecols="A:X", nrows=10) # update cols later for new data
+df_3_25 = pd.read_excel(
+  "archive-v9.0\\Support Data\\BTS - National - Income-Wage.xlsx",
+  sheet_name="3-25",
+  header=1,
+  usecols="A:X", # TODO: update cols later for new data
+  nrows=10
+)
 
 # display the data
 df_3_25
 ```
 
-### BTS Table 4-11
 
-Light Duty Vehicle, Short Wheel Base and Motorcycle Fuel Consumption and Travel \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/light-duty-vehicle-short-wheel-base-and-motorcycle-fuel-consumption-and-travel)]
+### 4-12
+
+Table 4-12: Light Duty Vehicle, Long Wheel Base Fuel Consumption and Travel \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/other-2-axle-4-tire-vehicle-fuel-consumption-and-travel-0)\]
+
+File URL: https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_12M_032725.xlsx
+
+```{python}
+# Read Excel file directly from URL
+df_4_12 = pd.read_excel(
+  "archive-v9.0\\Support Data\\BTS - National - Fuel Efficiency.xlsx",
+  sheet_name="4-12",
+  header=1,
+  usecols="A:AI", # TODO: update cols later for new data
+  nrows=6
+)
+
+# display the data
+df_4_12
+```
+
+### Fuel Economy - CombinedVehType
+
+Table 4-9:  Motor Vehicle Fuel Consumption and Travel \[Source: Bureau of Transportation Statistics\]
+
+```{python}
+# Read Excel file directly from URL
+df_FE_CombinedVehType = pd.read_excel(
+  "archive-v9.0\\Support Data\\BTS - National - Fuel Efficiency.xlsx",
+  sheet_name="CombinedVehType",
+  header=1,
+  usecols="A:AK", # TODO: update cols later for new data
+  nrows=6
+)
+
+# display the data
+df_FE_CombinedVehType
+```
+
+### Fuel Economy - LightDuty
+
+Table 4-23:  Average Fuel Efficiency of U.S. Light Duty Vehicles \[Source: Bureau of Transportation Statistics\]
+
+```{python}
+# Read Excel file directly from URL
+df_FE_LightDuty = pd.read_excel(
+  "archive-v9.0\\Support Data\\BTS - National - Fuel Efficiency.xlsx",
+  sheet_name="LightDuty",
+  header=1,
+  usecols="A:AG", # TODO: update cols later for new data
+  nrows=12
+)
+
+# display the data
+df_FE_LightDuty
+```
+
+### Personal Expenditure
+
+Table 3-15: Personal Expenditures by Category (Millions of current dollars) \[Source: Bureau of Transportation Statistics\]
+
+```{python}
+# Read Excel file directly from URL
+df_PersonalExpenditure = pd.read_excel(
+  "archive-v9.0\\Support Data\\BTS - National - Auto Cost & Gas Price.xlsx",
+  sheet_name="3-15",
+  header=1,
+  usecols="A:AL", # TODO: update cols later for new data
+  nrows=17
+)
+
+# display the data
+df_PersonalExpenditure
+```
+
+### Personal Consumption
+
+Table 3-16: Personal Consumption Expenditures on Transportation by Subcategory (Millions of current dollars) \[Source: Bureau of Transportation Statistics\]
+
+```{python}
+# Read Excel file directly from URL
+df_PersonalConsumption = pd.read_excel(
+  "archive-v9.0\\Support Data\\BTS - National - Auto Cost & Gas Price.xlsx",
+  sheet_name="3-16",
+  header=1,
+  usecols="A:AL", # TODO: update cols later for new data
+  nrows=17
+)
+
+# display the data
+df_PersonalConsumption
+```
+
+### Consumer Price Index
+
+Data Source:
+
+```{python}
+# Read Excel file directly from URL
+df_CPI = pd.read_excel(
+  "archive-v9.0\\1 - Auto Operating Cost - 2022-01-11.xlsx", # File path
+  sheet_name="CPI",
+  header=5,
+  usecols="B:Q", # TODO: update cols later for new data
+  nrows=131
+)
+
+# Remove rows where all elements are NaN (empty)
+df_CPI = df_CPI.dropna(how='all')
+
+# display the data
+df_CPI
+```
+
+### Retail Diesel Prices
+
+Retail Prices for Diesel (On-Highway) - All Types \[Source: [Energy Information Administration](http://www.eia.gov/dnav/pet/pet_pri_gnd_a_epd2d_pte_dpgal_w.htm)]
+
+File URL: https://www.eia.gov/dnav/pet/xls/PET_PRI_GND_A_EPD2D_PTE_DPGAL_W.xls
+
+```{python}
+# Read Excel file directly from URL
+df_RetailDieselPrices = pd.read_excel(
+  "archive-v9.0\\1 - Auto Operating Cost - 2022-01-11.xlsx", # File path
+  sheet_name="Retail Diesel Prices",
+  header=22,
+  usecols="A:J", # TODO: update cols later for new data
+  nrows=1451
+)
+
+# display the data
+df_RetailDieselPrices
+```
+
+### Retail Gas Prices
+
+Retail Prices for Gasoline, All Grades \[Source: [Energy Information Administration](https://www.eia.gov/dnav/pet/pet_pri_gnd_a_epm0_pte_dpgal_w.htm)]
+
+File URL: https://www.eia.gov/dnav/pet/xls/PET_PRI_GND_A_EPM0_PTE_DPGAL_W.xls
+
+```{python}
+# Read Excel file directly from URL
+df_RetailDieselPrices = pd.read_excel(
+  "archive-v9.0\\1 - Auto Operating Cost - 2022-01-11.xlsx", # File path
+  sheet_name="Retail Gas Prices",
+  header=22,
+  usecols="A:J", # TODO: update cols later for new data
+  nrows=1501
+)
+
+# display the data
+df_RetailDieselPrices
+```
+
+### Average Cost
+
+Table 3-17:  Average Cost of Owning and Operating an Automobilea (Assuming 15,000 Vehicle-Miles per Year) \[Source: Bureau of Transportation Statistics\]
+
+```{python}
+# Read Excel file directly from URL
+df_AverageCost = pd.read_excel(
+  "archive-v9.0\\Support Data\\BTS - National - Auto Cost & Gas Price.xlsx",
+  sheet_name="3-17",
+  header=1,
+  usecols="A:AI", # TODO: update cols later for new data
+  nrows=8
+)
+
+# display the data
+df_AverageCost
+```
+
+### 4-11
+
+Table 4-11: Light Duty Vehicle, Short Wheel Base and Motorcycle Fuel Consumption and Travel \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/light-duty-vehicle-short-wheel-base-and-motorcycle-fuel-consumption-and-travel)]
 
 File URL: https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_11_032825.xlsx
 
 ```{python}
-# Set file path
-path_4_11 = "archive-v9.0\\Support Data\\BTS - National - Fuel Efficiency.xlsx"
-
 # Read Excel file directly from URL
-df_4_11 = pd.read_excel(path_4_11, sheet_name='4-11', header=1, usecols="A:AK", nrows=18) # update cols later for new data
+df_4_11 = pd.read_excel(
+  "archive-v9.0\\Support Data\\BTS - National - Fuel Efficiency.xlsx",
+  sheet_name="4-11",
+  header=1,
+  usecols="A:AK", # TODO: update cols later for new data
+  nrows=18
+)
 
 # display the data
 df_4_11
 ```
 
-### BTS Table 4-12
+### Fuel Economy - Medium
 
-Light Duty Vehicle, Long Wheel Base Fuel Consumption and Travel \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/other-2-axle-4-tire-vehicle-fuel-consumption-and-travel-0)\]
-
-File URL: https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_12M_032725.xlsx
+Table 4-13:  Single-Unit 2-Axle 6-Tire or More Truck Fuel Consumption and Travel \[Source: Bureau of Transportation Statistics\]
 
 ```{python}
-# Set file path
-path_4_12 = "archive-v9.0\\Support Data\\BTS - National - Fuel Efficiency.xlsx"
-
 # Read Excel file directly from URL
-df_4_12 = pd.read_excel(path_4_12, sheet_name='4-12', header=1, usecols="A:AI", nrows=6) # update cols later for new data
+df_FE_Medium = pd.read_excel(
+  "archive-v9.0\\Support Data\\BTS - National - Fuel Efficiency.xlsx",
+  sheet_name="Medium",
+  header=1,
+  usecols="A:AI", # TODO: update cols later for new data
+  nrows=6
+)
 
 # display the data
-df_4_12
+df_FE_Medium
+```
+
+### Fuel Economy - Heavy
+
+Table 4-14:  Combination Truck Fuel Consumption and Travel \[Source: Bureau of Transportation Statistics\]
+
+```{python}
+# Read Excel file directly from URL
+df_FE_Heavy = pd.read_excel(
+  "archive-v9.0\\Support Data\\BTS - National - Fuel Efficiency.xlsx",
+  sheet_name="Heavy",
+  header=1,
+  usecols="A:AJ", # TODO: update cols later for new data
+  nrows=6
+)
+
+# display the data
+df_FE_Heavy
+```
+
+### Fuel Economy by Size Class
+
+Table 5.5 Truck Harmonic Mean Fuel Economy by Size Class, 1992, 1997, and 2002 (miles per gallon)
+
+```{python}
+# Read Excel file directly from URL
+df_FE_SizeClass_1 = pd.read_excel(
+  "archive-v9.0\\1 - Auto Operating Cost - 2022-01-11.xlsx", # File path
+  sheet_name="Fuel Economy by Size Class",
+  usecols="A:G", # TODO: update cols later for new data
+  skiprows=11,   # Skip the first 11 rows
+  nrows=11
+)
+
+# Drop columns that are entirely empty (NaN)
+df_FE_SizeClass_1 = df_FE_SizeClass_1.dropna(axis=1, how='all')
+
+# Manually set column names
+df_FE_SizeClass_1.columns = [
+    "Manufacturer's gross vehicle weight class",
+    "1992 TIUS",
+    "1997 VIUS",
+    "2002 VIUS"
+]
+
+# display the data
+df_FE_SizeClass_1
+```
+
+Table 10.4:  Retail Prices for Motor Fuel, 1978–2012 (cents per gallon, including tax)
+
+```{python}
+# Read Excel file directly from URL
+df_FE_SizeClass_2 = pd.read_excel(
+  "archive-v9.0\\1 - Auto Operating Cost - 2022-01-11.xlsx", # File path
+  sheet_name="Fuel Economy by Size Class",
+  usecols="A:C", # TODO: update cols later for new data
+  header=35,
+  nrows=1
+)
+
+# display the data
+df_FE_SizeClass_2
+```
+
+```{python}
+df_FE_SizeClass_2["Something"] = df_FE_SizeClass_2["Diesel fuel"]/df_FE_SizeClass_2["Average for all gasoline types"]
+
+df_FE_SizeClass_2["Something"]
+```
+
+### Repair and Maintenance Cost - Heavy
+
+![Repair and Maintenance Cost per Mile](https://fleetimages.bobitstudios.com/upload/trucking-info/content/article/2021-08/maintenance_chart4-__-720x516-s.jpg)
+
+Source: https://www.truckinginfo.com/10150350/2021-hdt-fact-book-maintenance-costs-expected-to-rise
+
+Further Research: American Transportation Research Institute
+
+```{python}
+# Manually Entering the data from above image
+df_RepairMaintenanceCost_Heavy = pd.DataFrame({
+    "Year": ["2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019"],
+    "CostMile": [0.124, 0.152, 0.138, 0.148, 0.158, 0.156, 0.166, 0.167, 0.171, 0.14]
+})
+
+# display the data
+df_RepairMaintenanceCost_Heavy
+```
+
+```{python}
+# Calculate the average of the 'CostMile' column
+avg_RepairCostPerMile = df_RepairMaintenanceCost_Heavy['CostMile'].mean()
+
+# Display the result
+avg_RepairCostPerMile
+```
+
+### Driving Costs
+
+Data Source: https://exchange.aaa.com/wp-content/uploads/2019/09/AAA-Your-Driving-Costs-2019.pdf
+
+```{python}
+# Read Excel file directly from URL
+df_DrivingCosts = pd.read_excel(
+  "archive-v9.0\\1 - Auto Operating Cost - 2022-01-11.xlsx", # File path
+  sheet_name="Driving Costs",
+  usecols="A:K", # TODO: update cols later for new data
+  skiprows=3,     # Skip the first 3 rows
+  nrows=31
+)
+
+# Manually set column names
+df_DrivingCosts.columns = [
+    "Cost Categories",
+    "Small Sedan",
+    "Medium Sedan",
+    "Large Sedan",
+    "Small SUV (FWD)",
+    "Medium SUV (FWD)",
+    "Minivan",
+    "1/2 Ton/Crew Pickup (4WD)",
+    "Hybrid Vehicle",
+    "Electric Vehicle",
+    "2020 Weighted Average"
+]
+
+# display the data
+df_DrivingCosts
 ```
