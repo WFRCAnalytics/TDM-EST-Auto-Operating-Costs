@@ -445,7 +445,7 @@ df_DrivingCosts
 
 ```{python}
 # Define year range
-year_range = list(range(1990, 2021))
+year_range = list(range(1990, 2021)) # Last year should be one more than desired
 
 # Ensure column names are strings in both DataFrames to avoid indexing issues
 df_PersonalExpenditure.columns = df_PersonalExpenditure.columns.astype(str)
@@ -456,9 +456,15 @@ df_TransportationExpenditure = pd.DataFrame({
     # The years from 1990 to 2020
     "Year": year_range,
     # Extract the 'Transportation Cost Percent of Total' for the years 1990-2020 from row 2
-    "Transportation Percent of Total": df_PersonalExpenditure.loc[2, str(year_range[0]):str(year_range[-1])].values,
+    "Transportation Percent of Total": pd.to_numeric(
+      df_PersonalExpenditure.loc[2, str(year_range[0]):str(year_range[-1])].values,
+      errors="coerce"
+    ),
     # Extract the 'Gasoline Cost of Transportation' for the years 1990-2020 from row 2
-    "Gasoline Cost of Transportation": df_AverageCost.loc[2, str(year_range[0]):str(year_range[-1])].values
+    "Gasoline Cost of Transportation": pd.to_numeric(
+      df_AverageCost.loc[2, str(year_range[0]):str(year_range[-1])].values,
+      errors="coerce"
+    )
 })
 
 # FIXME: Did not understand the logic for this
@@ -480,15 +486,14 @@ sns.lineplot(data=df_TransportationExpenditure, x='Year', y='Transportation Perc
 sns.lineplot(data=df_TransportationExpenditure, x='Year', y='Gasoline Percent of Total',
              color='#FF0000', linewidth=2.5, label='Gasoline % of Total Expenditure')
 
-# FIXME: the trend lines are not working
 # Plotting the linear trend lines with dashed lines
-# sns.regplot(data=df_TransportationExpenditure, x='Year', y='Transportation Percent of Total',
-#             scatter=False, color='#0070C0',
-#             line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
+sns.regplot(data=df_TransportationExpenditure, x='Year', y='Transportation Percent of Total',
+            scatter=False, color='#0070C0', ci=None,
+            line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
 
-# sns.regplot(data=df_TransportationExpenditure, x='Year', y='Gasoline Percent of Total',
-#             scatter=False, color='#FF0000',
-#             line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
+sns.regplot(data=df_TransportationExpenditure, x='Year', y='Gasoline Percent of Total',
+            scatter=False, color='#FF0000', ci=None,
+            line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
 
 # Customize the plot
 plt.title('Transportation as a Percent of Total Expenditure',
@@ -536,15 +541,27 @@ df_TranspExp_Comparision
 
 ```{python}
 # Define year range
-year_range = list(range(1990, 2021))
+year_range = list(range(1990, 2021))  # Last year should be one more than desired
 
 # Compile data from Raw Datasets
 df_AutoCost_VariableFixed = pd.DataFrame({
     "Year": year_range,
-    "Variable": df_AverageCost.loc[6, str(year_range[0]):str(year_range[-1])].values,
-    "Fixed": df_AverageCost.loc[7, str(year_range[0]):str(year_range[-1])].values,
-    "Total": df_AverageCost.loc[5, str(year_range[0]):str(year_range[-1])].values,
-    "CPI": df_CPI[df_CPI['Year'].between(year_range[0], year_range[-1])]["Avg."].values
+    "Variable": pd.to_numeric(
+      df_AverageCost.loc[6, str(year_range[0]):str(year_range[-1])].values,
+      errors="coerce"
+    ),
+    "Fixed": pd.to_numeric(
+      df_AverageCost.loc[7, str(year_range[0]):str(year_range[-1])].values,
+      errors="coerce"
+    ),
+    "Total": pd.to_numeric(
+      df_AverageCost.loc[5, str(year_range[0]):str(year_range[-1])].values,
+      errors="coerce"
+    ),
+    "CPI": pd.to_numeric(
+      df_CPI[df_CPI['Year'].between(year_range[0], year_range[-1])]["Avg."].values,
+      errors="coerce"
+    )
 })
 
 # Create Derived Columns
@@ -614,7 +631,7 @@ linewidth=2.5,color="#0070C0", label="Total")
 plt.title('Average Total Cost per 15,000 Miles',
           fontsize=16, fontweight='bold', pad=20)
 plt.xlabel('Year', fontsize=13)
-plt.ylabel('Value', fontsize=13)
+plt.ylabel('USDs', fontsize=13)
 
 # Show all x-axis labels with 90-degree rotation
 plt.xticks(df_AutoCost_VariableFixed['Year'], rotation=90)
@@ -658,7 +675,7 @@ df_AutoCost_VariableFixed_Comparision
 
 ```{python}
 # Define year range
-year_range = list(range(1990, 2021))
+year_range = list(range(1990, 2021)) # Last year should be one more than desired
 
 # Ensure column names are strings in both DataFrames to avoid indexing issues
 df_AverageCost.columns = df_AverageCost.columns.astype(str)
@@ -702,7 +719,7 @@ linewidth=2.5,color="#FF0000", label="Maint+Tires")
 plt.title('Average Auto Costs',
           fontsize=16, fontweight='bold', pad=20)
 plt.xlabel('Year', fontsize=13)
-plt.ylabel('Value', fontsize=13)
+plt.ylabel('USDs', fontsize=13)
 
 # Show all x-axis labels with 90-degree rotation
 plt.xticks(df_AutoCost['Year'], rotation=90)
@@ -741,6 +758,172 @@ df_AutoCost_Comparision
 
 ### Vehicle Miles - Trucks
 
+```{python}
+# Define year range
+year_range = list(range(1990, 2020)) # Last year should be one more than desired
+
+# Ensure column names are strings in both DataFrames to avoid indexing issues
+df_FE_Heavy.columns = df_FE_Heavy.columns.astype(str)
+df_FE_Medium.columns = df_FE_Medium.columns.astype(str)
+df_4_11.columns = df_4_11.columns.astype(str)
+
+# Compile data from Raw Datasets
+df_VehicleMiles_Truck = pd.DataFrame({
+  "Year": year_range,
+  "Heavy": pd.to_numeric(
+    df_FE_Heavy.loc[3, str(year_range[0]):str(year_range[-1])].values,
+    errors="coerce"
+  ),
+  "Medium": pd.to_numeric(
+    df_FE_Medium.loc[3, str(year_range[0]):str(year_range[-1])].values,
+    errors="coerce"
+  ),
+  "Light": pd.to_numeric(
+    df_4_11.loc[10, str(year_range[0]):str(year_range[-1])].values,
+    errors="coerce"
+  )
+})
+
+# View dataframe
+df_VehicleMiles_Truck
+```
+
+```{python}
+# Plotting the data using Seaborn and Matplotlib
+plt.figure(figsize=(10, 6))
+
+# Plot Fixed with a green line
+sns.lineplot(data=df_VehicleMiles_Truck, x="Year", y="Light",
+linewidth=2.5, color="#98B954", label="Light")
+
+# Plot Variable with a red line
+sns.lineplot(data=df_VehicleMiles_Truck, x="Year", y="Medium",
+linewidth=2.5,color="#BE4B48", label="Medium")
+
+# Plot Variable with a red line
+sns.lineplot(data=df_VehicleMiles_Truck, x="Year", y="Heavy",
+linewidth=2.5,color="#0070C0", label="Heavy")
+
+# Plotting the linear trend lines with dashed lines
+sns.regplot(data=df_VehicleMiles_Truck, x='Year', y='Heavy',
+            scatter=False, color='#0070C0', ci=None,
+            line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
+
+# Customize the plot
+plt.title('Average Vehicle Miles - Trucks (1990 - 2019)',
+          fontsize=16, fontweight='bold', pad=20)
+plt.xlabel('Year', fontsize=13)
+plt.ylabel('Miles', fontsize=13)
+
+# Show all x-axis labels with 90-degree rotation
+plt.xticks(df_VehicleMiles_Truck['Year'], rotation=90)
+
+plt.legend(loc='upper left', fontsize=11)
+
+# Set y-axis limits to extend to 80
+plt.ylim(0, 80)
+
+# Add major and minor grid lines for better readability
+plt.grid(True, alpha=0.3, linestyle='-', linewidth=0.5, which='major')
+
+# Improve layout
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+# Plotting the data using Seaborn and Matplotlib
+plt.figure(figsize=(10, 6))
+
+# Plot Fixed with a green line
+sns.lineplot(data=df_VehicleMiles_Truck, x="Year", y="Light",
+linewidth=2.5, color="#00B050", label="Light")
+
+# Plot Variable with a red line
+sns.lineplot(data=df_VehicleMiles_Truck, x="Year", y="Medium",
+linewidth=2.5,color="#FF0000", label="Medium")
+
+# Plot Variable with a red line
+sns.lineplot(data=df_VehicleMiles_Truck, x="Year", y="Heavy",
+linewidth=2.5,color="#0070C0", label="Heavy")
+
+# Plotting the linear trend lines with dashed lines
+sns.regplot(data=df_VehicleMiles_Truck, x='Year', y='Light',
+            scatter=False, color='#00B050', ci=None,
+            line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
+
+# Plotting the linear trend lines with dashed lines
+sns.regplot(data=df_VehicleMiles_Truck, x='Year', y='Medium',
+            scatter=False, color='#FF0000', ci=None,
+            line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
+
+# Plotting the linear trend lines with dashed lines
+sns.regplot(data=df_VehicleMiles_Truck, x='Year', y='Heavy',
+            scatter=False, color='#0070C0', ci=None,
+            line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
+
+# Customize the plot
+plt.title('Average Vehicle Miles - Trucks (2000 - 2019)',
+          fontsize=16, fontweight='bold', pad=20)
+plt.xlabel('Year', fontsize=13)
+plt.ylabel('Miles', fontsize=13)
+
+# Show all x-axis labels with 90-degree rotation
+plt.xticks(df_VehicleMiles_Truck['Year'], rotation=90)
+
+plt.legend(loc='upper left', fontsize=11)
+
+# Set x-axis limits to show only 2000-2019
+plt.xlim(2000, 2019)
+
+# Set y-axis limits to extend to 80
+plt.ylim(0, 80)
+
+# Add major and minor grid lines for better readability
+plt.grid(True, alpha=0.3, linestyle='-', linewidth=0.5, which='major')
+
+# Improve layout
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+# Create the comparison DataFrame
+df_VMTrucks_Comparision = pd.DataFrame({
+    'Date': [2019, 2019, 2019, 2019, 2019, 2019],
+    'Actual': [
+        df_VehicleMiles_Truck.loc[df_VehicleMiles_Truck['Year'] == 2019, 'Heavy'].iloc[0],
+        df_VehicleMiles_Truck.loc[df_VehicleMiles_Truck['Year'] == 2019, 'Medium'].iloc[0],
+        df_VehicleMiles_Truck.loc[df_VehicleMiles_Truck['Year'] == 2019, 'Light'].iloc[0],
+        df_VehicleMiles_Truck.loc[df_VehicleMiles_Truck['Year'] == 2019, 'Heavy'].iloc[0],
+        df_VehicleMiles_Truck.loc[df_VehicleMiles_Truck['Year'] == 2019, 'Medium'].iloc[0],
+        df_VehicleMiles_Truck.loc[df_VehicleMiles_Truck['Year'] == 2019, 'Light'].iloc[0]
+    ],
+    'Trend': [
+        np.poly1d(np.polyfit(pd.to_numeric(df_VehicleMiles_Truck['Year']),
+                            pd.to_numeric(df_VehicleMiles_Truck['Heavy']), 1))(2019),
+        np.poly1d(np.polyfit(pd.to_numeric(df_VehicleMiles_Truck['Year']),
+                            pd.to_numeric(df_VehicleMiles_Truck['Medium']), 1))(2019),
+        np.poly1d(np.polyfit(pd.to_numeric(df_VehicleMiles_Truck['Year']),
+                            pd.to_numeric(df_VehicleMiles_Truck['Light']), 1))(2019),
+        # Last 3: Use only data from 2000+
+        np.poly1d(np.polyfit(
+          pd.to_numeric(df_VehicleMiles_Truck[df_VehicleMiles_Truck['Year'] >= 2000]['Year']),
+          pd.to_numeric(df_VehicleMiles_Truck[df_VehicleMiles_Truck['Year'] >= 2000]['Heavy']), 1))(2019),
+        np.poly1d(np.polyfit(
+          pd.to_numeric(df_VehicleMiles_Truck[df_VehicleMiles_Truck['Year'] >= 2000]['Year']),
+          pd.to_numeric(df_VehicleMiles_Truck[df_VehicleMiles_Truck['Year'] >= 2000]['Medium']), 1))(2019),
+        np.poly1d(np.polyfit(
+          pd.to_numeric(df_VehicleMiles_Truck[df_VehicleMiles_Truck['Year'] >= 2000]['Year']),
+          pd.to_numeric(df_VehicleMiles_Truck[df_VehicleMiles_Truck['Year'] >= 2000]['Light']), 1))(2019)
+    ]
+}, index=['Heavy Trucks  - 1980+', 'Medium Trucks  - 1980+', 'Light Trucks  - 1980+',
+'Heavy Trucks  - 2000+', 'Medium Trucks  - 2000+', 'Light Trucks  - 2000+']).round(2)
+
+# TODO: '1980+' should be changed to '1990+'
+
+df_VMTrucks_Comparision
+```
 
 ### Fuel Economy
 
