@@ -26,7 +26,13 @@ This document is just replicating the excel sheet located in `/archive-v9.0/1 - 
 ```
 
 ```{python}
+# For Analysis
+import numpy as np
 import pandas as pd
+
+# For Visualization
+import matplotlib.pyplot as plt
+import seaborn as sns
 ```
 
 ## Read Raw Data
@@ -324,6 +330,8 @@ df_FE_Heavy
 Table 5.5 Truck Harmonic Mean Fuel Economy by Size Class, 1992, 1997, and 2002 (miles per gallon)
 
 ```{python}
+# FIXME: Need to verify the source of this.
+
 # Read Excel file directly from URL
 df_FE_SizeClass_1 = pd.read_excel(
   "archive-v9.0\\1 - Auto Operating Cost - 2022-01-11.xlsx", # File path
@@ -365,6 +373,7 @@ df_FE_SizeClass_2
 ```
 
 ```{python}
+# FIXME: Unsure the logic behind this calculation.
 df_FE_SizeClass_2["Something"] = df_FE_SizeClass_2["Diesel fuel"]/df_FE_SizeClass_2["Average for all gasoline types"]
 
 df_FE_SizeClass_2["Something"]
@@ -435,53 +444,49 @@ df_DrivingCosts
 ### Transportation Expenditures
 
 ```{python}
-# Define the range of years
-years = list(range(1990, 2021))  # Creating a list of years
+# Define year range
+year_range = list(range(1990, 2021))
 
 # Ensure column names are strings in both DataFrames to avoid indexing issues
 df_PersonalExpenditure.columns = df_PersonalExpenditure.columns.astype(str)
 df_AverageCost.columns = df_AverageCost.columns.astype(str)
 
-# Extract the 'Transportation Cost Percent of Total' for the years 1990-2020 from row 2
-transportation_cost_percent_of_total = df_PersonalExpenditure.loc[2, '1990':'2020']
-
-# Extract the 'Gasoline Cost of Transportation' for the years 1990-2020 from row 2
-gasoline_cost_of_transportation = df_AverageCost.loc[2, '1990':'2020']
-
 # Create a DataFrame to combine the extracted data
 df_TransportationExpenditure = pd.DataFrame({
-    "Year": years,  # The years from 1990 to 2020
-    "Transportation Percent of Total": transportation_cost_percent_of_total.values,
-    "Gasoline Cost of Transportation": gasoline_cost_of_transportation.values
+    # The years from 1990 to 2020
+    "Year": year_range,
+    # Extract the 'Transportation Cost Percent of Total' for the years 1990-2020 from row 2
+    "Transportation Percent of Total": df_PersonalExpenditure.loc[2, str(year_range[0]):str(year_range[-1])].values,
+    # Extract the 'Gasoline Cost of Transportation' for the years 1990-2020 from row 2
+    "Gasoline Cost of Transportation": df_AverageCost.loc[2, str(year_range[0]):str(year_range[-1])].values
 })
 
-# TODO: Did not understand the logic for this
+# FIXME: Did not understand the logic for this
 df_TransportationExpenditure["Gasoline Percent of Total"] = df_TransportationExpenditure["Gasoline Cost of Transportation"] * df_TransportationExpenditure["Transportation Percent of Total"] / 100
 
 df_TransportationExpenditure
 ```
 
 ```{python}
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 # Plotting the data using Seaborn and Matplotlib
 plt.figure(figsize=(10, 6))
 
 # Plot Transportation Cost Percent of Total with a blue line
-sns.lineplot(x='Year', y='Transportation Percent of Total', data=df_TransportationExpenditure,
+sns.lineplot(data=df_TransportationExpenditure, x='Year', y='Transportation Percent of Total',
              color='#0070C0', linewidth=2.5, label='Transportation % of Total Expenditure')
 
 # Plot Gasoline Percent of Total with a red line
-sns.lineplot(x='Year', y='Gasoline Percent of Total', data=df_TransportationExpenditure,
+sns.lineplot(data=df_TransportationExpenditure, x='Year', y='Gasoline Percent of Total',
              color='#FF0000', linewidth=2.5, label='Gasoline % of Total Expenditure')
 
+# FIXME: the trend lines are not working
 # Plotting the linear trend lines with dashed lines
-# sns.regplot(x='Year', y='Transportation Percent of Total', data=df_TransportationExpenditure,
+# sns.regplot(data=df_TransportationExpenditure, x='Year', y='Transportation Percent of Total',
 #             scatter=False, color='#0070C0',
 #             line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
 
-# sns.regplot(x='Year', y='Gasoline Percent of Total', data=df_TransportationExpenditure,
+# sns.regplot(data=df_TransportationExpenditure, x='Year', y='Gasoline Percent of Total',
 #             scatter=False, color='#FF0000',
 #             line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
 
@@ -508,57 +513,231 @@ plt.show()
 ```
 
 ```{python}
-from sklearn.linear_model import LinearRegression
 
-# Fit models and predict 2019
-X = df_TransportationExpenditure['Year'].values.reshape(-1, 1)
-transport_pred = LinearRegression().fit(X, df_TransportationExpenditure['Transportation Percent of Total']).predict([[2019]])[0]
-gasoline_pred = LinearRegression().fit(X, df_TransportationExpenditure['Gasoline Percent of Total']).predict([[2019]])[0]
+# Create the comparison DataFrame
+df_TranspExp_Comparision = pd.DataFrame({
+    'Date': [2019, 2019],
+    'Actual': [
+        df_TransportationExpenditure.loc[df_TransportationExpenditure['Year'] == 2019, 'Transportation Percent of Total'].iloc[0],
+        df_TransportationExpenditure.loc[df_TransportationExpenditure['Year'] == 2020, 'Gasoline Percent of Total'].iloc[0]  # FIXME: THere is a potential error here in Excel sheet
+    ],
+    'Trend': [
+        np.poly1d(np.polyfit(pd.to_numeric(df_TransportationExpenditure['Year']),
+                            pd.to_numeric(df_TransportationExpenditure['Transportation Percent of Total']), 1))(2019),
+        np.poly1d(np.polyfit(pd.to_numeric(df_TransportationExpenditure['Year']),
+                            pd.to_numeric(df_TransportationExpenditure['Gasoline Percent of Total']), 1))(2019)
+    ]
+}, index=['Transportation as % Total Expenditures', 'Gasoline as % Total Expenditures']).round(2)
 
-# Get actual 2019 values and create comparison
-transport_actual = df_TransportationExpenditure.loc[29, 'Transportation Percent of Total']  # 2019 is index 29
-gasoline_actual = df_TransportationExpenditure.loc[29, 'Gasoline Percent of Total']
-
-pd.DataFrame({
-    'Actual_2019': [transport_actual, gasoline_actual],
-    'Predicted_2019': [transport_pred, gasoline_pred]
-}, index=['Transportation %', 'Gasoline %'])
-```
-
-```{python}
-import pandas as pd
-from sklearn.linear_model import LinearRegression
-
-# Assuming df_TransportationExpenditure is already loaded
-
-# Ensure 'Year' is numeric
-df_TransportationExpenditure['Year'] = pd.to_numeric(df_TransportationExpenditure['Year'], errors='coerce')
-
-# Define X (features)
-X = df_TransportationExpenditure['Year'].values.reshape(-1, 1)
-
-# Train model for Transportation %
-model_transport = LinearRegression().fit(X, df_TransportationExpenditure['Transportation Percent of Total'])
-df_TransportationExpenditure['Predicted_Transportation %'] = model_transport.predict(X)
-
-# Train model for Gasoline %
-model_gasoline = LinearRegression().fit(X, df_TransportationExpenditure['Gasoline Percent of Total'])
-df_TransportationExpenditure['Predicted_Gasoline %'] = model_gasoline.predict(X)
-
-# Create comparison DataFrame
-comparison_df = df_TransportationExpenditure[['Year',
-    'Transportation Percent of Total', 'Predicted_Transportation %',
-    'Gasoline Percent of Total', 'Predicted_Gasoline %'
-]]
-
-comparison_df.head(10)  # just to preview first 10 rows
+df_TranspExp_Comparision
 ```
 
 ### Auto Cost - Variable-Fixed
 
+```{python}
+# Define year range
+year_range = list(range(1990, 2021))
+
+# Compile data from Raw Datasets
+df_AutoCost_VariableFixed = pd.DataFrame({
+    "Year": year_range,
+    "Variable": df_AverageCost.loc[6, str(year_range[0]):str(year_range[-1])].values,
+    "Fixed": df_AverageCost.loc[7, str(year_range[0]):str(year_range[-1])].values,
+    "Total": df_AverageCost.loc[5, str(year_range[0]):str(year_range[-1])].values,
+    "CPI": df_CPI[df_CPI['Year'].between(year_range[0], year_range[-1])]["Avg."].values
+})
+
+# Create Derived Columns
+df_AutoCost_VariableFixed["Per 15k"] = df_AutoCost_VariableFixed["Fixed"] / 15000
+df_AutoCost_VariableFixed["Variable/Total"] = df_AutoCost_VariableFixed["Variable"] / df_AutoCost_VariableFixed["Total"]
+df_AutoCost_VariableFixed["Variable/CPI"] = df_AutoCost_VariableFixed["Variable"] / df_AutoCost_VariableFixed["CPI"]
+df_AutoCost_VariableFixed["Fixed/CPI"] = df_AutoCost_VariableFixed["Fixed"] / df_AutoCost_VariableFixed["CPI"]
+
+# Reorder columns
+df_AutoCost_VariableFixed = df_AutoCost_VariableFixed[['Year', 'Variable/Total', 'Variable/CPI', 'Fixed/CPI', 'Variable', 'Fixed', 'Total', 'Per 15k', 'CPI']]
+
+df_AutoCost_VariableFixed
+```
+
+```{python}
+# Plotting the data using Seaborn and Matplotlib
+plt.figure(figsize=(10, 6))
+
+# Plot Fixed/CPI with a green line
+sns.lineplot(data=df_AutoCost_VariableFixed, x="Year", y="Fixed/CPI",
+linewidth=2.5, color="#00B050", label="Fixed/CPI")
+
+# Plot Variable/CPI with a red line
+sns.lineplot(data=df_AutoCost_VariableFixed, x="Year", y="Variable/CPI",
+linewidth=2.5,color="#FF0000", label="Variable/CPI")
+
+# Customize the plot
+plt.title('Trendline of Fixed/CPI and Variable/CPI (1990–2020)',
+          fontsize=16, fontweight='bold', pad=20)
+plt.xlabel('Year', fontsize=13)
+plt.ylabel('Value', fontsize=13)
+
+# Show all x-axis labels with 90-degree rotation
+plt.xticks(df_AutoCost_VariableFixed['Year'], rotation=90)
+
+plt.legend(loc='upper right', fontsize=11)
+
+# Set y-axis limits to extend to $40
+plt.ylim(0, 40)
+
+# Add major and minor grid lines for better readability
+plt.grid(True, alpha=0.3, linestyle='-', linewidth=0.5, which='major')
+
+# Improve layout
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+# TODO: Area plot
+# Plotting the data using Seaborn and Matplotlib
+plt.figure(figsize=(10, 6))
+
+# Plot Fixed with a green line
+sns.lineplot(data=df_AutoCost_VariableFixed, x="Year", y="Fixed",
+linewidth=2.5, color="#00B050", label="Fixed")
+
+# Plot Variable with a red line
+sns.lineplot(data=df_AutoCost_VariableFixed, x="Year", y="Variable",
+linewidth=2.5,color="#FF0000", label="Variable")
+
+# Plot Variable with a red line
+sns.lineplot(data=df_AutoCost_VariableFixed, x="Year", y="Total",
+linewidth=2.5,color="#0070C0", label="Total")
+
+# Customize the plot
+plt.title('Average Total Cost per 15,000 Miles',
+          fontsize=16, fontweight='bold', pad=20)
+plt.xlabel('Year', fontsize=13)
+plt.ylabel('Value', fontsize=13)
+
+# Show all x-axis labels with 90-degree rotation
+plt.xticks(df_AutoCost_VariableFixed['Year'], rotation=90)
+
+plt.legend(loc='upper left', fontsize=11)
+
+# Set y-axis limits to extend to $10,000
+plt.ylim(0, 10000)
+
+# Add major and minor grid lines for better readability
+plt.grid(True, alpha=0.3, linestyle='-', linewidth=0.5, which='major')
+
+# Improve layout
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+# Create the comparison DataFrame
+df_AutoCost_VariableFixed_Comparision = pd.DataFrame({
+    'Date': [2019, 2019, 2019],
+    'Actual': [
+        df_AutoCost_VariableFixed.loc[df_AutoCost_VariableFixed['Year'] == 2019, 'Variable'].iloc[0],
+        df_AutoCost_VariableFixed.loc[df_AutoCost_VariableFixed['Year'] == 2019, 'Fixed'].iloc[0],
+        df_AutoCost_VariableFixed.loc[df_AutoCost_VariableFixed['Year'] == 2019, 'Per 15k'].iloc[0]
+    ],
+    'Trend': [
+        np.poly1d(np.polyfit(pd.to_numeric(df_AutoCost_VariableFixed['Year']),
+                            pd.to_numeric(df_AutoCost_VariableFixed['Variable']), 1))(2019),
+        np.poly1d(np.polyfit(pd.to_numeric(df_AutoCost_VariableFixed['Year']),
+                            pd.to_numeric(df_AutoCost_VariableFixed['Fixed']), 1))(2019),
+        np.poly1d(np.polyfit(pd.to_numeric(df_AutoCost_VariableFixed['Year']),
+                            pd.to_numeric(df_AutoCost_VariableFixed['Per 15k']), 1))(2019)
+    ]
+}, index=['Variable', 'Fixed', 'Fixed per 15,000 Miles']).round(2)
+
+df_AutoCost_VariableFixed_Comparision
+```
 
 ### Auto Cost
 
+```{python}
+# Define year range
+year_range = list(range(1990, 2021))
+
+# Ensure column names are strings in both DataFrames to avoid indexing issues
+df_AverageCost.columns = df_AverageCost.columns.astype(str)
+
+# Compile data from Raw Datasets
+df_AutoCost = pd.DataFrame({
+    "Year": year_range,
+    "Gas": pd.to_numeric(
+        df_AverageCost.loc[1, str(year_range[0]):str(year_range[-1])].values,
+        errors="coerce"
+    ),
+    "Maint": pd.to_numeric(
+        df_AverageCost.loc[3, str(year_range[0]):str(year_range[-1])].values,
+        errors="coerce"
+    ),
+    "Tires": pd.to_numeric(
+        df_AverageCost.loc[4, str(year_range[0]):str(year_range[-1])].values,
+        errors="coerce"   # turns "U" into NaN
+    )
+})
+
+df_AutoCost["Maint+Tires"] = df_AutoCost["Maint"].fillna(0) + df_AutoCost["Tires"].fillna(0)
+
+# View Dataframe
+df_AutoCost
+```
+
+```{python}
+# Plotting the data using Seaborn and Matplotlib
+plt.figure(figsize=(10, 6))
+
+# Plot Fixed/CPI with a green line
+sns.lineplot(data=df_AutoCost, x="Year", y="Gas",
+linewidth=2.5, color="#0070C0", label="Gas")
+
+# Plot Variable/CPI with a red line
+sns.lineplot(data=df_AutoCost, x="Year", y="Maint+Tires",
+linewidth=2.5,color="#FF0000", label="Maint+Tires")
+
+# Customize the plot
+plt.title('Average Auto Costs',
+          fontsize=16, fontweight='bold', pad=20)
+plt.xlabel('Year', fontsize=13)
+plt.ylabel('Value', fontsize=13)
+
+# Show all x-axis labels with 90-degree rotation
+plt.xticks(df_AutoCost['Year'], rotation=90)
+
+plt.legend(loc='upper left', fontsize=11)
+
+# Set y-axis limits to extend to 16
+plt.ylim(0, 16)
+
+# Add major and minor grid lines for better readability
+plt.grid(True, alpha=0.3, linestyle='-', linewidth=0.5, which='major')
+
+# Improve layout
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+# Create the comparison DataFrame
+df_AutoCost_Comparision = pd.DataFrame({
+    'Date': [2019, 2019],
+    'Actual': [
+        df_AutoCost.loc[df_AutoCost['Year'] == 2019, 'Gas'].iloc[0],
+        df_AutoCost.loc[df_AutoCost['Year'] == 2019, 'Maint+Tires'].iloc[0]
+    ],
+    'Trend': [
+        np.poly1d(np.polyfit(pd.to_numeric(df_AutoCost['Year']),
+                            pd.to_numeric(df_AutoCost['Gas']), 1))(2019),
+        np.poly1d(np.polyfit(pd.to_numeric(df_AutoCost['Year']),
+                            pd.to_numeric(df_AutoCost['Maint+Tires']), 1))(2019)
+    ]
+}, index=['Gas', 'Maint+Tires']).round(2)
+
+df_AutoCost_Comparision
+```
 
 ### Vehicle Miles - Trucks
 
