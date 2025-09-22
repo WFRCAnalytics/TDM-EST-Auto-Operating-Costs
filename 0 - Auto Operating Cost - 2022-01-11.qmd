@@ -32,7 +32,11 @@ import pandas as pd
 
 # For Visualization
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import seaborn as sns
+
+# For Date time processing
+import datetime
 ```
 
 ## Read Raw Data
@@ -239,7 +243,7 @@ File URL: https://www.eia.gov/dnav/pet/xls/PET_PRI_GND_A_EPM0_PTE_DPGAL_W.xls
 
 ```{python}
 # Read Excel file directly from URL
-df_RetailDieselPrices = pd.read_excel(
+df_RetailGasPrices = pd.read_excel(
   "archive-v9.0\\1 - Auto Operating Cost - 2022-01-11.xlsx", # File path
   sheet_name="Retail Gas Prices",
   header=22,
@@ -248,7 +252,7 @@ df_RetailDieselPrices = pd.read_excel(
 )
 
 # display the data
-df_RetailDieselPrices
+df_RetailGasPrices
 ```
 
 ### Average Cost
@@ -398,14 +402,6 @@ df_RepairMaintenanceCost_Heavy = pd.DataFrame({
 df_RepairMaintenanceCost_Heavy
 ```
 
-```{python}
-# Calculate the average of the 'CostMile' column
-avg_RepairCostPerMile = df_RepairMaintenanceCost_Heavy['CostMile'].mean()
-
-# Display the result
-avg_RepairCostPerMile
-```
-
 ### Driving Costs
 
 Data Source: https://exchange.aaa.com/wp-content/uploads/2019/09/AAA-Your-Driving-Costs-2019.pdf
@@ -443,6 +439,8 @@ df_DrivingCosts
 
 ### Transportation Expenditures
 
+#### Create Dataframe
+
 ```{python}
 # Define year range
 year_range = list(range(1990, 2021)) # Last year should be one more than desired
@@ -472,6 +470,8 @@ df_TransportationExpenditure["Gasoline Percent of Total"] = df_TransportationExp
 
 df_TransportationExpenditure
 ```
+
+#### Plotting Trends
 
 ```{python}
 
@@ -517,6 +517,8 @@ plt.tight_layout()
 plt.show()
 ```
 
+#### Actual vs Trend Comparision
+
 ```{python}
 
 # Create the comparison DataFrame
@@ -538,6 +540,8 @@ df_TranspExp_Comparision
 ```
 
 ### Auto Cost - Variable-Fixed
+
+#### Create Dataframe
 
 ```{python}
 # Define year range
@@ -576,6 +580,10 @@ df_AutoCost_VariableFixed = df_AutoCost_VariableFixed[['Year', 'Variable/Total',
 df_AutoCost_VariableFixed
 ```
 
+#### Plotting Trends
+
+##### Fixed/CPI and Variable/CPI
+
 ```{python}
 # Plotting the data using Seaborn and Matplotlib
 plt.figure(figsize=(10, 6))
@@ -609,6 +617,8 @@ plt.grid(True, alpha=0.3, linestyle='-', linewidth=0.5, which='major')
 plt.tight_layout()
 plt.show()
 ```
+
+##### Average Cost per Mile
 
 ```{python}
 # TODO: Area plot
@@ -649,6 +659,8 @@ plt.tight_layout()
 plt.show()
 ```
 
+#### Actual vs Trend Comparision
+
 ```{python}
 # Create the comparison DataFrame
 df_AutoCost_VariableFixed_Comparision = pd.DataFrame({
@@ -672,6 +684,8 @@ df_AutoCost_VariableFixed_Comparision
 ```
 
 ### Auto Cost
+
+#### Create Dataframe
 
 ```{python}
 # Define year range
@@ -702,6 +716,8 @@ df_AutoCost["Maint+Tires"] = df_AutoCost["Maint"].fillna(0) + df_AutoCost["Tires
 # View Dataframe
 df_AutoCost
 ```
+
+#### Plotting Trends
 
 ```{python}
 # Plotting the data using Seaborn and Matplotlib
@@ -737,6 +753,8 @@ plt.tight_layout()
 plt.show()
 ```
 
+#### Actual vs Trend Comparision
+
 ```{python}
 # Create the comparison DataFrame
 df_AutoCost_Comparision = pd.DataFrame({
@@ -757,6 +775,8 @@ df_AutoCost_Comparision
 ```
 
 ### Vehicle Miles - Trucks
+
+#### Create Dataframe
 
 ```{python}
 # Define year range
@@ -787,6 +807,10 @@ df_VehicleMiles_Truck = pd.DataFrame({
 # View dataframe
 df_VehicleMiles_Truck
 ```
+
+#### Plotting Trends
+
+##### 1990 - 2019
 
 ```{python}
 # Plotting the data using Seaborn and Matplotlib
@@ -830,6 +854,8 @@ plt.grid(True, alpha=0.3, linestyle='-', linewidth=0.5, which='major')
 plt.tight_layout()
 plt.show()
 ```
+
+##### 2000 - 2019
 
 ```{python}
 # Plotting the data using Seaborn and Matplotlib
@@ -887,6 +913,8 @@ plt.tight_layout()
 plt.show()
 ```
 
+#### Actual vs Trend Comparision
+
 ```{python}
 # Create the comparison DataFrame
 df_VMTrucks_Comparision = pd.DataFrame({
@@ -927,11 +955,422 @@ df_VMTrucks_Comparision
 
 ### Fuel Economy
 
+#### Create Dataframe
+
+```{python}
+# Define year range
+year_range = [1980, 1985] + list(range(1990, 2020)) # Last year of the range should be one more than desired
+
+# Ensure column names are strings in both DataFrames to avoid indexing issues
+df_FE_LightDuty.columns = df_FE_LightDuty.columns.astype(str)
+df_FE_Medium.columns = df_FE_Medium.columns.astype(str)
+df_FE_Heavy.columns = df_FE_Heavy.columns.astype(str)
+
+# Compile data from Raw Datasets
+df_FuelEconomy = pd.DataFrame({
+  "Year": year_range,
+  "Light Duty": pd.to_numeric(
+    df_FE_LightDuty.loc[0, str(year_range[0]):str(year_range[-1])].values,
+    errors="coerce"
+  ),
+  "Medium Duty": pd.to_numeric(
+    df_FE_Medium.iloc[4, 1:len(df_FE_Medium.columns)-2].values, # This is a mistake, just replicating to be consistent with Excel file
+    # df_FE_Medium.loc[4, str(year_range[0]):str(year_range[-1])].values, # FIXME: Mistake in original calculation; use this instead
+    errors="coerce"
+  ),
+  "Heavy Duty": pd.to_numeric(
+    df_FE_Heavy.iloc[4, 1:len(df_FE_Heavy.columns)-3].values, # This is a mistake, just replicating to be consistent with Excel file
+    # df_FE_Heavy.loc[4, str(year_range[0]):str(year_range[-1])].values, # FIXME: Mistake in original calculation; use this instead
+    errors="coerce"
+  )
+})
+
+# View the dataset
+df_FuelEconomy
+```
+
+#### Plotting Trends
+
+```{python}
+# Plotting the data using Seaborn and Matplotlib
+plt.figure(figsize=(10, 6))
+
+# Plot Fixed with a green line
+sns.lineplot(data=df_FuelEconomy, x="Year", y="Heavy Duty",
+linewidth=2.5, color="#00B050", label="Heavy Duty")
+
+# Plot Variable with a red line
+sns.lineplot(data=df_FuelEconomy, x="Year", y="Medium Duty",
+linewidth=2.5,color="#FF0000", label="Medium Duty")
+
+# Plot Variable with a red line
+sns.lineplot(data=df_FuelEconomy, x="Year", y="Light Duty",
+linewidth=2.5,color="#0070C0", label="Light Duty")
+
+# Plotting the linear trend lines with dashed lines
+sns.regplot(data=df_FuelEconomy, x='Year', y='Heavy Duty',
+            scatter=False, color='#00B050', ci=None,
+            line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
+
+# Plotting the linear trend lines with dashed lines
+sns.regplot(data=df_FuelEconomy, x='Year', y='Medium Duty',
+            scatter=False, color='#FF0000', ci=None,
+            line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
+
+# Plotting the linear trend lines with dashed lines
+sns.regplot(data=df_FuelEconomy, x='Year', y='Light Duty',
+            scatter=False, color='#0070C0', ci=None,
+            line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
+
+# Customize the plot
+plt.title('Average Fuel Economy (miles per gallon)',
+          fontsize=16, fontweight='bold', pad=20)
+plt.xlabel('Year', fontsize=13)
+plt.ylabel('Miles Travelled per Gallon', fontsize=13)
+
+# Show all x-axis labels with 90-degree rotation
+plt.xticks(df_FuelEconomy['Year'], rotation=90)
+
+plt.legend(loc='upper left', fontsize=11)
+
+# Set y-axis limits to extend to 25
+plt.ylim(0, 25)
+
+# Add major and minor grid lines for better readability
+plt.grid(True, alpha=0.3, linestyle='-', linewidth=0.5, which='major')
+
+# Improve layout
+plt.tight_layout()
+plt.show()
+```
+
+#### Actual vs Trend Comparision
+
+```{python}
+# Create the comparison DataFrame
+df_FuelEconomy_Comparision = pd.DataFrame({
+    'Date': [2019, 2019, 2019],
+    'Actual': [
+        df_FuelEconomy.loc[df_FuelEconomy['Year'] == 2019, 'Light Duty'].iloc[0],
+        df_FuelEconomy.loc[df_FuelEconomy['Year'] == 2019, 'Medium Duty'].iloc[0],
+        df_FuelEconomy.loc[df_FuelEconomy['Year'] == 2019, 'Heavy Duty'].iloc[0]
+    ],
+    'Trend': [
+        np.poly1d(np.polyfit(pd.to_numeric(df_FuelEconomy['Year']),
+                            pd.to_numeric(df_FuelEconomy['Light Duty']), 1))(2019),
+        np.poly1d(np.polyfit(pd.to_numeric(df_FuelEconomy['Year']),
+                            pd.to_numeric(df_FuelEconomy['Medium Duty']), 1))(2019),
+        np.poly1d(np.polyfit(pd.to_numeric(df_FuelEconomy['Year']),
+                            pd.to_numeric(df_FuelEconomy['Heavy Duty']), 1))(2019)
+    ]
+}, index=['Light Duty', 'Medium Duty', 'Heavy Duty']).round(2)
+
+df_FuelEconomy_Comparision
+```
 
 ### Fuel Costs
 
+#### Create Dataframe
+```{python}
+# Generate the date range between the desired dates
+date_range = pd.date_range("1994-01-03", "2021-12-27", freq="D")
+
+# Compile data from Raw Datasets
+df_FuelCosts = pd.DataFrame({
+  "Date": df_RetailGasPrices[df_RetailGasPrices['Date'].isin(date_range)]['Date'].values
+})
+
+# Merge Gasoline and Diesel prices directly
+df_FuelCosts = df_FuelCosts.merge(df_RetailGasPrices[['Date', 'Weekly Rocky Mountain All Grades All Formulations Retail Gasoline Prices  (Dollars per Gallon)']], on='Date', how='left') \
+                            .merge(df_RetailDieselPrices[['Date', 'Weekly Rocky Mountain No 2 Diesel Retail Prices  (Dollars per Gallon)']], on='Date', how='left')
+
+# Rename columns
+df_FuelCosts.rename(columns={
+    'Weekly Rocky Mountain All Grades All Formulations Retail Gasoline Prices  (Dollars per Gallon)': 'Gasoline $/gal',
+    'Weekly Rocky Mountain No 2 Diesel Retail Prices  (Dollars per Gallon)': 'Diesel $/gal'
+}, inplace=True)
+
+# View the dataset
+df_FuelCosts
+```
+
+#### Plotting Trends
+
+##### Retail Gasoline Prices - Rocky Mountain (1994 - 2022)
+
+```{python}
+# Plotting the data using Seaborn and Matplotlib
+plt.figure(figsize=(10, 6))
+
+# Plot Fixed with a green line
+sns.lineplot(data=df_FuelCosts, x="Date", y="Gasoline $/gal",
+linewidth=2.5, color="#0070C0", label=None)
+
+# Plotting the linear trend lines with dashed lines
+# Note: Commented out due to datetime compatibility issue with regplot
+# sns.regplot(data=df_FuelCosts, x='Date', y='Gasoline $/gal',
+#             scatter=False, color='#FF0000', ci=None,
+#             line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
+
+# Customize the plot
+plt.title('Retail Gasoline Prices ($ per gallon) - Rocky Mountain (1994 - 2022)',
+          fontsize=16, fontweight='bold', pad=20)
+plt.xlabel('Date', fontsize=13)
+plt.ylabel('USD', fontsize=13)
+
+# Show all x-axis labels with 90-degree rotation
+plt.xticks(pd.to_datetime(df_FuelCosts['Date']).dt.to_period('Y').unique(), rotation=90)
+plt.yticks(np.arange(0, 5.5, 0.5))
+
+# Set the x-axis limits to be between the min and max of the Date column
+plt.xlim(df_FuelCosts['Date'].min(), df_FuelCosts['Date'].max())
+# Set y-axis limits to extend to 5
+plt.ylim(0, 5)
+
+# Format the x-axis to display dates properly
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+# Add major and minor grid lines for better readability
+plt.grid(True, alpha=0.3, linestyle='-', linewidth=0.5, which='major')
+
+# Improve layout
+plt.tight_layout()
+plt.show()
+```
+
+##### Retail Gasoline Prices - Rocky Mountain (2005 - 2022)
+
+```{python}
+# Plotting the data using Seaborn and Matplotlib
+plt.figure(figsize=(10, 6))
+
+# Plot Fixed with a green line
+sns.lineplot(data=df_FuelCosts, x="Date", y="Gasoline $/gal",
+linewidth=2.5, color="#0070C0", label=None)
+
+# Plotting the linear trend lines with dashed lines
+# Note: Commented out due to datetime compatibility issue with regplot
+# sns.regplot(data=df_FuelCosts, x='Date', y='Gasoline $/gal',
+#             scatter=False, color='#FF0000', ci=None,
+#             line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
+
+# Customize the plot
+plt.title('Retail Gasoline Prices ($ per gallon) - Rocky Mountain (2005 - 2022)',
+          fontsize=16, fontweight='bold', pad=20)
+plt.xlabel('Date', fontsize=13)
+plt.ylabel('USD', fontsize=13)
+
+# Show all x-axis labels with 90-degree rotation
+plt.xticks(pd.to_datetime(df_FuelCosts['Date']).dt.to_period('Y').unique(), rotation=90)
+plt.yticks(np.arange(0, 5.5, 0.5))
+
+# Set the x-axis limits to be between the min and max of the Date column
+plt.xlim(pd.to_datetime("2005-01-01"), df_FuelCosts['Date'].max())
+# Set y-axis limits to extend to 5
+plt.ylim(0, 5)
+
+# Format the x-axis to display dates properly
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+# Add major and minor grid lines for better readability
+plt.grid(True, alpha=0.3, linestyle='-', linewidth=0.5, which='major')
+
+# Improve layout
+plt.tight_layout()
+plt.show()
+```
+
+##### Retail Diesel Prices - Rocky Mountain (1994 - 2022)
+
+```{python}
+# Plotting the data using Seaborn and Matplotlib
+plt.figure(figsize=(10, 6))
+
+# Plot Fixed with a green line
+sns.lineplot(data=df_FuelCosts, x="Date", y="Diesel $/gal",
+linewidth=2.5, color="#0070C0", label=None)
+
+# Plotting the linear trend lines with dashed lines
+# Note: Commented out due to datetime compatibility issue with regplot
+# sns.regplot(data=df_FuelCosts, x='Date', y='Diesel $/gal',
+#             scatter=False, color='#FF0000', ci=None,
+#             line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
+
+# Customize the plot
+plt.title('Retail Diesel Prices ($ per gallon) - Rocky Mountain (1994 - 2022)',
+          fontsize=16, fontweight='bold', pad=20)
+plt.xlabel('Date', fontsize=13)
+plt.ylabel('USD', fontsize=13)
+
+# Show all x-axis labels with 90-degree rotation
+plt.xticks(pd.to_datetime(df_FuelCosts['Date']).dt.to_period('Y').unique(), rotation=90)
+plt.yticks(np.arange(0, 5.5, 0.5))
+
+# Set the x-axis limits to be between the min and max of the Date column
+plt.xlim(df_FuelCosts['Date'].min(), df_FuelCosts['Date'].max())
+# Set y-axis limits to extend to 5
+plt.ylim(0, 5)
+
+# Format the x-axis to display dates properly
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+# Add major and minor grid lines for better readability
+plt.grid(True, alpha=0.3, linestyle='-', linewidth=0.5, which='major')
+
+# Improve layout
+plt.tight_layout()
+plt.show()
+```
+
+##### Retail Diesel Prices - Rocky Mountain (2005 - 2022)
+
+```{python}
+# Plotting the data using Seaborn and Matplotlib
+plt.figure(figsize=(10, 6))
+
+# Plot Fixed with a green line
+sns.lineplot(data=df_FuelCosts, x="Date", y="Diesel $/gal",
+linewidth=2.5, color="#0070C0", label=None)
+
+# Plotting the linear trend lines with dashed lines
+# Note: Commented out due to datetime compatibility issue with regplot
+# sns.regplot(data=df_FuelCosts, x='Date', y='Diesel $/gal',
+#             scatter=False, color='#FF0000', ci=None,
+#             line_kws={'linestyle': '--', 'linewidth': 2, 'alpha': 0.8})
+
+# Customize the plot
+plt.title('Retail Diesel Prices ($ per gallon) - Rocky Mountain (2005 - 2022)',
+          fontsize=16, fontweight='bold', pad=20)
+plt.xlabel('Date', fontsize=13)
+plt.ylabel('USD', fontsize=13)
+
+# Show all x-axis labels with 90-degree rotation
+plt.xticks(pd.to_datetime(df_FuelCosts['Date']).dt.to_period('Y').unique(), rotation=90)
+plt.yticks(np.arange(0, 5.5, 0.5))
+
+# Set the x-axis limits to be between the min and max of the Date column
+plt.xlim(pd.to_datetime("2005-01-01"), df_FuelCosts['Date'].max())
+# Set y-axis limits to extend to 5
+plt.ylim(0, 5)
+
+# Format the x-axis to display dates properly
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+
+# Add major and minor grid lines for better readability
+plt.grid(True, alpha=0.3, linestyle='-', linewidth=0.5, which='major')
+
+# Improve layout
+plt.tight_layout()
+plt.show()
+```
+
+#### Actual vs Trend Comparision
+
+##### 1994 - 2022
+
+```{python}
+# Create the comparison DataFrame
+comparison_dates = [pd.to_datetime("2019-01-01"), pd.to_datetime("2019-12-31"), pd.to_datetime("2019-07-01")]
+
+df_FuelCost_Comparison_1 = pd.DataFrame({
+    'Gasoline Trend': [
+        np.poly1d(np.polyfit(pd.to_datetime(df_FuelCosts.dropna(subset=['Date', 'Gasoline $/gal'])['Date']).astype('int64'),
+                           df_FuelCosts.dropna(subset=['Date', 'Gasoline $/gal'])['Gasoline $/gal'].astype(float), 1))(pd.to_datetime(date).value)
+        for date in comparison_dates
+    ],
+    'Diesel Trend': [
+        np.poly1d(np.polyfit(pd.to_datetime(df_FuelCosts.dropna(subset=['Date', 'Diesel $/gal'])['Date']).astype('int64'),
+                           df_FuelCosts.dropna(subset=['Date', 'Diesel $/gal'])['Diesel $/gal'].astype(float), 1))(pd.to_datetime(date).value)
+        for date in comparison_dates
+    ]
+}, index=comparison_dates).round(3)
+
+df_FuelCost_Comparison_1
+```
+
+##### 2005 - 2022
+
+```{python}
+
+# Create the comparison DataFrame
+comparison_dates = [pd.to_datetime("2019-01-01"), pd.to_datetime("2019-12-31"), pd.to_datetime("2019-07-01")]
+
+# Filter for dates >= 2005-01-01 and fit trends
+date_filter = pd.to_datetime(df_FuelCosts['Date']) >= pd.to_datetime("2005-01-01")
+
+df_FuelCost_Comparison_2 = pd.DataFrame({
+    'Gasoline Trend': [
+        np.poly1d(np.polyfit(pd.to_datetime(df_FuelCosts[date_filter].dropna(subset=['Date', 'Gasoline $/gal'])['Date']).astype('int64'),
+                           df_FuelCosts[date_filter].dropna(subset=['Date', 'Gasoline $/gal'])['Gasoline $/gal'].astype(float), 1))(pd.to_datetime(date).value)
+        for date in comparison_dates
+    ],
+    'Diesel Trend': [
+        np.poly1d(np.polyfit(pd.to_datetime(df_FuelCosts[date_filter].dropna(subset=['Date', 'Diesel $/gal'])['Date']).astype('int64'),
+                           df_FuelCosts[date_filter].dropna(subset=['Date', 'Diesel $/gal'])['Diesel $/gal'].astype(float), 1))(pd.to_datetime(date).value)
+        for date in comparison_dates
+    ]
+}, index=comparison_dates).round(3)
+
+df_FuelCost_Comparison_2
+```
 
 ## Auto Operating Costs
 
+Calculate Auto Operating Cost - 2019
+
+```{python}
+# Autos
+AOC_Auto = (
+  # Get gasoline price per gallon for July 2019
+    df_FuelCost_Comparison_1.loc[pd.to_datetime("2019-07-01"), 'Gasoline Trend'] /
+    # Divide by fuel economy (miles per gallon) to get gallons per mile
+    df_FuelEconomy_Comparision.loc['Light Duty', 'Trend'] * 100 +  # Convert to cents
+    # Add maintenance and tire costs per mile (already in cents)
+    df_AutoCost_Comparision.loc['Maint+Tires', 'Trend']
+)
+
+# Light Duty Trucks
+AOC_LT = (
+    # Fuel cost: (price per gallon / mpg) * 100 cents per dollar
+    df_FuelCost_Comparison_1.loc[pd.to_datetime("2019-07-01"), 'Gasoline Trend'] /
+    df_FE_SizeClass_1[df_FE_SizeClass_1['Manufacturer\'s gross vehicle weight class'] == 'Light truck subtotal']['2002 VIUS'].iloc[0] * 100 +
+    # Maintenance cost
+    df_AutoCost_Comparision.loc['Maint+Tires', 'Trend']
+)
+
+# Medium Duty Trucks
+AOC_MD = (
+    # Fuel cost: diesel price / medium duty mpg * 100
+    df_FuelCost_Comparison_1.loc[pd.to_datetime("2019-07-01"), 'Diesel Trend'] /
+    df_FuelEconomy_Comparision.loc['Medium Duty', 'Trend'] * 100 +
+    # Maintenance cost: approximation as average of light and heavy
+    (df_AutoCost_Comparision.loc['Maint+Tires', 'Trend'] + (df_RepairMaintenanceCost_Heavy['CostMile'].mean() * 100)) / 2
+)
+
+# Heavy Duty Trucks
+AOC_HV = (
+    # Fuel cost: diesel price / heavy duty mpg * 100
+    df_FuelCost_Comparison_1.loc[pd.to_datetime("2019-07-01"), 'Diesel Trend'] /
+    df_FuelEconomy_Comparision.loc['Heavy Duty', 'Trend'] * 100 +
+    # Maintenance cost
+    (df_RepairMaintenanceCost_Heavy['CostMile'].mean() * 100)
+)
+```
 
 ## Export
+
+```{python}
+# Create dataframe compiling data
+df_AOC_export = pd.DataFrame({
+  'Auto Operating Costs': ['AOC_Auto', 'AOC_LT', 'AOC_MD', 'AOC_HV'],
+  'Cost (cent/mile)': [
+      AOC_Auto.round(1),
+      AOC_LT.round(1),
+      AOC_MD.round(1),
+      AOC_HV.round(1)
+    ]
+})
+
+# View the dataset
+df_AOC_export
+```
