@@ -537,7 +537,7 @@ df_TranspExp_Comparision = pd.DataFrame({
     'Date': [2019, 2019],
     'Actual': [
         df_TransportationExpenditure.loc[df_TransportationExpenditure['Year'] == 2019, 'Transportation Percent of Total'].iloc[0],
-        df_TransportationExpenditure.loc[df_TransportationExpenditure['Year'] == 2020, 'Gasoline Percent of Total'].iloc[0]  # FIXME: THere is a potential error here in Excel sheet
+        df_TransportationExpenditure.loc[df_TransportationExpenditure['Year'] == 2019, 'Gasoline Percent of Total'].iloc[0]  # FIXED: THere is a potential error here in Excel sheet
     ],
     'Trend': [
         np.poly1d(np.polyfit(pd.to_numeric(df_TransportationExpenditure['Year']),
@@ -1014,13 +1014,11 @@ df_FuelEconomy = pd.DataFrame({
     errors="coerce"
   ),
   "Medium Duty": pd.to_numeric(
-    df_FE_Medium.iloc[4, 1:len(df_FE_Medium.columns)-2].values, # This is a mistake, just replicating to be consistent with Excel file
-    # df_FE_Medium.loc[4, str(year_range[0]):str(year_range[-1])].values, # FIXME: Mistake in original calculation; use this instead
+    df_FE_Medium.loc[4, str(year_range[0]):str(year_range[-1])].values, # FIXED: Mistake in original calculation; use this instead
     errors="coerce"
   ),
   "Heavy Duty": pd.to_numeric(
-    df_FE_Heavy.iloc[4, 1:len(df_FE_Heavy.columns)-3].values, # This is a mistake, just replicating to be consistent with Excel file
-    # df_FE_Heavy.loc[4, str(year_range[0]):str(year_range[-1])].values, # FIXME: Mistake in original calculation; use this instead
+    df_FE_Heavy.loc[4, str(year_range[0]):str(year_range[-1])].values, # FIXED: Mistake in original calculation; use this instead
     errors="coerce"
   )
 })
