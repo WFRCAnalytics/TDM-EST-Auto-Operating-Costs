@@ -21,8 +21,10 @@ format:
     html-math-method: katex
     code-link: true
     code-tools: true
+    code-fold: true
+    code-summary: "Show the code"
 
-code-fold: true
+title-block-banner: true
 ---
 
 This document updates the `0 - Auto Operating Cost - 2022-01-11.qmd` to the new base year 2023.
