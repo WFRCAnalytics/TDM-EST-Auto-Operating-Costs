@@ -27,14 +27,16 @@ format:
 title-block-banner: true
 ---
 
-This document updates the `0 - Auto Operating Cost - 2022-01-11.qmd` to the new base year 2023.
+This document updates the `0 - Auto Operating Cost - 2022-01-11.qmd` to the new base year `2023`.
 
-## Import Libraries
+## Environment Setup
+
+### Load Libraries
 
 ``` python
-!pip install numpy pandas geopandas matplotlib seaborn scipy openpyxl datetime
+!pip install numpy pandas geopandas matplotlib seaborn scipy openpyxl xlrd datetime python-dotenv
 # OR
-!conda install numpy pandas geopandas matplotlib seaborn scipy openpyxl datetime
+!conda install numpy pandas geopandas matplotlib seaborn scipy openpyxl xlrd datetime python-dotenv
 ```
 
 ```{python}
@@ -50,8 +52,17 @@ import seaborn as sns
 from scipy.interpolate import make_interp_spline
 from scipy import stats
 
-# For Date time processing
+# misc
 import datetime
+import os
+from pathlib import Path
+import requests
+```
+
+### Set Base Year for Calculations
+
+```{python}
+BASE_YEAR = 2023
 ```
 
 ## Read Raw Data
@@ -60,15 +71,20 @@ import datetime
 
 Table 3-11: Sales Price of Transportation Fuel to End-Users \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/sales-price-transportation-fuel-end-users-current-cents-gallon)\]
 
-File URL: https://www.bts.gov/sites/bts.dot.gov/files/2024-03/table_03_11_032824.xlsx
-
 ```{python}
-# Read Excel file directly from URL
+# Ensure file exists
+filepath_3_11 = Path("data/bts/table_03_11_032824.xlsx")
+if not filepath_3_11.exists():
+    filepath_3_11.parent.mkdir(parents=True, exist_ok=True)
+    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2024-03/table_03_11_032824.xlsx")
+    filepath_3_11.write_bytes(response.content)
+
+# Read Excel file
 df_3_11 = pd.read_excel(
-  "archive-v9.0\\Support Data\\BTS - National - Auto Cost & Gas Price.xlsx",
+  filepath_3_11,
   sheet_name="3-11",
   header=1,
-  usecols="A:AH", # TODO: update cols later for new data
+  usecols="A:AK", # TODO: update cols later for new data
   nrows=10
 )
 
@@ -80,15 +96,20 @@ df_3_11
 
 Table 3-12: Price Trends of Gasoline v. Other Consumer Goods and Services \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/price-trends-gasoline-v-other-consumer-goods-and-services)\]
 
-File URL: https://www.bts.gov/sites/bts.dot.gov/files/2024-03/table_03_12_032824_1.xlsx
-
 ```{python}
-# Read Excel file directly from URL
+# Ensure file exists
+filepath_3_12 = Path("data/bts/table_03_12_032824_1.xlsx")
+if not filepath_3_12.exists():
+    filepath_3_12.parent.mkdir(parents=True, exist_ok=True)
+    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2024-03/table_03_12_032824_1.xlsx")
+    filepath_3_12.write_bytes(response.content)
+
+# Read Excel file
 df_3_12 = pd.read_excel(
-  "archive-v9.0\\Support Data\\BTS - National - Auto Cost & Gas Price.xlsx",
+  filepath_3_12,
   sheet_name="3-12",
   header=1,
-  usecols="A:AJ", # TODO: update cols later for new data
+  usecols="A:AM", # TODO: update cols later for new data
   nrows=15
 )
 
@@ -100,15 +121,20 @@ df_3_12
 
 Table 3-25: Average Wage and Salary Accruals per Full-Time Equivalent Employee by Transportation Industry \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/average-wage-and-salary-accruals-full-time-equivalent-employee-transportation-industry-naics)\]
 
-File URL: https://www.bts.gov/sites/bts.dot.gov/files/2022-10/table_03_25_102122.xlsx
-
 ```{python}
-# Read Excel file directly from URL
+# Ensure file exists
+filepath_3_25 = Path("data/bts/table_03_25_102122.xlsx")
+if not filepath_3_25.exists():
+    filepath_3_25.parent.mkdir(parents=True, exist_ok=True)
+    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2022-10/table_03_25_102122.xlsx")
+    filepath_3_25.write_bytes(response.content)
+
+# Read Excel file
 df_3_25 = pd.read_excel(
-  "archive-v9.0\\Support Data\\BTS - National - Income-Wage.xlsx",
+  filepath_3_25,
   sheet_name="3-25",
   header=1,
-  usecols="A:X", # TODO: update cols later for new data
+  usecols="A:Y", # TODO: update cols later for new data
   nrows=10
 )
 
@@ -121,15 +147,20 @@ df_3_25
 
 Table 4-12: Light Duty Vehicle, Long Wheel Base Fuel Consumption and Travel \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/other-2-axle-4-tire-vehicle-fuel-consumption-and-travel-0)\]
 
-File URL: https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_12M_032725.xlsx
-
 ```{python}
-# Read Excel file directly from URL
+# Ensure file exists
+filepath_4_12 = Path("data/bts/table_04_12M_032725.xlsx")
+if not filepath_4_12.exists():
+    filepath_4_12.parent.mkdir(parents=True, exist_ok=True)
+    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_12M_032725.xlsx")
+    filepath_4_12.write_bytes(response.content)
+
+# Read Excel file
 df_4_12 = pd.read_excel(
-  "archive-v9.0\\Support Data\\BTS - National - Fuel Efficiency.xlsx",
-  sheet_name="4-12",
+  filepath_4_12,
+  sheet_name="4-12M",
   header=1,
-  usecols="A:AI", # TODO: update cols later for new data
+  usecols="A:AM", # TODO: update cols later for new data
   nrows=6
 )
 
@@ -139,15 +170,22 @@ df_4_12
 
 ### Fuel Economy - CombinedVehType
 
-Table 4-9:  Motor Vehicle Fuel Consumption and Travel \[Source: Bureau of Transportation Statistics\]
+Table 4-9: Motor Vehicle Fuel Consumption and Travel \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/motor-vehicle-fuel-consumption-and-travel)\]
 
 ```{python}
-# Read Excel file directly from URL
+# Ensure file exists
+filepath_4_9 = Path("data/bts/table_04_09_032825.xlsx")
+if not filepath_4_9.exists():
+    filepath_4_9.parent.mkdir(parents=True, exist_ok=True)
+    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_09_032825.xlsx")
+    filepath_4_9.write_bytes(response.content)
+
+# Read Excel file
 df_FE_CombinedVehType = pd.read_excel(
-  "archive-v9.0\\Support Data\\BTS - National - Fuel Efficiency.xlsx",
-  sheet_name="CombinedVehType",
+  filepath_4_9,
+  sheet_name="4-9",
   header=1,
-  usecols="A:AK", # TODO: update cols later for new data
+  usecols="A:AO", # TODO: update cols later for new data
   nrows=6
 )
 
@@ -157,15 +195,22 @@ df_FE_CombinedVehType
 
 ### Fuel Economy - LightDuty
 
-Table 4-23:  Average Fuel Efficiency of U.S. Light Duty Vehicles \[Source: Bureau of Transportation Statistics\]
+Table 4-23:  Average Fuel Efficiency of U.S. Light Duty Vehicles \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/average-fuel-efficiency-us-light-duty-vehicles)\]
 
 ```{python}
-# Read Excel file directly from URL
+# Ensure file exists
+filepath_4_23 = Path("data/bts/table_04_23_042425.xlsx")
+if not filepath_4_23.exists():
+    filepath_4_23.parent.mkdir(parents=True, exist_ok=True)
+    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2025-04/table_04_23_042425.xlsx")
+    filepath_4_23.write_bytes(response.content)
+
+# Read Excel file
 df_FE_LightDuty = pd.read_excel(
-  "archive-v9.0\\Support Data\\BTS - National - Fuel Efficiency.xlsx",
-  sheet_name="LightDuty",
+  filepath_4_23,
+  sheet_name="4-23",
   header=1,
-  usecols="A:AG", # TODO: update cols later for new data
+  usecols="A:AK", # TODO: update cols later for new data
   nrows=12
 )
 
@@ -175,15 +220,22 @@ df_FE_LightDuty
 
 ### Personal Expenditure
 
-Table 3-15: Personal Expenditures by Category (Millions of current dollars) \[Source: Bureau of Transportation Statistics\]
+Table 3-15: Personal Expenditures by Category (Millions of current dollars) \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/personal-expenditures-category-millions-current-dollars)\]
 
 ```{python}
-# Read Excel file directly from URL
+# Ensure file exists
+filepath_3_15 = Path("data/bts/table_03_15_022525.xlsx")
+if not filepath_3_15.exists():
+    filepath_3_15.parent.mkdir(parents=True, exist_ok=True)
+    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2025-02/table_03_15_022525.xlsx")
+    filepath_3_15.write_bytes(response.content)
+
+# Read Excel file
 df_PersonalExpenditure = pd.read_excel(
-  "archive-v9.0\\Support Data\\BTS - National - Auto Cost & Gas Price.xlsx",
+  filepath_3_15,
   sheet_name="3-15",
   header=1,
-  usecols="A:AL", # TODO: update cols later for new data
+  usecols="A:AP", # TODO: update cols later for new data
   nrows=17
 )
 
@@ -193,15 +245,24 @@ df_PersonalExpenditure
 
 ### Personal Consumption
 
-Table 3-16: Personal Consumption Expenditures on Transportation by Subcategory (Millions of current dollars) \[Source: Bureau of Transportation Statistics\]
+Table 3-16: Personal Consumption Expenditures on Transportation by Subcategory (Millions of current dollars) \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/personal-consumption-expenditures-transportation-subcategory-millions-current-dollars)\]
+
+File URL: https://www.bts.gov/sites/bts.dot.gov/files/2025-02/table_03_16_022525.xlsx
 
 ```{python}
-# Read Excel file directly from URL
+# Ensure file exists
+filepath_3_16 = Path("data/bts/table_03_16_022525.xlsx")
+if not filepath_3_16.exists():
+    filepath_3_16.parent.mkdir(parents=True, exist_ok=True)
+    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2025-02/table_03_16_022525.xlsx")
+    filepath_3_16.write_bytes(response.content)
+
+# Read Excel file
 df_PersonalConsumption = pd.read_excel(
-  "archive-v9.0\\Support Data\\BTS - National - Auto Cost & Gas Price.xlsx",
+  filepath_3_16,
   sheet_name="3-16",
   header=1,
-  usecols="A:AL", # TODO: update cols later for new data
+  usecols="A:AP", # TODO: update cols later for new data
   nrows=17
 )
 
@@ -211,20 +272,72 @@ df_PersonalConsumption
 
 ### Consumer Price Index
 
-Data Source:
+Data Source: Consumer Price Index for All Urban Consumers (CPI-U) \[Source: [Bureau of Labor Statistics](https://data.bls.gov/pdq/SurveyOutputServlet)\]
+
+::: {.callout-tip}
+Create a `.env` file in the root directory and add your BLS API key:
+```BLS_PUBLIC_API=your-key-here```
+This enables fetching Consumer Price Index data from the BLS API.
+:::
 
 ```{python}
+from dotenv import load_dotenv
+load_dotenv()
+```
+
+```{python}
+# Ensure file exists
+filepath_cpi = Path("data/bls/cpi_1913_present.xlsx")
+
+if not filepath_cpi.exists():
+    filepath_cpi.parent.mkdir(parents=True, exist_ok=True)
+
+    api_url = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
+    current_year = pd.Timestamp.now().year
+    all_data = []
+
+    for start_year in range(1913, current_year + 1, 20):
+        end_year = min(start_year + 19, current_year)
+        payload = {
+            "seriesid": ["CUUR0000SA0"],
+            "startyear": str(start_year),
+            "endyear": str(end_year),
+            "catalog": False,
+            "calculations": False,
+            "annualaverage": False,
+            "registrationkey": os.getenv('BLS_PUBLIC_API')
+        }
+        response = requests.post(api_url, json=payload, headers={"Content-Type": "application/json"})
+
+        for item in response.json()['Results']['series'][0]['data']:
+            if item['period'].startswith('M') and item['period'] != 'M13':
+                all_data.append({
+                    'year': int(item['year']),
+                    'period': item['period'],
+                    'value': float(item['value'])
+                })
+
+    df_pivot = pd.DataFrame(all_data).pivot(index='year', columns='period', values='value')
+    df_pivot = df_pivot[[f'M{i:02d}' for i in range(1, 13)]].sort_index()
+
+    with pd.ExcelWriter(filepath_cpi, engine='openpyxl') as writer:
+        df_pivot.to_excel(writer, sheet_name='BLS Data Series')
+
 # Read Excel file directly from URL
 df_CPI = pd.read_excel(
-  "archive-v9.0\\1 - Auto Operating Cost - 2022-01-11.xlsx", # File path
-  sheet_name="CPI",
-  header=5,
-  usecols="B:Q", # TODO: update cols later for new data
-  nrows=131
+  filepath_cpi, # File path
+  sheet_name="BLS Data Series",
+  usecols="A:M" # TODO: update cols later for new data
 )
 
-# Remove rows where all elements are NaN (empty)
-df_CPI = df_CPI.dropna(how='all')
+# Calculate annual average
+df_CPI['annualaverage'] = df_CPI[[f'M{i:02d}' for i in range(1, 13)]].mean(axis=1)
+
+# Calculate 12-month percent change for December
+df_CPI['pct_change_Dec'] = df_CPI['M12'].pct_change(periods=1) * 100
+
+# Calculate 12-month percent change for annual average
+df_CPI['pct_change_Avg'] = df_CPI['annualaverage'].pct_change(periods=1) * 100
 
 # display the data
 df_CPI
@@ -234,16 +347,20 @@ df_CPI
 
 Retail Prices for Diesel (On-Highway) - All Types \[Source: [Energy Information Administration](http://www.eia.gov/dnav/pet/pet_pri_gnd_a_epd2d_pte_dpgal_w.htm)]
 
-File URL: https://www.eia.gov/dnav/pet/xls/PET_PRI_GND_A_EPD2D_PTE_DPGAL_W.xls
-
 ```{python}
+# Ensure file exists
+filepath_retaildiesel = Path("data/eia/PET_PRI_GND_A_EPD2D_PTE_DPGAL_W.xls")
+if not filepath_retaildiesel.exists():
+    filepath_retaildiesel.parent.mkdir(parents=True, exist_ok=True)
+    response = requests.get("https://www.eia.gov/dnav/pet/xls/PET_PRI_GND_A_EPD2D_PTE_DPGAL_W.xls")
+    filepath_retaildiesel.write_bytes(response.content)
+
 # Read Excel file directly from URL
 df_RetailDieselPrices = pd.read_excel(
-  "archive-v9.0\\1 - Auto Operating Cost - 2022-01-11.xlsx", # File path
-  sheet_name="Retail Diesel Prices",
-  header=22,
-  usecols="A:J", # TODO: update cols later for new data
-  nrows=1451
+  filepath_retaildiesel, # File path
+  sheet_name="Data 2",
+  header=2,
+  usecols="A:J" # TODO: update cols later for new data
 )
 
 # display the data
@@ -254,16 +371,20 @@ df_RetailDieselPrices
 
 Retail Prices for Gasoline, All Grades \[Source: [Energy Information Administration](https://www.eia.gov/dnav/pet/pet_pri_gnd_a_epm0_pte_dpgal_w.htm)]
 
-File URL: https://www.eia.gov/dnav/pet/xls/PET_PRI_GND_A_EPM0_PTE_DPGAL_W.xls
-
 ```{python}
+# Ensure file exists
+filepath_retailgas = Path("data/eia/PET_PRI_GND_A_EPM0_PTE_DPGAL_W.xls")
+if not filepath_retailgas.exists():
+    filepath_retailgas.parent.mkdir(parents=True, exist_ok=True)
+    response = requests.get("https://www.eia.gov/dnav/pet/xls/PET_PRI_GND_A_EPM0_PTE_DPGAL_W.xls")
+    filepath_retailgas.write_bytes(response.content)
+
 # Read Excel file directly from URL
 df_RetailGasPrices = pd.read_excel(
-  "archive-v9.0\\1 - Auto Operating Cost - 2022-01-11.xlsx", # File path
-  sheet_name="Retail Gas Prices",
-  header=22,
-  usecols="A:J", # TODO: update cols later for new data
-  nrows=1501
+  filepath_retailgas, # File path
+  sheet_name="Data 2",
+  header=2,
+  usecols="A:J" # TODO: update cols later for new data
 )
 
 # display the data
@@ -272,15 +393,22 @@ df_RetailGasPrices
 
 ### Average Cost
 
-Table 3-17:  Average Cost of Owning and Operating an Automobilea (Assuming 15,000 Vehicle-Miles per Year) \[Source: Bureau of Transportation Statistics\]
+Table 3-17:  Average Cost of Owning and Operating an Automobilea (Assuming 15,000 Vehicle-Miles per Year) \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/average-cost-owning-and-operating-automobilea-assuming-15000-vehicle-miles-year)\]
 
 ```{python}
+# Ensure file exists
+filepath_3_17 = Path("data/bts/table_03_17_032725.xlsx")
+if not filepath_3_17.exists():
+    filepath_3_17.parent.mkdir(parents=True, exist_ok=True)
+    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_03_17_032725.xlsx")
+    filepath_3_17.write_bytes(response.content)
+
 # Read Excel file directly from URL
 df_AverageCost = pd.read_excel(
-  "archive-v9.0\\Support Data\\BTS - National - Auto Cost & Gas Price.xlsx",
+  filepath_3_17,
   sheet_name="3-17",
   header=1,
-  usecols="A:AI", # TODO: update cols later for new data
+  usecols="A:AM", # TODO: update cols later for new data
   nrows=8
 )
 
@@ -295,12 +423,19 @@ Table 4-11: Light Duty Vehicle, Short Wheel Base and Motorcycle Fuel Consumption
 File URL: https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_11_032825.xlsx
 
 ```{python}
+# Ensure file exists
+filepath_4_11 = Path("data/bts/table_04_11_032825.xlsx")
+if not filepath_4_11.exists():
+    filepath_4_11.parent.mkdir(parents=True, exist_ok=True)
+    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_11_032825.xlsx")
+    filepath_4_11.write_bytes(response.content)
+
 # Read Excel file directly from URL
 df_4_11 = pd.read_excel(
-  "archive-v9.0\\Support Data\\BTS - National - Fuel Efficiency.xlsx",
+  filepath_4_11,
   sheet_name="4-11",
   header=1,
-  usecols="A:AK", # TODO: update cols later for new data
+  usecols="A:AO", # TODO: update cols later for new data
   nrows=18
 )
 
@@ -310,15 +445,22 @@ df_4_11
 
 ### Fuel Economy - Medium
 
-Table 4-13:  Single-Unit 2-Axle 6-Tire or More Truck Fuel Consumption and Travel \[Source: Bureau of Transportation Statistics\]
+Table 4-13:  Single-Unit 2-Axle 6-Tire or More Truck Fuel Consumption and Travel \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/single-unit-2-axle-6-tire-or-more-truck-fuel-consumption-and-travel)\]
 
 ```{python}
+# Ensure file exists
+filepath_4_13 = Path("data/bts/table_04_13_032725.xlsx")
+if not filepath_4_13.exists():
+    filepath_4_13.parent.mkdir(parents=True, exist_ok=True)
+    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_13_032725.xlsx")
+    filepath_4_13.write_bytes(response.content)
+
 # Read Excel file directly from URL
 df_FE_Medium = pd.read_excel(
-  "archive-v9.0\\Support Data\\BTS - National - Fuel Efficiency.xlsx",
-  sheet_name="Medium",
+  filepath_4_13,
+  sheet_name="4-13",
   header=1,
-  usecols="A:AI", # TODO: update cols later for new data
+  usecols="A:AM", # TODO: update cols later for new data
   nrows=6
 )
 
@@ -328,15 +470,22 @@ df_FE_Medium
 
 ### Fuel Economy - Heavy
 
-Table 4-14:  Combination Truck Fuel Consumption and Travel \[Source: Bureau of Transportation Statistics\]
+Table 4-14:  Combination Truck Fuel Consumption and Travel \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/combination-truck-fuel-consumption-and-travel)\]
 
 ```{python}
+# Ensure file exists
+filepath_4_14 = Path("data/bts/table_04_14_032725.xlsx")
+if not filepath_4_14.exists():
+    filepath_4_14.parent.mkdir(parents=True, exist_ok=True)
+    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_14_032725.xlsx")
+    filepath_4_14.write_bytes(response.content)
+
 # Read Excel file directly from URL
 df_FE_Heavy = pd.read_excel(
-  "archive-v9.0\\Support Data\\BTS - National - Fuel Efficiency.xlsx",
-  sheet_name="Heavy",
+  filepath_4_14,
+  sheet_name="4-14",
   header=1,
-  usecols="A:AJ", # TODO: update cols later for new data
+  usecols="A:AN", # TODO: update cols later for new data
   nrows=6
 )
 
@@ -346,46 +495,81 @@ df_FE_Heavy
 
 ### Fuel Economy by Size Class
 
-Table 5.5 Truck Harmonic Mean Fuel Economy by Size Class, 1992, 1997, and 2002 (miles per gallon)
+Table 5.6 Truck Harmonic Mean Fuel Economy by Size Class, 1992, 1997, and 2002 (miles per gallon) \[Source: [Oak Ridge National Laboratory](https://tedb.ornl.gov/wp-content/uploads/2022/03/TEDB_Ed_40.pdf)\]
 
 ```{python}
-# FIXME: Need to verify the source of this.
+# Ensure file exists
+filepath_tedb = Path("data/doe/TEDB_Ed_40.pdf")
+if not filepath_tedb.exists():
+    filepath_tedb.parent.mkdir(parents=True, exist_ok=True)
+    response = requests.get("https://tedb.ornl.gov/wp-content/uploads/2022/03/TEDB_Ed_40.pdf")
+    filepath_tedb.write_bytes(response.content)
 
-# Read Excel file directly from URL
-df_FE_SizeClass_1 = pd.read_excel(
-  "archive-v9.0\\1 - Auto Operating Cost - 2022-01-11.xlsx", # File path
-  sheet_name="Fuel Economy by Size Class",
-  usecols="A:G", # TODO: update cols later for new data
-  skiprows=11,   # Skip the first 11 rows
-  nrows=11
-)
-
-# Drop columns that are entirely empty (NaN)
-df_FE_SizeClass_1 = df_FE_SizeClass_1.dropna(axis=1, how='all')
-
-# Manually set column names
-df_FE_SizeClass_1.columns = [
-    "Manufacturer's gross vehicle weight class",
-    "1992 TIUS",
-    "1997 VIUS",
-    "2002 VIUS"
-]
+# Read Table 5.6 in Page 152
+df_FE_SizeClass_1 = pd.DataFrame({
+    "Manufacturer's gross vehicle weight class": [
+        "1) 6,000 lb and less",
+        "2) 6,001–10,000 lb",
+        "3) 10,000–14,000 lb",
+        "4) 14,001–16,000 lb",
+        "5) 16,001–19,500 lb",
+        "6) 19,501–26,000 lb",
+        "7) 26,001–33,000 lb",
+        "8) 33,001 lb and over",
+        "Light truck subtotal (1–2)",
+        "Medium truck subtotal (3–6)",
+        "Large truck subtotal (7–8)"
+    ],
+    "1992 TIUS": [17.2, 13.0, 8.8, 8.8, 7.4, 6.9, 6.5, 5.5, 15.7, 7.3, 5.6],
+    "1997 VIUS": [17.1, 13.6, 9.4, 9.3, 8.7, 7.3, 6.4, 5.7, 15.8, 8.6, 6.1],
+    "2002 VIUS": [17.6, 14.3, 10.5, 8.5, 7.9, 7.0, 6.4, 5.7, 16.2, 8.0, 5.8]
+})
 
 # display the data
 df_FE_SizeClass_1
 ```
 
-Table 10.4:  Retail Prices for Motor Fuel, 1978–2012 (cents per gallon, including tax)
+Table 11.6: (Updated June 2022) Retail Prices for Motor Fuel, 1978–2021 (dollars per gallon, including tax)
 
 ```{python}
-# Read Excel file directly from URL
-df_FE_SizeClass_2 = pd.read_excel(
-  "archive-v9.0\\1 - Auto Operating Cost - 2022-01-11.xlsx", # File path
-  sheet_name="Fuel Economy by Size Class",
-  usecols="A:C", # TODO: update cols later for new data
-  header=35,
-  nrows=1
-)
+# Read Table 11.6 in Page 285
+df_FE_SizeClass_2 = pd.DataFrame({
+    "Year": [
+        1978, 1980, 1985, 1990, 1995, 1996, 1997, 1998, 1999, 2000,
+        2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
+        2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021
+    ],
+    "Diesel_Current": [
+        None, 1.01, 1.22, 1.07, 1.11, 1.24, 1.20, 1.04, 1.12, 1.49,
+        1.40, 1.32, 1.51, 1.81, 2.40, 2.71, 2.89, 3.80, 2.47, 2.99,
+        3.84, 3.97, 3.92, 3.83, 2.71, 2.30, 2.65, 3.18, 3.06, 2.55, 3.29
+    ],
+    "Diesel_Constant_2021": [
+        None, 3.32, 3.07, 2.22, 1.97, 2.13, 2.02, 1.74, 1.82, 2.35,
+        2.14, 1.99, 2.22, 2.60, 3.33, 3.64, 3.77, 4.79, 3.12, 3.72,
+        4.63, 4.68, 4.56, 4.38, 3.09, 2.60, 2.93, 3.43, 3.24, 2.67, 3.29
+    ],
+    "Regular_Current": [
+        0.67, 1.25, 1.20, 1.16, 1.15, 1.23, 1.23, 1.06, 1.17, 1.51,
+        1.46, 1.36, 1.59, 1.88, 2.30, 2.59, 2.80, 3.27, 2.35, 2.79,
+        3.53, 3.64, 3.53, 3.37, 2.45, 2.14, 2.41, 2.74, 2.64, 2.17, 3.05
+    ],
+    "Regular_Constant_2021": [
+        2.78, 4.09, 3.03, 2.41, 2.04, 2.13, 2.08, 1.76, 1.89, 2.38,
+        2.24, 2.05, 2.34, 2.70, 3.18, 3.48, 3.66, 4.11, 2.97, 3.46,
+        4.25, 4.30, 4.10, 3.85, 2.80, 2.42, 2.66, 2.95, 2.79, 2.28, 3.05
+    ],
+    "Premium_Current": [
+        None, None, 1.34, 1.35, 1.34, 1.41, 1.42, 1.25, 1.36, 1.69,
+        1.66, 1.56, 1.78, 2.07, 2.49, 2.81, 3.03, 3.52, 2.61, 3.05,
+        3.79, 3.92, 3.84, 3.71, 2.87, 2.61, 2.91, 3.27, 3.21, 2.79, 3.69
+    ],
+    "Premium_Constant_2021": [
+        None, None, 3.37, 2.80, 2.38, 2.44, 2.39, 2.08, 2.21, 2.66,
+        2.54, 2.34, 2.62, 2.97, 3.46, 3.77, 3.96, 4.43, 3.29, 3.79,
+        4.57, 4.63, 4.47, 4.25, 3.28, 2.95, 3.22, 3.53, 3.40, 2.92, 3.69
+    ]
+})
 
 # display the data
 df_FE_SizeClass_2
@@ -393,9 +577,9 @@ df_FE_SizeClass_2
 
 ```{python}
 # FIXME: Unsure the logic behind this calculation.
-df_FE_SizeClass_2["Something"] = df_FE_SizeClass_2["Diesel fuel"]/df_FE_SizeClass_2["Average for all gasoline types"]
+df_FE_SizeClass_2["Diesel to Average Ratio"] = df_FE_SizeClass_2["Diesel_Current"] / (df_FE_SizeClass_2["Regular_Current"] + df_FE_SizeClass_2["Premium_Current"]) / 2
 
-df_FE_SizeClass_2["Something"]
+df_FE_SizeClass_2["Diesel to Average Ratio"]
 ```
 
 ### Repair and Maintenance Cost - Heavy
@@ -422,31 +606,42 @@ df_RepairMaintenanceCost_Heavy
 Data Source: https://exchange.aaa.com/wp-content/uploads/2019/09/AAA-Your-Driving-Costs-2019.pdf
 
 ```{python}
-# Read Excel file directly from URL
-df_DrivingCosts = pd.read_excel(
-  "archive-v9.0\\1 - Auto Operating Cost - 2022-01-11.xlsx", # File path
-  sheet_name="Driving Costs",
-  usecols="A:K", # TODO: update cols later for new data
-  skiprows=3,     # Skip the first 3 rows
-  nrows=31
-)
+# Ensure file exists
+filepath_drivingcost = Path("data/aaa/YDC-Brochure_2023-FINAL-8.30.23-.pdf")
+if not filepath_drivingcost.exists():
+    filepath_drivingcost.parent.mkdir(parents=True, exist_ok=True)
+    response = requests.get("https://newsroom.aaa.com/wp-content/uploads/2023/08/YDC-Brochure_2023-FINAL-8.30.23-.pdf")
+    filepath_drivingcost.write_bytes(response.content)
+```
 
-# Manually set column names
-df_DrivingCosts.columns = [
-    "Cost Categories",
-    "Small Sedan",
-    "Medium Sedan",
-    "Large Sedan",
-    "Small SUV (FWD)",
-    "Medium SUV (FWD)",
-    "Minivan",
-    "1/2 Ton/Crew Pickup (4WD)",
-    "Hybrid Vehicle",
-    "Electric Vehicle",
-    "2020 Weighted Average"
-]
+```{python}
+with pdfplumber.open(filepath_drivingcost) as pdf:
+    # Page 1 (index 0)
+    page1 = pdf.pages[0]
 
-# display the data
+    # Page 2 (index 1)
+    page2 = pdf.pages[1]
+
+    # Use lines strategy for table detection
+    table_settings = {
+        "vertical_strategy": "lines",
+        "horizontal_strategy": "lines",
+    }
+
+    # Extract tables from both pages
+    table1 = page1.extract_table(table_settings=table_settings)
+    table2 = page2.extract_table(table_settings=table_settings)
+
+    # Create DataFrames
+    df_page1 = pd.DataFrame(table1[1:], columns=table1[0])
+    df_page2 = pd.DataFrame(table2[1:], columns=table2[0])
+
+    # Remove the 6th column (index 5) from df_page2
+    df_page2_clean = df_page2.drop(df_page2.columns[0], axis=1)
+
+    # Concatenate horizontally (side by side)
+    df_DrivingCosts = pd.concat([df_page1, df_page2_clean], axis=1)
+
 df_DrivingCosts
 ```
 
