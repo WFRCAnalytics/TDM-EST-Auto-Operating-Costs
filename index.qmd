@@ -284,6 +284,8 @@ df_PersonalConsumption
 Data Source: Consumer Price Index for All Urban Consumers (CPI-U) \[Source: [Bureau of Labor Statistics](https://data.bls.gov/pdq/SurveyOutputServlet)\]
 
 ::: {.callout-tip}
+Get your BLS Public API key from [here](https://data.bls.gov/registrationEngine/).
+
 Create a `.env` file in the root directory and add your BLS API key:
 ```BLS_PUBLIC_API=your-key-here```
 This enables fetching Consumer Price Index data from the BLS API.
@@ -600,7 +602,7 @@ df_FE_SizeClass_2.loc[df_FE_SizeClass_2['Year'] == 2021, 'Diesel to Average Rati
 
 ![Repair and Maintenance Cost per Mile](https://fleetimages.bobitstudios.com/upload/trucking-info/content/article/2021-08/maintenance_chart4-__-720x516-s.jpg)
 
-Source: https://www.truckinginfo.com/10150350/2021-hdt-fact-book-maintenance-costs-expected-to-rise
+Source: [TruckingInfo.com]('https://www.truckinginfo.com/10150350/2021-hdt-fact-book-maintenance-costs-expected-to-rise')
 
 Further Research: American Transportation Research Institute
 
@@ -617,7 +619,7 @@ df_RepairMaintenanceCost_Heavy
 
 ### Driving Costs
 
-Data Source: https://exchange.aaa.com/wp-content/uploads/2019/09/AAA-Your-Driving-Costs-2019.pdf
+Data Source: [American Automobile Association]('https://exchange.aaa.com/wp-content/uploads/2019/09/AAA-Your-Driving-Costs-2019.pdf')
 
 ```{python}
 # Ensure file exists
