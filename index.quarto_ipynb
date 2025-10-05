@@ -40,12 +40,12 @@
         "### Load Libraries\n",
         "\n",
         "``` python\n",
-        "!pip install numpy pandas geopandas matplotlib seaborn scipy openpyxl xlrd datetime python-dotenv\n",
+        "!pip install numpy pandas geopandas matplotlib seaborn scipy openpyxl xlrd datetime python-dotenv pdfplumber\n",
         "# OR\n",
-        "!conda install numpy pandas geopandas matplotlib seaborn scipy openpyxl xlrd datetime python-dotenv\n",
+        "!conda install numpy pandas geopandas matplotlib seaborn scipy openpyxl xlrd datetime python-dotenv pdfplumber\n",
         "```"
       ],
-      "id": "258dca7b"
+      "id": "b7cea6ed"
     },
     {
       "cell_type": "code",
@@ -69,7 +69,7 @@
         "from pathlib import Path\n",
         "import requests"
       ],
-      "id": "fb8f0c59",
+      "id": "3b163fe9",
       "execution_count": null,
       "outputs": []
     },
@@ -79,7 +79,7 @@
       "source": [
         "### Set Base Year for Calculations"
       ],
-      "id": "1fcb49aa"
+      "id": "9b94ee5b"
     },
     {
       "cell_type": "code",
@@ -87,7 +87,7 @@
       "source": [
         "BASE_YEAR = 2023"
       ],
-      "id": "debb32f4",
+      "id": "67816655",
       "execution_count": null,
       "outputs": []
     },
@@ -101,7 +101,7 @@
         "\n",
         "Table 3-11: Sales Price of Transportation Fuel to End-Users \\[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/sales-price-transportation-fuel-end-users-current-cents-gallon)\\]"
       ],
-      "id": "59a557d7"
+      "id": "6c3cb6d7"
     },
     {
       "cell_type": "code",
@@ -126,7 +126,7 @@
         "# display the data\n",
         "df_3_11"
       ],
-      "id": "23ccdf9a",
+      "id": "1446cf61",
       "execution_count": null,
       "outputs": []
     },
@@ -138,7 +138,7 @@
         "\n",
         "Table 3-12: Price Trends of Gasoline v. Other Consumer Goods and Services \\[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/price-trends-gasoline-v-other-consumer-goods-and-services)\\]"
       ],
-      "id": "5ca4ae66"
+      "id": "d4318802"
     },
     {
       "cell_type": "code",
@@ -163,7 +163,7 @@
         "# display the data\n",
         "df_3_12"
       ],
-      "id": "ce826fe3",
+      "id": "6befbed1",
       "execution_count": null,
       "outputs": []
     },
@@ -175,7 +175,7 @@
         "\n",
         "Table 3-25: Average Wage and Salary Accruals per Full-Time Equivalent Employee by Transportation Industry \\[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/average-wage-and-salary-accruals-full-time-equivalent-employee-transportation-industry-naics)\\]"
       ],
-      "id": "b8830faf"
+      "id": "8deb8911"
     },
     {
       "cell_type": "code",
@@ -200,7 +200,7 @@
         "# display the data\n",
         "df_3_25"
       ],
-      "id": "c0037e50",
+      "id": "c77e9f1c",
       "execution_count": null,
       "outputs": []
     },
@@ -212,7 +212,7 @@
         "\n",
         "Table 4-12: Light Duty Vehicle, Long Wheel Base Fuel Consumption and Travel \\[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/other-2-axle-4-tire-vehicle-fuel-consumption-and-travel-0)\\]"
       ],
-      "id": "1a2a73e8"
+      "id": "7bc75d51"
     },
     {
       "cell_type": "code",
@@ -237,7 +237,7 @@
         "# display the data\n",
         "df_4_12"
       ],
-      "id": "a2fa98af",
+      "id": "e2a2fb85",
       "execution_count": null,
       "outputs": []
     },
@@ -249,7 +249,7 @@
         "\n",
         "Table 4-9: Motor Vehicle Fuel Consumption and Travel \\[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/motor-vehicle-fuel-consumption-and-travel)\\]"
       ],
-      "id": "ea598d23"
+      "id": "add00922"
     },
     {
       "cell_type": "code",
@@ -274,7 +274,7 @@
         "# display the data\n",
         "df_FE_CombinedVehType"
       ],
-      "id": "2bc4d757",
+      "id": "20a7986c",
       "execution_count": null,
       "outputs": []
     },
@@ -286,7 +286,7 @@
         "\n",
         "Table 4-23:  Average Fuel Efficiency of U.S. Light Duty Vehicles \\[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/average-fuel-efficiency-us-light-duty-vehicles)\\]"
       ],
-      "id": "6bca2fd6"
+      "id": "7a6ef5cf"
     },
     {
       "cell_type": "code",
@@ -311,7 +311,7 @@
         "# display the data\n",
         "df_FE_LightDuty"
       ],
-      "id": "4f6a0cd9",
+      "id": "69d1672d",
       "execution_count": null,
       "outputs": []
     },
@@ -323,7 +323,7 @@
         "\n",
         "Table 3-15: Personal Expenditures by Category (Millions of current dollars) \\[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/personal-expenditures-category-millions-current-dollars)\\]"
       ],
-      "id": "f30dd720"
+      "id": "f599409d"
     },
     {
       "cell_type": "code",
@@ -348,7 +348,7 @@
         "# display the data\n",
         "df_PersonalExpenditure"
       ],
-      "id": "05340f63",
+      "id": "1e18c5ad",
       "execution_count": null,
       "outputs": []
     },
@@ -362,7 +362,7 @@
         "\n",
         "File URL: https://www.bts.gov/sites/bts.dot.gov/files/2025-02/table_03_16_022525.xlsx"
       ],
-      "id": "7d8c8d5e"
+      "id": "d8acd2ca"
     },
     {
       "cell_type": "code",
@@ -387,7 +387,7 @@
         "# display the data\n",
         "df_PersonalConsumption"
       ],
-      "id": "cc667d45",
+      "id": "8303e256",
       "execution_count": null,
       "outputs": []
     },
@@ -405,7 +405,7 @@
         "This enables fetching Consumer Price Index data from the BLS API.\n",
         ":::"
       ],
-      "id": "9e99ad11"
+      "id": "779164e1"
     },
     {
       "cell_type": "code",
@@ -414,7 +414,7 @@
         "from dotenv import load_dotenv\n",
         "load_dotenv()"
       ],
-      "id": "d12b3199",
+      "id": "2682b849",
       "execution_count": null,
       "outputs": []
     },
@@ -478,7 +478,7 @@
         "# display the data\n",
         "df_CPI"
       ],
-      "id": "26b4435b",
+      "id": "64aa2995",
       "execution_count": null,
       "outputs": []
     },
@@ -490,7 +490,7 @@
         "\n",
         "Retail Prices for Diesel (On-Highway) - All Types \\[Source: [Energy Information Administration](http://www.eia.gov/dnav/pet/pet_pri_gnd_a_epd2d_pte_dpgal_w.htm)]"
       ],
-      "id": "8ce45919"
+      "id": "88d912ec"
     },
     {
       "cell_type": "code",
@@ -514,7 +514,7 @@
         "# display the data\n",
         "df_RetailDieselPrices"
       ],
-      "id": "522743d4",
+      "id": "4e664374",
       "execution_count": null,
       "outputs": []
     },
@@ -526,7 +526,7 @@
         "\n",
         "Retail Prices for Gasoline, All Grades \\[Source: [Energy Information Administration](https://www.eia.gov/dnav/pet/pet_pri_gnd_a_epm0_pte_dpgal_w.htm)]"
       ],
-      "id": "eb519527"
+      "id": "2940de03"
     },
     {
       "cell_type": "code",
@@ -550,7 +550,7 @@
         "# display the data\n",
         "df_RetailGasPrices"
       ],
-      "id": "bb5d3b15",
+      "id": "5eef0b5c",
       "execution_count": null,
       "outputs": []
     },
@@ -562,7 +562,7 @@
         "\n",
         "Table 3-17:  Average Cost of Owning and Operating an Automobilea (Assuming 15,000 Vehicle-Miles per Year) \\[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/average-cost-owning-and-operating-automobilea-assuming-15000-vehicle-miles-year)\\]"
       ],
-      "id": "b7112f77"
+      "id": "0431b236"
     },
     {
       "cell_type": "code",
@@ -587,7 +587,7 @@
         "# display the data\n",
         "df_AverageCost"
       ],
-      "id": "a46179e9",
+      "id": "0a5632b3",
       "execution_count": null,
       "outputs": []
     },
@@ -601,7 +601,7 @@
         "\n",
         "File URL: https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_11_032825.xlsx"
       ],
-      "id": "2019cebd"
+      "id": "dd8c0f06"
     },
     {
       "cell_type": "code",
@@ -626,7 +626,7 @@
         "# display the data\n",
         "df_4_11"
       ],
-      "id": "1332b98c",
+      "id": "8a6ecece",
       "execution_count": null,
       "outputs": []
     },
@@ -638,7 +638,7 @@
         "\n",
         "Table 4-13:  Single-Unit 2-Axle 6-Tire or More Truck Fuel Consumption and Travel \\[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/single-unit-2-axle-6-tire-or-more-truck-fuel-consumption-and-travel)\\]"
       ],
-      "id": "8ae15cec"
+      "id": "b835aa3d"
     },
     {
       "cell_type": "code",
@@ -663,7 +663,7 @@
         "# display the data\n",
         "df_FE_Medium"
       ],
-      "id": "d9264b08",
+      "id": "d71fa340",
       "execution_count": null,
       "outputs": []
     },
@@ -675,7 +675,7 @@
         "\n",
         "Table 4-14:  Combination Truck Fuel Consumption and Travel \\[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/combination-truck-fuel-consumption-and-travel)\\]"
       ],
-      "id": "8fc6a292"
+      "id": "bd465ddc"
     },
     {
       "cell_type": "code",
@@ -700,7 +700,7 @@
         "# display the data\n",
         "df_FE_Heavy"
       ],
-      "id": "5f612ffe",
+      "id": "48bc540a",
       "execution_count": null,
       "outputs": []
     },
@@ -712,7 +712,7 @@
         "\n",
         "Table 5.6 Truck Harmonic Mean Fuel Economy by Size Class, 1992, 1997, and 2002 (miles per gallon) \\[Source: [Oak Ridge National Laboratory](https://tedb.ornl.gov/wp-content/uploads/2022/03/TEDB_Ed_40.pdf)\\]"
       ],
-      "id": "28beaae3"
+      "id": "0ed0b67d"
     },
     {
       "cell_type": "code",
@@ -748,7 +748,7 @@
         "# display the data\n",
         "df_FE_SizeClass_1"
       ],
-      "id": "6b949188",
+      "id": "3d313566",
       "execution_count": null,
       "outputs": []
     },
@@ -758,7 +758,7 @@
       "source": [
         "Table 11.6: (Updated June 2022) Retail Prices for Motor Fuel, 1978–2021 (dollars per gallon, including tax)"
       ],
-      "id": "7281958c"
+      "id": "72270256"
     },
     {
       "cell_type": "code",
@@ -806,7 +806,7 @@
         "# display the data\n",
         "df_FE_SizeClass_2"
       ],
-      "id": "7af9e679",
+      "id": "15d06bd7",
       "execution_count": null,
       "outputs": []
     },
@@ -819,7 +819,7 @@
         "\n",
         "df_FE_SizeClass_2[\"Diesel to Average Ratio\"]"
       ],
-      "id": "180b9e58",
+      "id": "7374ec0d",
       "execution_count": null,
       "outputs": []
     },
@@ -835,7 +835,7 @@
         "\n",
         "Further Research: American Transportation Research Institute"
       ],
-      "id": "48eb9042"
+      "id": "7a5bee0c"
     },
     {
       "cell_type": "code",
@@ -850,7 +850,7 @@
         "# display the data\n",
         "df_RepairMaintenanceCost_Heavy"
       ],
-      "id": "dd9d449f",
+      "id": "8600b020",
       "execution_count": null,
       "outputs": []
     },
@@ -862,7 +862,7 @@
         "\n",
         "Data Source: https://exchange.aaa.com/wp-content/uploads/2019/09/AAA-Your-Driving-Costs-2019.pdf"
       ],
-      "id": "705f0345"
+      "id": "bd5d2342"
     },
     {
       "cell_type": "code",
@@ -875,7 +875,7 @@
         "    response = requests.get(\"https://newsroom.aaa.com/wp-content/uploads/2023/08/YDC-Brochure_2023-FINAL-8.30.23-.pdf\")\n",
         "    filepath_drivingcost.write_bytes(response.content)"
       ],
-      "id": "f12ba902",
+      "id": "fdc5fa14",
       "execution_count": null,
       "outputs": []
     },
@@ -912,7 +912,7 @@
         "\n",
         "df_DrivingCosts"
       ],
-      "id": "21882c9e",
+      "id": "731c6dd4",
       "execution_count": null,
       "outputs": []
     },
@@ -926,7 +926,7 @@
         "\n",
         "#### Create Dataframe"
       ],
-      "id": "6a2db124"
+      "id": "9ce9fd25"
     },
     {
       "cell_type": "code",
@@ -960,7 +960,7 @@
         "\n",
         "df_TransportationExpenditure"
       ],
-      "id": "12deaa58",
+      "id": "b21489e7",
       "execution_count": null,
       "outputs": []
     },
@@ -970,7 +970,7 @@
       "source": [
         "#### Plotting Trends"
       ],
-      "id": "8eae21ef"
+      "id": "fc054ad9"
     },
     {
       "cell_type": "code",
@@ -1017,7 +1017,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
-      "id": "209da57d",
+      "id": "2745abf9",
       "execution_count": null,
       "outputs": []
     },
@@ -1027,7 +1027,7 @@
       "source": [
         "#### Actual vs Trend Comparision"
       ],
-      "id": "698405fa"
+      "id": "37fa28a2"
     },
     {
       "cell_type": "code",
@@ -1050,7 +1050,7 @@
         "\n",
         "df_TranspExp_Comparision"
       ],
-      "id": "a8bcedb7",
+      "id": "9d560af5",
       "execution_count": null,
       "outputs": []
     },
@@ -1062,7 +1062,7 @@
         "\n",
         "#### Create Dataframe"
       ],
-      "id": "4b992692"
+      "id": "54cdbae2"
     },
     {
       "cell_type": "code",
@@ -1103,7 +1103,7 @@
         "\n",
         "df_AutoCost_VariableFixed"
       ],
-      "id": "b4785152",
+      "id": "5eebc2d0",
       "execution_count": null,
       "outputs": []
     },
@@ -1115,7 +1115,7 @@
         "\n",
         "##### Fixed/CPI and Variable/CPI"
       ],
-      "id": "d7df497d"
+      "id": "d11b2df0"
     },
     {
       "cell_type": "code",
@@ -1165,7 +1165,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
-      "id": "765ad469",
+      "id": "f3628fc0",
       "execution_count": null,
       "outputs": []
     },
@@ -1175,7 +1175,7 @@
       "source": [
         "##### Average Cost per Mile"
       ],
-      "id": "361b4939"
+      "id": "c903f203"
     },
     {
       "cell_type": "code",
@@ -1221,7 +1221,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
-      "id": "4b737db0",
+      "id": "2656cbb0",
       "execution_count": null,
       "outputs": []
     },
@@ -1231,7 +1231,7 @@
       "source": [
         "#### Actual vs Trend Comparision"
       ],
-      "id": "d55c7f40"
+      "id": "bbfc6267"
     },
     {
       "cell_type": "code",
@@ -1257,7 +1257,7 @@
         "\n",
         "df_AutoCost_VariableFixed_Comparision"
       ],
-      "id": "4e25eb00",
+      "id": "7aed90f7",
       "execution_count": null,
       "outputs": []
     },
@@ -1269,7 +1269,7 @@
         "\n",
         "#### Create Dataframe"
       ],
-      "id": "8308aa93"
+      "id": "07dd3256"
     },
     {
       "cell_type": "code",
@@ -1303,7 +1303,7 @@
         "# View Dataframe\n",
         "df_AutoCost"
       ],
-      "id": "e6cf3460",
+      "id": "6a57202b",
       "execution_count": null,
       "outputs": []
     },
@@ -1313,7 +1313,7 @@
       "source": [
         "#### Plotting Trends"
       ],
-      "id": "5bc9d37a"
+      "id": "b19c3a6a"
     },
     {
       "cell_type": "code",
@@ -1363,7 +1363,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
-      "id": "ce254044",
+      "id": "9eb7508d",
       "execution_count": null,
       "outputs": []
     },
@@ -1373,7 +1373,7 @@
       "source": [
         "#### Actual vs Trend Comparision"
       ],
-      "id": "d39f87bd"
+      "id": "b4921608"
     },
     {
       "cell_type": "code",
@@ -1396,7 +1396,7 @@
         "\n",
         "df_AutoCost_Comparision"
       ],
-      "id": "e39bd129",
+      "id": "4f910e46",
       "execution_count": null,
       "outputs": []
     },
@@ -1408,7 +1408,7 @@
         "\n",
         "#### Create Dataframe"
       ],
-      "id": "820ba7b8"
+      "id": "c17d9755"
     },
     {
       "cell_type": "code",
@@ -1442,7 +1442,7 @@
         "# View dataframe\n",
         "df_VehicleMiles_Truck"
       ],
-      "id": "abc8bb5f",
+      "id": "11aceeb3",
       "execution_count": null,
       "outputs": []
     },
@@ -1454,7 +1454,7 @@
         "\n",
         "##### 1990 - 2019"
       ],
-      "id": "79229c27"
+      "id": "21cd5ce3"
     },
     {
       "cell_type": "code",
@@ -1501,7 +1501,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
-      "id": "beff5d86",
+      "id": "db9bcff4",
       "execution_count": null,
       "outputs": []
     },
@@ -1511,7 +1511,7 @@
       "source": [
         "##### 2000 - 2019"
       ],
-      "id": "8286d1e7"
+      "id": "9e97a4b0"
     },
     {
       "cell_type": "code",
@@ -1571,7 +1571,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
-      "id": "8f9418de",
+      "id": "81b683f1",
       "execution_count": null,
       "outputs": []
     },
@@ -1581,7 +1581,7 @@
       "source": [
         "#### Actual vs Trend Comparision"
       ],
-      "id": "dba3cd40"
+      "id": "a7481a59"
     },
     {
       "cell_type": "code",
@@ -1623,7 +1623,7 @@
         "\n",
         "df_VMTrucks_Comparision"
       ],
-      "id": "fc9ef08a",
+      "id": "e15680b8",
       "execution_count": null,
       "outputs": []
     },
@@ -1635,7 +1635,7 @@
         "\n",
         "#### Create Dataframe"
       ],
-      "id": "0b374df8"
+      "id": "4ef600c3"
     },
     {
       "cell_type": "code",
@@ -1669,7 +1669,7 @@
         "# View the dataset\n",
         "df_FuelEconomy"
       ],
-      "id": "444a1b92",
+      "id": "4ca9d3b2",
       "execution_count": null,
       "outputs": []
     },
@@ -1679,7 +1679,7 @@
       "source": [
         "#### Plotting Trends"
       ],
-      "id": "2a74c3fa"
+      "id": "1c7061c3"
     },
     {
       "cell_type": "code",
@@ -1739,7 +1739,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
-      "id": "994b7464",
+      "id": "173069e8",
       "execution_count": null,
       "outputs": []
     },
@@ -1749,7 +1749,7 @@
       "source": [
         "#### Actual vs Trend Comparision"
       ],
-      "id": "196790d4"
+      "id": "556acc30"
     },
     {
       "cell_type": "code",
@@ -1775,7 +1775,7 @@
         "\n",
         "df_FuelEconomy_Comparision"
       ],
-      "id": "63e2de37",
+      "id": "8b950b5a",
       "execution_count": null,
       "outputs": []
     },
@@ -1787,7 +1787,7 @@
         "\n",
         "#### Create Dataframe"
       ],
-      "id": "96b19ed6"
+      "id": "0cefeac7"
     },
     {
       "cell_type": "code",
@@ -1814,7 +1814,7 @@
         "# View the dataset\n",
         "df_FuelCosts"
       ],
-      "id": "9a9e9b35",
+      "id": "6c7fdba1",
       "execution_count": null,
       "outputs": []
     },
@@ -1826,7 +1826,7 @@
         "\n",
         "##### Retail Gasoline Prices - Rocky Mountain (1994 - 2022)"
       ],
-      "id": "5b6e8666"
+      "id": "8e46c0a6"
     },
     {
       "cell_type": "code",
@@ -1880,7 +1880,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
-      "id": "d17910d6",
+      "id": "b7aac580",
       "execution_count": null,
       "outputs": []
     },
@@ -1890,7 +1890,7 @@
       "source": [
         "##### Retail Gasoline Prices - Rocky Mountain (2005 - 2022)"
       ],
-      "id": "949b1884"
+      "id": "3001b597"
     },
     {
       "cell_type": "code",
@@ -1943,7 +1943,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
-      "id": "e3e5493e",
+      "id": "9fd3471e",
       "execution_count": null,
       "outputs": []
     },
@@ -1953,7 +1953,7 @@
       "source": [
         "##### Retail Diesel Prices - Rocky Mountain (1994 - 2022)"
       ],
-      "id": "dcea8287"
+      "id": "c5fc1733"
     },
     {
       "cell_type": "code",
@@ -2007,7 +2007,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
-      "id": "513f5861",
+      "id": "69e0d7f1",
       "execution_count": null,
       "outputs": []
     },
@@ -2017,7 +2017,7 @@
       "source": [
         "##### Retail Diesel Prices - Rocky Mountain (2005 - 2022)"
       ],
-      "id": "5f09ea67"
+      "id": "c939acda"
     },
     {
       "cell_type": "code",
@@ -2071,7 +2071,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
-      "id": "010ff794",
+      "id": "805a27d7",
       "execution_count": null,
       "outputs": []
     },
@@ -2083,7 +2083,7 @@
         "\n",
         "##### 1994 - 2022"
       ],
-      "id": "fbc30483"
+      "id": "ed68bd92"
     },
     {
       "cell_type": "code",
@@ -2107,7 +2107,7 @@
         "\n",
         "df_FuelCost_Comparison_1"
       ],
-      "id": "8ba403c3",
+      "id": "e3ca67a7",
       "execution_count": null,
       "outputs": []
     },
@@ -2117,7 +2117,7 @@
       "source": [
         "##### 2005 - 2022"
       ],
-      "id": "4da3cae9"
+      "id": "d9312427"
     },
     {
       "cell_type": "code",
@@ -2144,7 +2144,7 @@
         "\n",
         "df_FuelCost_Comparison_2"
       ],
-      "id": "bbe5d161",
+      "id": "0029b467",
       "execution_count": null,
       "outputs": []
     },
@@ -2156,7 +2156,7 @@
         "\n",
         "Calculate Auto Operating Cost - 2019"
       ],
-      "id": "a9c4dd26"
+      "id": "1e21eeb0"
     },
     {
       "cell_type": "code",
@@ -2199,7 +2199,7 @@
         "    (df_RepairMaintenanceCost_Heavy['CostMile'].mean() * 100)\n",
         ")"
       ],
-      "id": "30bc0700",
+      "id": "42e193e9",
       "execution_count": null,
       "outputs": []
     },
@@ -2209,7 +2209,7 @@
       "source": [
         "## Export"
       ],
-      "id": "0d8b844d"
+      "id": "5d18785c"
     },
     {
       "cell_type": "code",
@@ -2229,7 +2229,7 @@
         "# View the dataset\n",
         "df_AOC_export"
       ],
-      "id": "b4268350",
+      "id": "81fae3a0",
       "execution_count": null,
       "outputs": []
     }
