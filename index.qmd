@@ -295,6 +295,8 @@ load_dotenv()
 ```
 
 ```{python}
+# TODO: the cpi_1913_present.xlsx file seems problematic. It automatically truncates rows after 2013. Need to investigate further.
+
 # Ensure file exists
 filepath_cpi = Path("data/bls/cpi_1913_present.xlsx")
 
@@ -591,7 +593,7 @@ df_FE_SizeClass_2
 # FIXME: Unsure the logic behind this calculation.
 df_FE_SizeClass_2["Diesel to Average Ratio"] = df_FE_SizeClass_2["Diesel_Current"] / (df_FE_SizeClass_2["Regular_Current"] + df_FE_SizeClass_2["Premium_Current"]) / 2
 
-df_FE_SizeClass_2["Diesel to Average Ratio"]
+df_FE_SizeClass_2.loc[df_FE_SizeClass_2['Year'] == 2021, 'Diesel to Average Ratio']
 ```
 
 ### Repair and Maintenance Cost - Heavy
@@ -1652,7 +1654,8 @@ AOC_HV = (
 # Create dataframe compiling data
 df_AOC_export = pd.DataFrame({
   'Auto Operating Costs': ['AOC_Auto', 'AOC_LT', 'AOC_MD', 'AOC_HV'],
-  'Cost (cent/mile)': [
+  '2019 Cost (cent/mile)': [21.7, 27.3, 55.5, 74.3], # From 2019 Excel Calculations
+  '2023 Cost (cent/mile)': [
       AOC_Auto.round(1),
       AOC_LT.round(1),
       AOC_MD.round(1),
