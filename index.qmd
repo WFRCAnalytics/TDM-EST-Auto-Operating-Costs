@@ -297,8 +297,6 @@ load_dotenv()
 ```
 
 ```{python}
-# TODO: the cpi_1913_present.xlsx file seems problematic. It automatically truncates rows after 2013. Need to investigate further.
-
 # Ensure file exists
 filepath_cpi = Path("data/bls/cpi_1913_present.xlsx")
 
@@ -1384,12 +1382,12 @@ plt.ylabel('USD', fontsize=13)
 
 # Show all x-axis labels with 90-degree rotation
 plt.xticks(pd.to_datetime(df_FuelCosts['Date']).dt.to_period('Y').unique()[::2], rotation=90)
-plt.yticks(np.arange(0, 5.5, 0.5))
+plt.yticks(np.arange(0, 6.5, 0.5))
 
 # Set the x-axis limits to be between the min and max of the Date column
 plt.xlim(df_FuelCosts['Date'].min(), df_FuelCosts['Date'].max())
-# Set y-axis limits to extend to 5
-plt.ylim(0, 5)
+# Set y-axis limits to extend to 6
+plt.ylim(0, 6)
 
 # Format the x-axis to display dates properly
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
@@ -1435,12 +1433,12 @@ plt.ylabel('USD', fontsize=13)
 
 # Show all x-axis labels with 90-degree rotation
 plt.xticks(pd.to_datetime(df_FuelCosts['Date']).dt.to_period('Y').unique(), rotation=90)
-plt.yticks(np.arange(0, 5.5, 0.5))
+plt.yticks(np.arange(0, 6.5, 0.5))
 
 # Set the x-axis limits to be between the min and max of the Date column
 plt.xlim(pd.to_datetime("2005-01-01"), df_FuelCosts['Date'].max())
-# Set y-axis limits to extend to 5
-plt.ylim(0, 5)
+# Set y-axis limits to extend to 6
+plt.ylim(0, 6)
 
 # Format the x-axis to display dates properly
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
@@ -1487,7 +1485,7 @@ plt.ylabel('USD', fontsize=13)
 
 # Show all x-axis labels with 90-degree rotation
 plt.xticks(pd.to_datetime(df_FuelCosts['Date']).dt.to_period('Y').unique()[::2], rotation=90)
-plt.yticks(np.arange(0, 6, 0.5))
+plt.yticks(np.arange(0, 6.5, 0.5))
 
 # Set the x-axis limits to be between the min and max of the Date column
 plt.xlim(df_FuelCosts['Date'].min(), df_FuelCosts['Date'].max())
@@ -1539,7 +1537,7 @@ plt.ylabel('USD', fontsize=13)
 
 # Show all x-axis labels with 90-degree rotation
 plt.xticks(pd.to_datetime(df_FuelCosts['Date']).dt.to_period('Y').unique(), rotation=90)
-plt.yticks(np.arange(0, 6, 0.5))
+plt.yticks(np.arange(0, 6.5, 0.5))
 
 # Set the x-axis limits to be between the min and max of the Date column
 plt.xlim(pd.to_datetime("2005-01-01"), df_FuelCosts['Date'].max())
