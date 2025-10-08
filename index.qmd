@@ -1784,6 +1784,7 @@ plt.show()
 This chart examines recent diesel price trends, fitting the trend line only to 2005-2024 data. The more recent period shows diesel prices becoming particularly volatile in 2021-2022, when supply chain disruptions, reduced refining capacity, and geopolitical factors created unusual price pressures.
 
 The post-2005 trend may differ from the long-term trend for several reasons:
+
 * U.S. ultra-low sulfur diesel requirements (implemented 2006-2010) changed refining economics
 * Growing diesel exports to Europe and Latin America tightened domestic supplies
 * Hurricane damage to Gulf Coast refineries reduced diesel production capacity
@@ -1983,6 +1984,7 @@ AOC_HV = (
 Let's examine each calculation in detail:
 
 **AOC_Auto (Automobiles):**
+
 * Uses July 1, 2023 gasoline price from the 1994-2024 trend (df_FuelCost_Comparison_1)
 * Divides by light-duty fuel economy trend value for 2023 (df_FuelEconomy_Comparision)
 * Multiplies by 100 to convert dollars per mile to cents per mile
@@ -1991,6 +1993,7 @@ Let's examine each calculation in detail:
 This represents the cost per mile for a typical passenger car under mid-year 2023 conditions. The use of trend values smooths out year-to-year volatility to produce a stable estimate.
 
 **AOC_LT (Light Trucks):**
+
 * Uses the same July 1, 2023 gasoline price (light trucks use gasoline, not diesel)
 * Divides by the fuel economy for light truck subtotal from the 2002 VIUS survey (df_FE_SizeClass_1)
 * This 2002 value (16.2 mpg) is older than ideal but represents the most recent detailed survey of light truck fuel economy by weight class
@@ -1999,6 +2002,7 @@ This represents the cost per mile for a typical passenger car under mid-year 202
 The light truck calculation uses somewhat older fuel economy data because more recent surveys were discontinued. The 2002 value likely understates current light truck efficiency, as fuel economy has improved since then, meaning this calculation may slightly overestimate light truck operating costs.
 
 **AOC_MD (Medium Duty Trucks):**
+
 * Uses July 1, 2023 diesel price (medium trucks predominantly use diesel engines)
 * Divides by medium-duty fuel economy trend for 2023
 * Adds maintenance costs estimated as the average of light-duty maintenance (from AAA data) and heavy-duty maintenance (from trucking industry surveys)
@@ -2006,6 +2010,7 @@ The light truck calculation uses somewhat older fuel economy data because more r
 The maintenance cost approximation acknowledges that medium trucks fall between passenger vehicles and heavy trucks in terms of service intensity and costs. They require more frequent maintenance than cars but less than tractor-trailers.
 
 **AOC_HV (Heavy Duty Trucks):**
+
 * Uses July 1, 2023 diesel price
 * Divides by heavy-duty fuel economy trend for 2023 (typically around 6 mpg)
 * Adds heavy truck maintenance costs from American Transportation Research Institute data (converted from dollars per mile to cents per mile by multiplying by 100)
