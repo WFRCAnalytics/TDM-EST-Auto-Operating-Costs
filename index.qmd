@@ -38,9 +38,8 @@ This document updates the `0 - Auto Operating Cost - 2022-01-11.qmd` to the new 
 ### Load Libraries
 
 ``` python
-!pip install numpy pandas geopandas matplotlib seaborn scipy openpyxl xlrd datetime python-dotenv pdfplumber
-# OR
-!conda install numpy pandas geopandas matplotlib seaborn scipy openpyxl xlrd datetime python-dotenv pdfplumber
+!conda install numpy pandas geopandas matplotlib seaborn scipy openpyxl python-dotenv
+!pip install pdfplumber
 ```
 
 ```{python}
