@@ -74,6 +74,10 @@ plt.rcParams['figure.figsize'] = (10, 6)
 
 ## Read Raw Data
 
+The analysis uses data from multiple federal sources to calculate vehicle operating costs. The Bureau of Transportation Statistics (BTS) provides fuel prices, vehicle expenditures, and fleet characteristics. The Energy Information Administration (EIA) supplies regional fuel price data for the Rocky Mountain area, which includes Utah. The Bureau of Labor Statistics (BLS) provides Consumer Price Index data to adjust for inflation. Together, these datasets enable a comprehensive view of how auto operating costs have evolved and allow us to project costs for the base year.
+
+Data collection is automated where possible. Each section downloads the latest data from authoritative sources and caches it locally to avoid repeated downloads. The code checks if files already exist before fetching new data, making the analysis reproducible while minimizing unnecessary network requests.
+
 ### 3-11
 
 Table 3-11: Sales Price of Transportation Fuel to End-Users \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/sales-price-transportation-fuel-end-users-current-cents-gallon)\]
@@ -682,7 +686,11 @@ df_DrivingCosts
 
 ## Intermediate Cost Calculations
 
+Raw data must be processed and combined to produce meaningful cost estimates. This section derives key metrics by joining datasets, calculating trends, and comparing actual values against historical patterns. Each subsection focuses on a specific cost component: transportation expenditures as a share of household budgets, the split between variable and fixed auto costs, fuel economy trends across vehicle classes, and regional fuel prices.
+
 ### Transportation Expenditures
+
+Transportation expenditures provide context for understanding how much households allocate to vehicle-related expenses. By examining both total transportation costs and the gasoline component separately, we can assess whether our operating cost estimates align with national spending patterns.
 
 #### Create Dataframe
 
@@ -789,6 +797,8 @@ df_TranspExp_Comparision
 ```
 
 ### Auto Cost - Variable-Fixed
+
+Vehicle operating costs divide naturally into variable costs (fuel, maintenance) that change with miles driven and fixed costs (insurance, depreciation, registration) that remain constant regardless of usage. The American Automobile Association tracks these costs annually for a vehicle driven 15,000 miles per year, providing a benchmark for our calculations.
 
 #### Create Dataframe
 
@@ -957,6 +967,8 @@ df_AutoCost_VariableFixed_Comparision
 
 ### Auto Cost
 
+This section isolates the two primary variable cost components: gasoline and maintenance plus tires. These costs directly relate to vehicle usage and vary with fuel prices and vehicle condition. Trend analysis reveals whether costs are rising, falling, or remaining stable over time.
+
 #### Create Dataframe
 
 ```{python}
@@ -1056,6 +1068,8 @@ df_AutoCost_Comparision
 ```
 
 ### Vehicle Miles - Trucks
+
+Average annual vehicle miles traveled varies significantly by truck class. Light trucks typically accumulate fewer miles than heavy combination trucks used for long-haul freight. Understanding these patterns helps calibrate operating costs to realistic usage scenarios for different vehicle types.
 
 #### Create Dataframe
 
@@ -1244,6 +1258,8 @@ df_VMTrucks_Comparision
 
 ### Fuel Economy
 
+Fuel economy directly affects operating costs—vehicles that travel more miles per gallon cost less to operate. Federal data on fleet-wide fuel economy shows how efficiency has improved over time due to technological advances and regulatory standards. We track trends separately for light-duty vehicles, medium-duty trucks, and heavy-duty trucks.
+
 #### Create Dataframe
 
 ```{python}
@@ -1359,6 +1375,8 @@ df_FuelEconomy_Comparision
 ```
 
 ### Fuel Costs
+
+Regional fuel prices fluctuate based on crude oil markets, refining capacity, distribution costs, and seasonal demand. The Energy Information Administration publishes weekly retail prices for the Rocky Mountain region, which provides the most relevant pricing for our study area. Both gasoline and diesel prices must be considered since different vehicle classes use different fuels.
 
 #### Create Dataframe
 ```{python}
@@ -1646,6 +1664,8 @@ df_FuelCost_Comparison_2
 
 ## Auto Operating Costs
 
+The final calculation combines fuel costs (price per gallon divided by miles per gallon) with maintenance costs to produce operating costs in cents per mile. We calculate separate rates for automobiles, light trucks, medium-duty trucks, and heavy-duty trucks, reflecting their different fuel types, efficiency levels, and maintenance requirements.
+
 Calculate Auto Operating Cost - 2023
 
 ```{python}
@@ -1688,6 +1708,8 @@ AOC_HV = (
 ```
 
 ## Export
+
+The resulting operating costs represent the variable cost per mile for each vehicle class in the base year. These values can be compared to previous years to assess cost trends and inform travel demand model assumptions about how travelers respond to changes in auto operating expenses.
 
 ```{python}
 # Create dataframe compiling data
