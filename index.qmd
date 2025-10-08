@@ -23,6 +23,10 @@ format:
     code-tools: true
     code-fold: true
     code-summary: "Show the code"
+    # fig-width: 8
+    # fig-height: 5
+    # out-width: "100%"
+    # fig-align: center
 
 title-block-banner: true
 ---
@@ -65,6 +69,8 @@ import re
 
 ```{python}
 BASE_YEAR = 2023
+
+plt.rcParams['figure.figsize'] = (10, 6)
 ```
 
 ## Read Raw Data
@@ -74,6 +80,8 @@ BASE_YEAR = 2023
 Table 3-11: Sales Price of Transportation Fuel to End-Users \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/sales-price-transportation-fuel-end-users-current-cents-gallon)\]
 
 ```{python}
+#| eval: false
+
 # Ensure file exists
 filepath_3_11 = Path("data/bts/table_03_11_032824.xlsx")
 if not filepath_3_11.exists():
@@ -99,6 +107,8 @@ df_3_11
 Table 3-12: Price Trends of Gasoline v. Other Consumer Goods and Services \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/price-trends-gasoline-v-other-consumer-goods-and-services)\]
 
 ```{python}
+#| eval: false
+
 # Ensure file exists
 filepath_3_12 = Path("data/bts/table_03_12_032824_1.xlsx")
 if not filepath_3_12.exists():
@@ -124,6 +134,8 @@ df_3_12
 Table 3-25: Average Wage and Salary Accruals per Full-Time Equivalent Employee by Transportation Industry \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/average-wage-and-salary-accruals-full-time-equivalent-employee-transportation-industry-naics)\]
 
 ```{python}
+#| eval: false
+
 # Ensure file exists
 filepath_3_25 = Path("data/bts/table_03_25_102122.xlsx")
 if not filepath_3_25.exists():
@@ -150,6 +162,8 @@ df_3_25
 Table 4-12: Light Duty Vehicle, Long Wheel Base Fuel Consumption and Travel \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/other-2-axle-4-tire-vehicle-fuel-consumption-and-travel-0)\]
 
 ```{python}
+#| eval: false
+
 # Ensure file exists
 filepath_4_12 = Path("data/bts/table_04_12M_032725.xlsx")
 if not filepath_4_12.exists():
@@ -175,6 +189,8 @@ df_4_12
 Table 4-9: Motor Vehicle Fuel Consumption and Travel \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/motor-vehicle-fuel-consumption-and-travel)\]
 
 ```{python}
+#| eval: false
+
 # Ensure file exists
 filepath_4_9 = Path("data/bts/table_04_09_032825.xlsx")
 if not filepath_4_9.exists():
@@ -228,6 +244,8 @@ df_FE_LightDuty
 Table 3-15: Personal Expenditures by Category (Millions of current dollars) \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/personal-expenditures-category-millions-current-dollars)\]
 
 ```{python}
+#| eval: false
+
 # Ensure file exists
 filepath_3_15 = Path("data/bts/table_03_15_022525.xlsx")
 if not filepath_3_15.exists():
@@ -259,6 +277,8 @@ df_PersonalExpenditure
 Table 3-16: Personal Consumption Expenditures on Transportation by Subcategory (Millions of current dollars) \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/personal-consumption-expenditures-transportation-subcategory-millions-current-dollars)\]
 
 ```{python}
+#| eval: false
+
 # Ensure file exists
 filepath_3_16 = Path("data/bts/table_03_16_022525.xlsx")
 if not filepath_3_16.exists():
@@ -437,6 +457,8 @@ df_AverageCost
 Table 4-11: Light Duty Vehicle, Short Wheel Base and Motorcycle Fuel Consumption and Travel \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/light-duty-vehicle-short-wheel-base-and-motorcycle-fuel-consumption-and-travel)]
 
 ```{python}
+#| eval: false
+
 # Ensure file exists
 filepath_4_11 = Path("data/bts/table_04_11_032825.xlsx")
 if not filepath_4_11.exists():
@@ -666,6 +688,8 @@ df_DrivingCosts
 #### Create Dataframe
 
 ```{python}
+#| eval: false
+
 # Define year range
 year_range = list(range(1990, BASE_YEAR+1)) # Last year should be one more than desired
 
@@ -698,6 +722,7 @@ df_TransportationExpenditure
 #### Plotting Trends
 
 ```{python}
+#| eval: false
 
 # Plotting the data using Seaborn and Matplotlib
 plt.figure(figsize=(10, 6))
@@ -744,6 +769,7 @@ plt.show()
 #### Actual vs Trend Comparision
 
 ```{python}
+#| eval: false
 
 # Create the comparison DataFrame
 df_TranspExp_Comparision = pd.DataFrame({
@@ -768,6 +794,8 @@ df_TranspExp_Comparision
 #### Create Dataframe
 
 ```{python}
+#| eval: false
+
 # Define year range
 year_range = list(range(1990, BASE_YEAR+1))  # Last year should be one more than desired
 
@@ -809,6 +837,7 @@ df_AutoCost_VariableFixed
 ##### Fixed/CPI and Variable/CPI
 
 ```{python}
+#| eval: false
 
 # Plotting the data using Seaborn and Matplotlib
 plt.figure(figsize=(10, 6))
@@ -858,6 +887,7 @@ plt.show()
 ##### Average Cost per Mile
 
 ```{python}
+#| eval: false
 
 # Create the stacked area plot
 plt.figure(figsize=(10, 6))
@@ -903,6 +933,8 @@ plt.show()
 #### Actual vs Trend Comparision
 
 ```{python}
+#| eval: false
+
 # Create the comparison DataFrame
 df_AutoCost_VariableFixed_Comparision = pd.DataFrame({
     'Date': [BASE_YEAR, BASE_YEAR, BASE_YEAR],
@@ -1029,6 +1061,8 @@ df_AutoCost_Comparision
 #### Create Dataframe
 
 ```{python}
+#| eval: false
+
 # Define year range
 year_range = list(range(1990, BASE_YEAR+1)) # Last year should be one more than desired
 
@@ -1063,6 +1097,8 @@ df_VehicleMiles_Truck
 ##### 1990 - 2023
 
 ```{python}
+#| eval: false
+
 # Plotting the data using Seaborn and Matplotlib
 plt.figure(figsize=(10, 6))
 
@@ -1108,6 +1144,8 @@ plt.show()
 ##### 2000 - 2023
 
 ```{python}
+#| eval: false
+
 # Plotting the data using Seaborn and Matplotlib
 plt.figure(figsize=(10, 6))
 
@@ -1166,6 +1204,8 @@ plt.show()
 #### Actual vs Trend Comparision
 
 ```{python}
+#| eval: false
+
 # Create the comparison DataFrame
 df_VMTrucks_Comparision = pd.DataFrame({
     'Date': [BASE_YEAR, BASE_YEAR, BASE_YEAR, BASE_YEAR, BASE_YEAR, BASE_YEAR],
