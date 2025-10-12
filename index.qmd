@@ -2076,5 +2076,6 @@ df_AOC_export.to_csv(
     index=False
 )
 ```
-
-**Download the output file:** [AOC_export.csv](./_output/AOC_export.csv)
+::: {.callout-tip title="Download the output files:"}
+[AOC_export.csv](./_output/AOC_export.csv)
+:::
