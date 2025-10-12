@@ -30,6 +30,8 @@ format:
     # fig-height: 5
     # out-width: "100%"
     # fig-align: center
+    resources:
+        - "_output/*.csv"
 
 title-block-banner: true
 ---
@@ -2027,6 +2029,7 @@ The calculations use a mix of actual 2023 data and trend-based estimates dependi
 The final output table presents the culmination of this analysis: operating costs for the base year 2023 compared to the previous calculation from 2019. This comparison reveals how operating costs have changed and whether the changes are consistent with underlying trends in fuel prices, fuel economy, and maintenance costs.
 
 The four vehicle classes represent the essential categories for travel demand modeling:
+
 * Personal vehicles (autos and light trucks) used for household travel
 * Commercial vehicles (medium and heavy trucks) used for freight movement
 
@@ -2061,3 +2064,17 @@ The table provides transparency by showing both the historical baseline (2019) a
 These operating cost estimates exclude fixed costs (insurance, depreciation, registration) because travel demand models respond to marginal costs—the cost of each additional mile driven. Fixed costs, already paid regardless of usage, don't influence short-term travel decisions. However, they do affect vehicle ownership decisions and long-term travel patterns.
 
 The final values should be validated by comparing to other sources: trucking industry surveys, fleet operator cost data, or independent fuel cost calculators. If the estimates align with these external benchmarks, it provides confidence in the methodology. Significant discrepancies warrant investigation to identify potential data errors or methodological improvements.
+
+```{python}
+# Create output directory if it doesn't exist
+output_dir = Path("_output")
+output_dir.mkdir(parents=True, exist_ok=True)
+
+# Export to CSV
+df_AOC_export.to_csv(
+    output_dir / "AOC_export.csv",
+    index=False
+)
+```
+
+**Download the output file:** [AOC_export.csv](./_output/AOC_export.csv)
