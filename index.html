@@ -345,7 +345,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="load-libraries">Load Libraries</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>conda install numpy pandas geopandas matplotlib seaborn scipy openpyxl python<span class="op">-</span>dotenv</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install pdfplumber</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="ea4d9c90" class="cell" data-execution_count="1">
+<div id="bf6adf51" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For Analysis</span></span>
@@ -372,7 +372,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="set-base-year-for-calculations" class="level3">
 <h3 class="anchored" data-anchor-id="set-base-year-for-calculations">Set Base Year for Calculations</h3>
-<div id="f5790492" class="cell" data-execution_count="2">
+<div id="66f0723d" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>BASE_YEAR <span class="op">=</span> <span class="dv">2023</span></span>
@@ -394,7 +394,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="section">3-11</h3>
 <p>Table 3-11 provides historical fuel prices to end-users from 1970 through the most recent year available. This dataset includes separate price series for gasoline, diesel, and other fuel types across all states. While we primarily rely on EIA data for detailed regional pricing, this BTS table provides context for long-term national trends.</p>
 <p>Table 3-11: Sales Price of Transportation Fuel to End-Users [Source: <a href="https://www.bts.gov/content/sales-price-transportation-fuel-end-users-current-cents-gallon">Bureau of Transportation Statistics</a>]</p>
-<div id="f3d29837" class="cell" data-execution_count="3">
+<div id="0299073e" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure file exists</span></span>
@@ -422,7 +422,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="section-1">3-12</h3>
 <p>Table 3-12 tracks how gasoline prices have changed relative to other consumer goods and services. This relative price index reveals whether fuel costs are rising faster or slower than general inflation. When gasoline prices rise faster than overall inflation, transportation becomes relatively more expensive, potentially shifting travel behavior toward more efficient modes or shorter trips.</p>
 <p>Table 3-12: Price Trends of Gasoline v. Other Consumer Goods and Services [Source: <a href="https://www.bts.gov/content/price-trends-gasoline-v-other-consumer-goods-and-services">Bureau of Transportation Statistics</a>]</p>
-<div id="24692dce" class="cell" data-execution_count="4">
+<div id="96218d91" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure file exists</span></span>
@@ -450,7 +450,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="section-2">3-25</h3>
 <p>Table 3-25 shows average wages in transportation industries, which provides economic context for understanding how transportation costs relate to household incomes. While not directly used in operating cost calculations, this data helps validate that our cost estimates are reasonable relative to what workers in the transportation sector earn.</p>
 <p>Table 3-25: Average Wage and Salary Accruals per Full-Time Equivalent Employee by Transportation Industry [Source: <a href="https://www.bts.gov/content/average-wage-and-salary-accruals-full-time-equivalent-employee-transportation-industry-naics">Bureau of Transportation Statistics</a>]</p>
-<div id="0b75144b" class="cell" data-execution_count="5">
+<div id="36248d06" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure file exists</span></span>
@@ -478,7 +478,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="section-3">4-12</h3>
 <p>Table 4-12 details fuel consumption and vehicle miles traveled for light-duty vehicles with long wheelbases—primarily SUVs, vans, and pickup trucks. This category represents a significant and growing share of the passenger vehicle fleet. The table reports both fuel consumed (in millions of gallons) and miles traveled (in billions), which together yield fuel economy in miles per gallon.</p>
 <p>Table 4-12: Light Duty Vehicle, Long Wheel Base Fuel Consumption and Travel [Source: <a href="https://www.bts.gov/content/other-2-axle-4-tire-vehicle-fuel-consumption-and-travel-0">Bureau of Transportation Statistics</a>]</p>
-<div id="e191063a" class="cell" data-execution_count="6">
+<div id="9668e5d0" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure file exists</span></span>
@@ -506,7 +506,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="fuel-economy---combinedvehtype">Fuel Economy - CombinedVehType</h3>
 <p>Table 4-9 aggregates fuel consumption and travel across all motor vehicle types. This provides a fleet-wide perspective on average fuel economy and helps ensure that our vehicle-class-specific estimates align with national totals. The combined data includes passenger cars, light trucks, buses, and heavy trucks.</p>
 <p>Table 4-9: Motor Vehicle Fuel Consumption and Travel [Source: <a href="https://www.bts.gov/content/motor-vehicle-fuel-consumption-and-travel">Bureau of Transportation Statistics</a>]</p>
-<div id="a0f89319" class="cell" data-execution_count="7">
+<div id="e9f4e131" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure file exists</span></span>
@@ -534,7 +534,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="fuel-economy---lightduty">Fuel Economy - LightDuty</h3>
 <p>Table 4-23 focuses specifically on light-duty vehicles (passenger cars and light trucks under 8,500 pounds). This is the most detailed fuel economy dataset for the vehicles that comprise the majority of personal travel. The table separates passenger cars from light trucks and tracks how fuel economy has improved over time due to Corporate Average Fuel Economy (CAFE) standards and technological improvements in engines, transmissions, and vehicle design.</p>
 <p>Table 4-23: Average Fuel Efficiency of U.S. Light Duty Vehicles [Source: <a href="https://www.bts.gov/content/average-fuel-efficiency-us-light-duty-vehicles">Bureau of Transportation Statistics</a>]</p>
-<div id="42e055fb" class="cell" data-execution_count="8">
+<div id="b7e9097a" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure file exists</span></span>
@@ -559,7 +559,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co"># display the data</span></span>
 <span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>df_FE_LightDuty</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="34">
 <div>
 
 
@@ -891,7 +891,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="personal-expenditure">Personal Expenditure</h3>
 <p>Table 3-15 shows total personal consumption expenditures across all categories: housing, healthcare, food, transportation, and others. Transportation typically represents 15-20% of household budgets. By tracking transportation’s share over time, we can assess whether our operating cost estimates produce results consistent with observed household spending patterns. The column names are cleaned to extract just the year, removing formatting artifacts like “(R)” revision markers.</p>
 <p>Table 3-15: Personal Expenditures by Category (Millions of current dollars) [Source: <a href="https://www.bts.gov/content/personal-expenditures-category-millions-current-dollars">Bureau of Transportation Statistics</a>]</p>
-<div id="52d78206" class="cell" data-execution_count="9">
+<div id="da8debe4" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure file exists</span></span>
@@ -925,7 +925,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="personal-consumption">Personal Consumption</h3>
 <p>Table 3-16 breaks down transportation expenditures into subcategories: vehicle purchases, gasoline and oil, maintenance and repairs, insurance, and public transportation. This detailed breakdown allows us to isolate the specific cost components we’re estimating and compare our calculations against actual household expenditure data reported in national accounts.</p>
 <p>Table 3-16: Personal Consumption Expenditures on Transportation by Subcategory (Millions of current dollars) [Source: <a href="https://www.bts.gov/content/personal-consumption-expenditures-transportation-subcategory-millions-current-dollars">Bureau of Transportation Statistics</a>]</p>
-<div id="f4d9cdfa" class="cell" data-execution_count="10">
+<div id="1cb2a84d" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure file exists</span></span>
@@ -967,17 +967,17 @@ Tip
 <p>Create a <code>.env</code> file in the root directory and add your BLS API key: <code>BLS_PUBLIC_API=your-key-here</code> This enables fetching Consumer Price Index data from the BLS API.</p>
 </div>
 </div>
-<div id="dd2a00fb" class="cell" data-execution_count="11">
+<div id="63786946" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="35">
 <pre><code>True</code></pre>
 </div>
 </div>
-<div id="aed65102" class="cell" data-execution_count="12">
+<div id="f8844512" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure file exists</span></span>
@@ -1036,7 +1036,7 @@ Tip
 <span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a><span class="co"># display the data</span></span>
 <span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>df_CPI</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="36">
 <div>
 
 
@@ -1284,7 +1284,7 @@ Tip
 <h3 class="anchored" data-anchor-id="retail-diesel-prices">Retail Diesel Prices</h3>
 <p>The EIA publishes weekly retail diesel prices by region. Diesel fuel powers medium-duty and heavy-duty trucks, so accurate diesel pricing is essential for calculating operating costs for freight vehicles. The Rocky Mountain region pricing reflects conditions in Utah, Colorado, Wyoming, Montana, and Idaho. Diesel prices typically run 10-20% higher than gasoline due to higher refining costs and federal excise tax rates, though the spread varies with crude oil prices and refinery economics.</p>
 <p>Retail Prices for Diesel (On-Highway) - All Types [Source: <a href="http://www.eia.gov/dnav/pet/pet_pri_gnd_a_epd2d_pte_dpgal_w.htm">Energy Information Administration</a>]</p>
-<div id="34d42121" class="cell" data-execution_count="13">
+<div id="551ed36e" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure file exists</span></span>
@@ -1305,7 +1305,7 @@ Tip
 <span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co"># display the data</span></span>
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>df_RetailDieselPrices</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="37">
 <div>
 
 
@@ -1481,7 +1481,7 @@ Tip
 <h3 class="anchored" data-anchor-id="retail-gas-prices">Retail Gas Prices</h3>
 <p>Similar to diesel prices, the EIA provides weekly retail gasoline prices for all grades (regular, midgrade, premium) by region. Most light-duty vehicles use regular gasoline, though some require premium. The “all grades” series provides a weighted average that reflects actual consumer purchasing patterns. Weekly data captures seasonal price fluctuations—prices typically rise in summer due to higher driving demand and the switch to more expensive summer-blend fuel formulations required for air quality.</p>
 <p>Retail Prices for Gasoline, All Grades [Source: <a href="https://www.eia.gov/dnav/pet/pet_pri_gnd_a_epm0_pte_dpgal_w.htm">Energy Information Administration</a>]</p>
-<div id="86aaf046" class="cell" data-execution_count="14">
+<div id="d1c5367e" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure file exists</span></span>
@@ -1502,7 +1502,7 @@ Tip
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co"># display the data</span></span>
 <span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>df_RetailGasPrices</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="38">
 <div>
 
 
@@ -1678,7 +1678,7 @@ Tip
 <h3 class="anchored" data-anchor-id="average-cost">Average Cost</h3>
 <p>Table 3-17 reports the average cost of owning and operating an automobile assuming 15,000 miles of annual driving. AAA compiles this data annually through surveys and manufacturer specifications. The costs are broken into variable expenses (fuel, maintenance, tires) that increase with miles driven, and fixed expenses (insurance, license/registration/taxes, depreciation, finance charges) that remain relatively constant regardless of mileage. This decomposition is critical because travel demand models respond primarily to variable costs—travelers notice the cost of each additional mile driven, but fixed costs are sunk regardless of how much they drive.</p>
 <p>Table 3-17: Average Cost of Owning and Operating an Automobilea (Assuming 15,000 Vehicle-Miles per Year) [Source: <a href="https://www.bts.gov/content/average-cost-owning-and-operating-automobilea-assuming-15000-vehicle-miles-year">Bureau of Transportation Statistics</a>]</p>
-<div id="445637af" class="cell" data-execution_count="15">
+<div id="cb7a2514" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure file exists</span></span>
@@ -1705,7 +1705,7 @@ Tip
 <span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="co"># display the data</span></span>
 <span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>df_AverageCost</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="39">
 <div>
 
 
@@ -1941,7 +1941,7 @@ Tip
 <h3 class="anchored" data-anchor-id="section-4">4-11</h3>
 <p>Table 4-11 covers light-duty vehicles with short wheelbases (primarily passenger cars) and motorcycles. These smaller, more fuel-efficient vehicles represent an important segment of the fleet. The table structure matches 4-12, reporting fuel consumption and vehicle miles traveled over time. Combined with Table 4-12, this provides comprehensive coverage of the light-duty vehicle fleet.</p>
 <p>Table 4-11: Light Duty Vehicle, Short Wheel Base and Motorcycle Fuel Consumption and Travel [Source: <a href="https://www.bts.gov/content/light-duty-vehicle-short-wheel-base-and-motorcycle-fuel-consumption-and-travel">Bureau of Transportation Statistics</a>]</p>
-<div id="2aeccb69" class="cell" data-execution_count="16">
+<div id="7aab73a6" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure file exists</span></span>
@@ -1969,7 +1969,7 @@ Tip
 <h3 class="anchored" data-anchor-id="fuel-economy---medium">Fuel Economy - Medium</h3>
 <p>Table 4-13 addresses single-unit trucks with two axles and six or more tires—typically box trucks, delivery vehicles, utility trucks, and small dump trucks. These medium-duty trucks bridge the gap between light-duty pickups and heavy combination trucks. They generally achieve 6-8 miles per gallon, reflecting their larger engines, heavier construction, and cargo loads. Medium-duty trucks serve crucial roles in local freight delivery, construction, and utilities.</p>
 <p>Table 4-13: Single-Unit 2-Axle 6-Tire or More Truck Fuel Consumption and Travel [Source: <a href="https://www.bts.gov/content/single-unit-2-axle-6-tire-or-more-truck-fuel-consumption-and-travel">Bureau of Transportation Statistics</a>]</p>
-<div id="df22536c" class="cell" data-execution_count="17">
+<div id="b4ad37c4" class="cell" data-execution_count="17">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure file exists</span></span>
@@ -1991,7 +1991,7 @@ Tip
 <span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="co"># display the data</span></span>
 <span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>df_FE_Medium</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="40">
 <div>
 
 
@@ -2179,7 +2179,7 @@ Tip
 <h3 class="anchored" data-anchor-id="fuel-economy---heavy">Fuel Economy - Heavy</h3>
 <p>Table 4-14 covers combination trucks—tractor-trailers consisting of a powered unit (tractor) pulling one or more trailers. These are the largest vehicles on the highway and handle the majority of long-distance freight. Heavy-duty trucks typically achieve 5-7 miles per gallon, limited by aerodynamic drag, rolling resistance, and the weight of loaded trailers. Small improvements in heavy truck fuel economy yield significant fuel savings given the high annual mileage these vehicles accumulate (often 60,000-100,000 miles per year).</p>
 <p>Table 4-14: Combination Truck Fuel Consumption and Travel [Source: <a href="https://www.bts.gov/content/combination-truck-fuel-consumption-and-travel">Bureau of Transportation Statistics</a>]</p>
-<div id="9ce9e16d" class="cell" data-execution_count="18">
+<div id="f6ac52d9" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure file exists</span></span>
@@ -2201,7 +2201,7 @@ Tip
 <span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co"># display the data</span></span>
 <span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>df_FE_Heavy</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="41">
 <div>
 
 
@@ -2389,7 +2389,7 @@ Tip
 <h3 class="anchored" data-anchor-id="fuel-economy-by-size-class">Fuel Economy by Size Class</h3>
 <p>The Transportation Energy Data Book provides detailed truck fuel economy broken down by manufacturer’s gross vehicle weight rating (GVWR) classes. The Vehicle Inventory and Use Survey (VIUS) collected this data in 1992, 1997, and 2002 before being discontinued. These surveys provide the most detailed look at fuel economy across the full truck size spectrum. The data shows clear relationships: fuel economy decreases as vehicle weight increases. This allows us to estimate fuel economy for truck classes not directly reported in the annual BTS tables. The document also includes historical retail fuel prices in both current and inflation-adjusted dollars, showing how fuel costs have changed in real terms over decades.</p>
 <p>Table 5.6 Truck Harmonic Mean Fuel Economy by Size Class, 1992, 1997, and 2002 (miles per gallon) [Source: <a href="https://tedb.ornl.gov/wp-content/uploads/2022/03/TEDB_Ed_40.pdf">Oak Ridge National Laboratory</a>]</p>
-<div id="02068d1b" class="cell" data-execution_count="19">
+<div id="f100d9f6" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure file exists</span></span>
@@ -2422,7 +2422,7 @@ Tip
 <span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a><span class="co"># display the data</span></span>
 <span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>df_FE_SizeClass_1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<div class="cell-output cell-output-display" data-execution_count="42">
 <div>
 
 
@@ -2521,7 +2521,7 @@ Tip
 </div>
 </div>
 <p>Table 11.6: (Updated June 2022) Retail Prices for Motor Fuel, 1978–2021 (dollars per gallon, including tax)</p>
-<div id="51736769" class="cell" data-execution_count="20">
+<div id="096b825e" class="cell" data-execution_count="20">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read Table 11.6 in Page 285</span></span>
@@ -2566,7 +2566,7 @@ Tip
 <span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a><span class="co"># display the data</span></span>
 <span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>df_FE_SizeClass_2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="43">
 <div>
 
 
@@ -2900,7 +2900,7 @@ Tip
 </div>
 </div>
 </div>
-<div id="0278e597" class="cell" data-execution_count="21">
+<div id="fae95d70" class="cell" data-execution_count="21">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">FIXME</span><span class="co">: Unsure the logic behind this calculation.</span></span>
@@ -2908,7 +2908,7 @@ Tip
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>df_FE_SizeClass_2.loc[df_FE_SizeClass_2[<span class="st">'Year'</span>] <span class="op">==</span> <span class="dv">2021</span>, <span class="st">'Diesel to Average Ratio'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="44">
 <pre><code>30    0.244065
 Name: Diesel to Average Ratio, dtype: float64</code></pre>
 </div>
@@ -2925,7 +2925,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 </div>
 <p>Source: <a href="'https://www.truckinginfo.com/10150350/2021-hdt-fact-book-maintenance-costs-expected-to-rise'">TruckingInfo.com</a></p>
 <p>Further Research: American Transportation Research Institute</p>
-<div id="5dc0175b" class="cell" data-execution_count="22">
+<div id="680e9fee" class="cell" data-execution_count="22">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Manually Entering the data from above image</span></span>
@@ -2937,7 +2937,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co"># display the data</span></span>
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>df_RepairMaintenanceCost_Heavy</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="45">
 <div>
 
 
@@ -3011,7 +3011,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <h3 class="anchored" data-anchor-id="driving-costs">Driving Costs</h3>
 <p>AAA publishes an annual “Your Driving Costs” report based on vehicle ownership costs for five vehicle categories at three annual mileage levels. The report combines manufacturer data, insurance industry statistics, and fuel price surveys. The PDF tables are extracted programmatically using <code>pdfplumber</code>, which identifies table boundaries and cell contents. The two pages are combined horizontally to create a complete dataset. This provides current-year cost estimates to benchmark against our trend-based calculations.</p>
 <p>Data Source: <a href="'https://exchange.aaa.com/wp-content/uploads/2019/09/AAA-Your-Driving-Costs-2019.pdf'">American Automobile Association</a></p>
-<div id="f9831ff0" class="cell" data-execution_count="23">
+<div id="e138e446" class="cell" data-execution_count="23">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure file exists</span></span>
@@ -3022,7 +3022,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    filepath_drivingcost.write_bytes(response.content)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="c6c64022" class="cell" data-execution_count="24">
+<div id="10f85373" class="cell" data-execution_count="24">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pdfplumber.<span class="bu">open</span>(filepath_drivingcost) <span class="im">as</span> pdf:</span>
@@ -3054,7 +3054,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>df_DrivingCosts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="47">
 <div>
 
 
@@ -3535,7 +3535,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <section id="create-dataframe" class="level4">
 <h4 class="anchored" data-anchor-id="create-dataframe">Create Dataframe</h4>
 <p>The dataframe combines transportation cost percentages from the personal expenditure data with gasoline costs from the average cost data. The calculation <code>Gasoline Cost of Transportation * Transportation Percent of Total / 100</code> produces gasoline as a percentage of total household expenditures. This derived metric helps us understand whether fluctuations in gasoline prices significantly impact household budgets or represent a small enough fraction that price changes have limited behavioral effects.</p>
-<div id="e878960b" class="cell" data-execution_count="25">
+<div id="8384ba96" class="cell" data-execution_count="25">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define year range</span></span>
@@ -3577,7 +3577,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <li>When gasoline prices spike (visible as peaks in the red line), it absorbs a larger share of total transportation budgets, potentially crowding out other spending or changing travel behavior</li>
 <li>The gap between the lines represents non-gasoline transportation costs: vehicle purchases, insurance, maintenance, and public transit</li>
 </ul>
-<div id="a344370c" class="cell" data-execution_count="26">
+<div id="ad7e0ae8" class="cell" data-execution_count="26">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the data using Seaborn and Matplotlib</span></span>
@@ -3627,7 +3627,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <h4 class="anchored" data-anchor-id="actual-vs-trend-comparision">Actual vs Trend Comparision</h4>
 <p>The comparison table evaluates whether 2023 values align with historical trends or deviate significantly. “Actual” shows the reported value from the data source for 2023. “Trend” shows the value predicted by a linear regression fit to all historical data.</p>
 <p>Large differences between actual and trend values warrant investigation. If actual spending exceeds the trend, it might indicate unusual fuel price spikes or increased travel demand. If actual spending falls below the trend, it could reflect improved fuel economy, reduced travel, or fuel price declines. Small differences suggest stability and that using trend-based projections for missing data would be reasonable.</p>
-<div id="16414938" class="cell" data-execution_count="27">
+<div id="c291bce5" class="cell" data-execution_count="27">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the comparison DataFrame</span></span>
@@ -3660,7 +3660,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <p>The dataframe combines several cost components. “Variable” represents the cents-per-mile cost of fuel, maintenance, and tires—expenses that scale with mileage. “Fixed” represents annual costs for insurance, registration, depreciation, and finance charges. “Total” is the sum of variable and fixed costs.</p>
 <p>The “Per 15k” column converts the annual fixed cost into a per-mile equivalent by dividing by 15,000 miles—the assumed annual travel in the AAA data. This allows direct comparison of fixed costs to variable costs on a per-mile basis, though it’s important to remember this is an accounting convenience rather than a true marginal cost.</p>
 <p>“Variable/Total” shows what fraction of total costs are variable—typically 30-40%. This indicates that most vehicle ownership costs are fixed commitments. “Variable/CPI” and “Fixed/CPI” divide costs by the Consumer Price Index to produce inflation-adjusted metrics. If these ratios increase over time, vehicle costs are rising faster than general inflation. If they decrease, vehicles are becoming relatively cheaper despite nominal price increases.</p>
-<div id="db37bc37" class="cell" data-execution_count="28">
+<div id="6feb8718" class="cell" data-execution_count="28">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define year range</span></span>
@@ -3707,7 +3707,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <p>This chart normalizes both fixed and variable costs by the CPI to reveal real cost trends independent of general inflation. The smoothed spline curves reduce year-to-year noise to highlight underlying patterns.</p>
 <p>The green line (Fixed/CPI) shows whether fixed ownership costs are rising or falling in real terms. A rising trend means insurance, depreciation, and registration costs are outpacing inflation. The red line (Variable/CPI) does the same for operating costs.</p>
 <p>Notably, both series show considerable variation, reflecting the volatility of fuel prices (which dominate variable costs) and the episodic nature of insurance cost increases. The period from 2000-2010 saw rising real costs in both categories, while the 2010s showed some moderation. Understanding these patterns helps determine whether the base year represents typical conditions or an unusual outlier.</p>
-<div id="4ae426ae" class="cell" data-execution_count="29">
+<div id="bc84e9f1" class="cell" data-execution_count="29">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the data using Seaborn and Matplotlib</span></span>
@@ -3766,7 +3766,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <li>The variable cost portion occasionally spikes, particularly during periods of high oil prices (mid-2000s, early 2010s)</li>
 </ul>
 <p>The chart provides intuitive visual confirmation of the trend analysis while making the relative magnitudes immediately apparent to non-technical readers.</p>
-<div id="ff8a1fef" class="cell" data-execution_count="30">
+<div id="7f8ba4e1" class="cell" data-execution_count="30">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the stacked area plot</span></span>
@@ -3818,7 +3818,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <p>“Variable” costs show whether fuel and maintenance in 2023 are higher or lower than historical patterns would predict. Given the volatility of fuel prices, some deviation is expected. Large positive deviations suggest an unusually expensive year, while negative deviations indicate relative affordability.</p>
 <p>“Fixed” costs are typically more stable, so large deviations are less common. “Fixed per 15,000 Miles” converts annual fixed costs to a per-mile basis for comparison purposes, though remember this is not a true marginal cost.</p>
 <p>Analysts should investigate any large discrepancies. If actual costs substantially exceed trends, using trend-based estimates might understate current costs. If actual costs fall well below trends, it might signal a structural change in the market or data collection methodology.</p>
-<div id="0c6a014c" class="cell" data-execution_count="31">
+<div id="9ff4f225" class="cell" data-execution_count="31">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the comparison DataFrame</span></span>
@@ -3853,7 +3853,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <h4 class="anchored" data-anchor-id="create-dataframe-2">Create Dataframe</h4>
 <p>The dataframe extracts three series from the AAA average cost data: “Gas” (the cents-per-mile fuel cost), “Maint” (maintenance cost per mile), and “Tires” (tire cost per mile). In some years, maintenance and tires are reported separately; in others, they’re combined. The code uses <code>.fillna(0)</code> to handle missing values, ensuring that when only one value is present, the sum still works correctly.</p>
 <p>“Maint+Tires” combines these two closely related costs. Both represent wear-and-tear expenses that scale with mileage. Maintenance includes oil changes, brake replacements, and routine service. Tires wear out with miles driven and must be replaced periodically. Together, they represent the non-fuel variable costs of driving.</p>
-<div id="cb727c93" class="cell" data-execution_count="32">
+<div id="6f5a8d6e" class="cell" data-execution_count="32">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define year range</span></span>
@@ -3881,7 +3881,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a><span class="co"># View Dataframe</span></span>
 <span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>df_AutoCost</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div class="cell-output cell-output-display" data-execution_count="48">
 <div>
 
 
@@ -4186,7 +4186,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <li>Both show upward trends, but fuel costs rise more steeply, meaning fuel is becoming a larger fraction of variable costs</li>
 </ul>
 <p>The trend lines provide predicted values for the base year that smooth out year-to-year fluctuations. If 2023 data points fall close to trend lines, using trend-based estimates is justified. Large deviations suggest the need to use actual values or investigate the causes of unusual costs.</p>
-<div id="b8a32010" class="cell" data-execution_count="33">
+<div id="0d1459fd" class="cell" data-execution_count="33">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the data using Seaborn and Matplotlib</span></span>
@@ -4247,7 +4247,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <p>This table compares 2023 actual costs against trend predictions for both fuel and maintenance-plus-tires. The “Gas” row reveals whether fuel prices in 2023 are high or low relative to the long-term trend. Fuel markets are volatile, so moderate deviations are normal. Large deviations might reflect temporary supply disruptions, geopolitical events, or unusual demand conditions.</p>
 <p>The “Maint+Tires” row is typically more stable. Significant deviations here might indicate changes in vehicle reliability (newer vehicles requiring less maintenance), shifts in labor costs, or changes in how AAA calculates these figures.</p>
 <p>For travel demand models, using trend values rather than actual values can be justified when actual values represent temporary anomalies. However, if the deviation persists across multiple years, it may signal a structural shift requiring adjustment to the model.</p>
-<div id="63dc801c" class="cell" data-execution_count="34">
+<div id="44bb01e5" class="cell" data-execution_count="34">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the comparison DataFrame</span></span>
@@ -4267,7 +4267,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>df_AutoCost_Comparision</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="19">
+<div class="cell-output cell-output-display" data-execution_count="50">
 <div>
 
 
@@ -4310,7 +4310,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <h4 class="anchored" data-anchor-id="create-dataframe-3">Create Dataframe</h4>
 <p>The dataframe compiles average annual VMT for three truck categories. “Heavy” refers to combination trucks—tractor-trailers used for long-haul freight. “Medium” covers single-unit trucks—delivery vehicles, utility trucks, and other medium-duty applications. “Light” includes pickup trucks and SUVs primarily used for personal transportation or light commercial purposes.</p>
 <p>The data comes from BTS tables that compile Federal Highway Administration statistics on vehicle registration, fuel consumption, and estimated miles traveled. Dividing total miles by number of vehicles yields average VMT per vehicle. These are fleet-wide averages; individual vehicles may drive considerably more or less depending on their specific usage patterns.</p>
-<div id="dd6c2c7b" class="cell" data-execution_count="35">
+<div id="6c05b53d" class="cell" data-execution_count="35">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define year range</span></span>
@@ -4349,7 +4349,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <h5 class="anchored" data-anchor-id="section-5">1990 - 2023</h5>
 <p>This chart shows VMT trends for all three truck classes over the full data period. The blue line (Heavy) shows that long-haul trucks average 50,000-70,000 miles per year with a generally flat trend—these vehicles are already used intensively, and there’s limited room for further increases. The red line (Medium) shows medium trucks traveling 12,000-16,000 miles annually with moderate growth, reflecting increased delivery activity. The green line (Light) shows light trucks at 11,000-13,000 miles per year, similar to passenger cars.</p>
 <p>Only the heavy truck trend line is shown here (dashed blue) to avoid visual clutter, as it’s the most stable series. The relatively flat trend for heavy trucks suggests that regulatory limits on driver hours and the physical constraints of long-haul trucking have kept average VMT stable even as total freight volumes have grown (accommodated by adding more trucks rather than driving each truck further).</p>
-<div id="a57edf53" class="cell" data-execution_count="36">
+<div id="75bcdff0" class="cell" data-execution_count="36">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the data using Seaborn and Matplotlib</span></span>
@@ -4400,7 +4400,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <p>This chart focuses on the more recent period to check whether trends have changed. All three trend lines are now shown (dashed).</p>
 <p>Comparing to the 1990-2023 chart reveals that light and medium truck VMT patterns changed around 2000. The 2000+ trends show slight increases for medium trucks (driven by e-commerce growth and more frequent deliveries) and slight decreases for light trucks (possibly reflecting higher fuel prices making owners more selective about trip-making).</p>
 <p>Heavy truck VMT remains remarkably stable across both time periods, confirming that these vehicles are operated at maximum intensity regardless of economic conditions. This stability makes heavy truck operating costs particularly sensitive to fuel price changes—operators cannot significantly reduce miles to offset higher fuel costs.</p>
-<div id="df85bbbc" class="cell" data-execution_count="37">
+<div id="fce9419c" class="cell" data-execution_count="37">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the data using Seaborn and Matplotlib</span></span>
@@ -4465,7 +4465,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <p>This comparison table shows 2023 VMT estimates using two different trend periods: 1990-2023 and 2000-2023.</p>
 <p>The first three rows use the full data period. The second three rows use only post-2000 data. Comparing these reveals whether recent trends differ from long-term patterns. If the two trend estimates are similar, it suggests stable, consistent behavior. Large differences indicate a structural break around 2000, making recent trends more relevant for current-year estimates.</p>
 <p>For heavy trucks, both approaches yield similar results, confirming the stability of this market segment. For light and medium trucks, the estimates may differ more, reflecting the changing roles of these vehicles in the economy. Medium truck VMT has likely increased with e-commerce growth, while light truck VMT may have declined as fuel economy concerns limited discretionary driving.</p>
-<div id="f4957175" class="cell" data-execution_count="38">
+<div id="d4a3f140" class="cell" data-execution_count="38">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the comparison DataFrame</span></span>
@@ -4517,7 +4517,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <p>The dataframe compiles fuel economy data for three truck/vehicle categories spanning 1980-2023. The year range starts earlier than other series (1980 and 1985 are included) to capture the full arc of fuel economy improvement following the oil crises of the 1970s.</p>
 <p>“Light Duty” comes from BTS Table 4-23, which tracks average fuel economy of the U.S. light-duty vehicle fleet—both cars and light trucks weighted by their share of vehicle miles traveled. This represents actual on-road fuel economy, which is typically 20-25% lower than EPA test ratings due to aggressive driving, air conditioning use, cold starts, and other real-world factors.</p>
 <p>“Medium Duty” and “Heavy Duty” come from BTS tables on single-unit and combination trucks. These are calculated by dividing total miles traveled by total fuel consumed for each truck class. Note that a calculation error in the original analysis has been corrected—the code now properly extracts fuel economy (row 4) rather than fuel consumption (row 5).</p>
-<div id="b4b78704" class="cell" data-execution_count="39">
+<div id="563f767a" class="cell" data-execution_count="39">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define year range</span></span>
@@ -4548,7 +4548,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <span id="cb42-26"><a href="#cb42-26" aria-hidden="true" tabindex="-1"></a><span class="co"># View the dataset</span></span>
 <span id="cb42-27"><a href="#cb42-27" aria-hidden="true" tabindex="-1"></a>df_FuelEconomy</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div class="cell-output cell-output-display" data-execution_count="51">
 <div>
 
 
@@ -4831,7 +4831,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <li>The green line (Heavy Duty) is flattest of all, improving from about 5.5 to 6.0 mpg. Heavy truck fuel economy is limited by fundamental physics—aerodynamic drag and rolling resistance of a 80,000-pound vehicle. Recent regulations requiring aerodynamic improvements (side skirts, trailer tails) and low-rolling-resistance tires have helped, but gains are incremental.</li>
 </ul>
 <p>The trend lines provide expected 2023 values that smooth out year-to-year variation from weather, economic conditions, and data collection variability.</p>
-<div id="11f95f03" class="cell" data-execution_count="40">
+<div id="c5a97b9d" class="cell" data-execution_count="40">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the data using Seaborn and Matplotlib</span></span>
@@ -4903,7 +4903,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <p>The “Light Duty” comparison reveals whether recent improvements in passenger vehicle efficiency are ahead of, behind, or on track with the long-term trend. If actual values exceed the trend, it might reflect a particularly good year for fuel economy—perhaps high gas prices encouraged purchasing more efficient vehicles. If actual values fall below the trend, it could indicate a shift toward larger vehicles or more aggressive driving.</p>
 <p>“Medium Duty” and “Heavy Duty” comparisons are similarly revealing. These markets respond less to consumer preferences and more to regulatory requirements and operational economics. Fleet operators maximize efficiency to reduce fuel costs, so deviations from trend likely reflect regulatory changes or technological breakthroughs rather than behavioral shifts.</p>
 <p>For operating cost calculations, using trend values is generally appropriate for fuel economy because these represent long-term technological capability rather than short-term market fluctuations. However, if actual values consistently exceed trends for several years, it may indicate a structural improvement worth incorporating.</p>
-<div id="d28819dd" class="cell" data-execution_count="41">
+<div id="07891cdf" class="cell" data-execution_count="41">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the comparison DataFrame</span></span>
@@ -4926,7 +4926,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>df_FuelEconomy_Comparision</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="22">
+<div class="cell-output cell-output-display" data-execution_count="53">
 <div>
 
 
@@ -4977,7 +4977,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <p>“Gasoline $/gal” contains the retail price for all grades of gasoline in the Rocky Mountain region. This is a volume-weighted average of regular, midgrade, and premium grades reflecting actual consumer purchases. About 85% of gasoline sold is regular grade.</p>
 <p>“Diesel $/gal” contains the retail price for on-highway diesel fuel (No.&nbsp;2 diesel) in the Rocky Mountain region. This is the fuel type used by medium and heavy trucks. Off-highway diesel (used in agriculture and construction) has lower taxes and is not included.</p>
 <p>Missing values appear as NaN (Not a Number). These typically occur in the first few years when diesel price reporting was less comprehensive. The code handles these properly by dropping NaN values before fitting trend lines.</p>
-<div id="2d40308f" class="cell" data-execution_count="42">
+<div id="59ceaa36" class="cell" data-execution_count="42">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the date range between the desired dates</span></span>
@@ -5001,7 +5001,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a><span class="co"># View the dataset</span></span>
 <span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>df_FuelCosts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="23">
+<div class="cell-output cell-output-display" data-execution_count="54">
 <div>
 
 
@@ -5105,7 +5105,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <li>2021-2024: Rapid increase then gradual decline</li>
 </ul>
 <p>The linear trend line (red) shows an upward slope of approximately 3-4 cents per year over the 30-year period, indicating that despite enormous volatility, gasoline prices have risen faster than general inflation. However, the trend line poorly captures the actual price dynamics—it cuts through the middle of wild swings above and below. This highlights the limitation of using simple linear trends for highly volatile commodities.The y-axis extends to $6.00 per gallon to accommodate historical peaks. The x-axis shows every other year to avoid label crowding. Grid lines aid in reading specific price levels. For 2023 estimates, the question becomes: should we use the actual price from that year, or a smoothed trend value? Given the volatility, using a specific date (like July 1, 2023, representing mid-year conditions) may better reflect what travelers actually experienced than a long-term trend that averages over boom-and-bust cycles.</p>
-<div id="c9b96c4c" class="cell" data-execution_count="43">
+<div id="624dd72a" class="cell" data-execution_count="43">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the data using Seaborn and Matplotlib</span></span>
@@ -5171,7 +5171,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <p>Comparing this trend to the 1994-2024 trend reveals whether gasoline price dynamics have changed. If the 2005+ trend is steeper, recent price increases are outpacing historical patterns, perhaps due to sustained global demand or reduced spare production capacity. If the recent trend is flatter, it suggests a structural change—perhaps shale oil production has created a price ceiling by bringing new supply online whenever prices rise too high.</p>
 <p>The 2005 starting point deliberately excludes the very low prices of the 1990s, which may no longer be relevant given changes in global oil markets, climate policy, and production costs. For a 2023 base year, a trend fitted to more recent data may provide more relevant context than one that includes conditions from three decades ago.</p>
 <p>All years are shown on the x-axis for this 20-year window, as there are few enough to display without crowding. The chart makes clear that even in this shorter period, volatility remains extreme—the range from low to high still exceeds $2.00 per gallon.</p>
-<div id="b8d0e356" class="cell" data-execution_count="44">
+<div id="25b9fbc7" class="cell" data-execution_count="44">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the data using Seaborn and Matplotlib</span></span>
@@ -5240,7 +5240,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <li>Cold weather can create diesel price spikes because heating oil (chemically similar to diesel) competes for the same refinery output</li>
 </ul>
 <p>The red trend line shows diesel prices rising at roughly the same rate as gasoline over the full 30-year period. The 1994-2003 period has some data gaps (visible as breaks in the blue line) when regional diesel price reporting was less comprehensive. These gaps are handled by the code through <code>.dropna()</code> operations that remove missing values before analysis. The chart uses the same y-axis scale ($0-6/gallon) as the gasoline charts to facilitate direct comparison. Diesel prices generally track in the upper portion of this range, consistently above gasoline.</p>
-<div id="47859ba9" class="cell" data-execution_count="45">
+<div id="9de3851e" class="cell" data-execution_count="45">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the data using Seaborn and Matplotlib</span></span>
@@ -5312,7 +5312,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 </ul>
 <p>For truck operating costs, diesel price trends are critical because fuel represents 20-40% of total heavy truck operating expenses. Even a 10-cent-per-gallon change in diesel prices can significantly impact freight costs and trucking company profitability. The difference between using a 1994-2024 trend versus a 2005-2024 trend could change operating cost estimates by several cents per mile—enough to matter for policy analysis.</p>
 <p>All x-axis labels are shown for the 20-year window. The filtering of data to 2005+ is visible in the chart limits. The code properly handles the filtering by applying it both to the displayed data and to the trend line calculation, ensuring consistency.</p>
-<div id="e80cb97b" class="cell" data-execution_count="46">
+<div id="3a469ecf" class="cell" data-execution_count="46">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the data using Seaborn and Matplotlib</span></span>
@@ -5386,7 +5386,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <p>The three dates reveal how much prices varied within 2023 and between 2019 and 2023. If July 2023 prices are close to the trend line, using trend-based estimates is justified. If actual prices deviate significantly, it may indicate an unusual year requiring direct use of actual prices rather than smoothed trends.</p>
 <p>The table presents values to three decimal places (e.g., $3.245/gallon) to enable precise calculations. When fuel economy is 20+ mpg, even small price differences of a few cents per gallon translate to measurable differences in cost per mile.</p>
 <p>Comparing gasoline and diesel trends shows whether the historical price spread is widening or narrowing. If diesel trends are rising faster than gasoline trends, it suggests structural factors are making diesel relatively more expensive over time.</p>
-<div id="e0aa6d30" class="cell" data-execution_count="47">
+<div id="816deff2" class="cell" data-execution_count="47">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the comparison DataFrame</span></span>
@@ -5407,7 +5407,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a>df_FuelCost_Comparison_1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="28">
+<div class="cell-output cell-output-display" data-execution_count="59">
 <div>
 
 
@@ -5460,7 +5460,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 </ul>
 <p>For operating cost calculations, the choice between long-term and recent trends can significantly impact results. If recent trends are more representative of current market conditions, using them produces more accurate estimates. If recent years represent a temporary deviation from long-term patterns, the full-period trend may be more appropriate.</p>
 <p>The three-decimal-place precision enables analysts to see small but meaningful differences between the two trend periods. Differences of even $0.10/gallon translate to 0.4-0.5 cents per mile for light-duty vehicles and 1.5-2.0 cents per mile for heavy trucks.</p>
-<div id="86c8b885" class="cell" data-execution_count="48">
+<div id="21c0ff7c" class="cell" data-execution_count="48">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the comparison DataFrame</span></span>
@@ -5484,7 +5484,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <span id="cb51-19"><a href="#cb51-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb51-20"><a href="#cb51-20" aria-hidden="true" tabindex="-1"></a>df_FuelCost_Comparison_2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="29">
+<div class="cell-output cell-output-display" data-execution_count="60">
 <div>
 
 
@@ -5534,7 +5534,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <li>AOC_HV: Heavy-duty trucks (combination tractor-trailers)</li>
 </ol>
 <p>Each class uses fuel type (gasoline vs.&nbsp;diesel), fuel economy, and maintenance costs appropriate to that vehicle category. The calculations explicitly show each component to maintain transparency and enable validation.</p>
-<div id="d98d2644" class="cell" data-execution_count="49">
+<div id="fa917e7c" class="cell" data-execution_count="49">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Autos</span></span>
@@ -5613,7 +5613,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <p>The final output table presents the culmination of this analysis: operating costs for the base year 2023 compared to the previous calculation from 2019. This comparison reveals how operating costs have changed and whether the changes are consistent with underlying trends in fuel prices, fuel economy, and maintenance costs.</p>
 <p>The four vehicle classes represent the essential categories for travel demand modeling: * Personal vehicles (autos and light trucks) used for household travel * Commercial vehicles (medium and heavy trucks) used for freight movement</p>
 <p>Each class has distinct cost structures reflecting their different technologies, usage patterns, and operational requirements. Monitoring how these costs evolve over time helps transportation planners understand changing incentives for travel mode choice, vehicle type choice, and trip-making decisions.</p>
-<div id="e8ef5fba" class="cell" data-execution_count="50">
+<div id="8af876dd" class="cell" data-execution_count="50">
 <details class="code-fold">
 <summary>Show the code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create dataframe compiling data</span></span>
@@ -5631,7 +5631,7 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a><span class="co"># View the dataset</span></span>
 <span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>df_AOC_export</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="31">
+<div class="cell-output cell-output-display" data-execution_count="62">
 <div>
 
 
@@ -5677,10 +5677,10 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 </div>
 <p>The comparison table shows operating costs for both 2019 and 2023, revealing several important trends:</p>
 <ul>
-<li><strong>Automobiles (AOC_Auto):</strong> The increase from 21.7 to <code>python AOC_Auto.round(1)</code> cents per mile reflects changes in gasoline prices and offsetting improvements in fuel economy. If the increse is modest (a few cents), it suggests that fuel economy gains have partially offset fuel price increases. A larger increase indicates that fuel prices rose faster than efficiency improved.</li>
-<li><strong>Light Trucks (AOC_LT):</strong> The increase from 27.3 to <code>python AOC_LT.round(1)</code> cents per mile shows how pickup trucks and SUVs, which have lower fuel economy than cars, experience larger operating cost increases when fuel prices rise. The percentage increase for light trucks typically exceeds that for automobiles unless light truck fuel economy improved unusually fast.</li>
-<li><strong>Medium Duty Trucks (AOC_MD):</strong> The increase from 55.5 to <code>python AOC_MD.round(1)</code> cents per mile reflects diesel price changes and medium truck efficiency trends. Medium trucks have roughly double the operating costs of light-duty vehicles due to much lower fuel economy (7-8 mpg vs.&nbsp;16-24 mpg). These costs directly impact local freight delivery economics and potentially goods prices.</li>
-<li><strong>Heavy Duty Trucks (AOC_HV):</strong> The increase from 74.3 to <code>python AOC_HV.round(1)</code> cents per mile shows how tractor-trailers, with the lowest fuel economy (5-6 mpg), face the highest operating costs. Even modest diesel price increases create substantial cost pressures for trucking companies. These costs ultimately influence freight rates and the competitiveness of truck transport versus rail or other modes.</li>
+<li><strong>Automobiles (AOC_Auto):</strong> The increase from 21.7 to 24.2 cents per mile reflects changes in gasoline prices and offsetting improvements in fuel economy. If the increse is modest (a few cents), it suggests that fuel economy gains have partially offset fuel price increases. A larger increase indicates that fuel prices rose faster than efficiency improved.</li>
+<li><strong>Light Trucks (AOC_LT):</strong> The increase from 27.3 to 30.8 cents per mile shows how pickup trucks and SUVs, which have lower fuel economy than cars, experience larger operating cost increases when fuel prices rise. The percentage increase for light trucks typically exceeds that for automobiles unless light truck fuel economy improved unusually fast.</li>
+<li><strong>Medium Duty Trucks (AOC_MD):</strong> The increase from 55.5 to 62.5 cents per mile reflects diesel price changes and medium truck efficiency trends. Medium trucks have roughly double the operating costs of light-duty vehicles due to much lower fuel economy (7-8 mpg vs.&nbsp;16-24 mpg). These costs directly impact local freight delivery economics and potentially goods prices.</li>
+<li><strong>Heavy Duty Trucks (AOC_HV):</strong> The increase from 74.3 to 80.3 cents per mile shows how tractor-trailers, with the lowest fuel economy (5-6 mpg), face the highest operating costs. Even modest diesel price increases create substantial cost pressures for trucking companies. These costs ultimately influence freight rates and the competitiveness of truck transport versus rail or other modes.</li>
 </ul>
 <p>The table provides transparency by showing both the historical baseline (2019) and current estimates (2023). Users can assess whether cost changes are reasonable given fuel price movements between these years. The values can be directly imported into travel demand models as updated per-mile cost parameters.</p>
 <p>These operating cost estimates exclude fixed costs (insurance, depreciation, registration) because travel demand models respond to marginal costs—the cost of each additional mile driven. Fixed costs, already paid regardless of usage, don’t influence short-term travel decisions. However, they do affect vehicle ownership decisions and long-term travel patterns.</p>
@@ -8206,10 +8206,10 @@ Name: Diesel to Average Ratio, dtype: float64</code></pre>
 <span id="cb54-2149"><a href="#cb54-2149" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb54-2150"><a href="#cb54-2150" aria-hidden="true" tabindex="-1"></a>The comparison table shows operating costs for both 2019 and 2023, revealing several important trends:</span>
 <span id="cb54-2151"><a href="#cb54-2151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-2152"><a href="#cb54-2152" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>**Automobiles (AOC_Auto):** The increase from 21.7 to <span class="in">`python AOC_Auto.round(1)`</span> cents per mile reflects changes in gasoline prices and offsetting improvements in fuel economy. If the increse is modest (a few cents), it suggests that fuel economy gains have partially offset fuel price increases. A larger increase indicates that fuel prices rose faster than efficiency improved.</span>
-<span id="cb54-2153"><a href="#cb54-2153" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>**Light Trucks (AOC_LT):** The increase from 27.3 to <span class="in">`python AOC_LT.round(1)`</span> cents per mile shows how pickup trucks and SUVs, which have lower fuel economy than cars, experience larger operating cost increases when fuel prices rise. The percentage increase for light trucks typically exceeds that for automobiles unless light truck fuel economy improved unusually fast.</span>
-<span id="cb54-2154"><a href="#cb54-2154" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>**Medium Duty Trucks (AOC_MD):** The increase from 55.5 to <span class="in">`python AOC_MD.round(1)`</span> cents per mile reflects diesel price changes and medium truck efficiency trends. Medium trucks have roughly double the operating costs of light-duty vehicles due to much lower fuel economy (7-8 mpg vs. 16-24 mpg). These costs directly impact local freight delivery economics and potentially goods prices.</span>
-<span id="cb54-2155"><a href="#cb54-2155" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>**Heavy Duty Trucks (AOC_HV):** The increase from 74.3 to <span class="in">`python AOC_HV.round(1)`</span> cents per mile shows how tractor-trailers, with the lowest fuel economy (5-6 mpg), face the highest operating costs. Even modest diesel price increases create substantial cost pressures for trucking companies. These costs ultimately influence freight rates and the competitiveness of truck transport versus rail or other modes.</span>
+<span id="cb54-2152"><a href="#cb54-2152" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>**Automobiles (AOC_Auto):** The increase from 21.7 to <span class="in">`{python} AOC_Auto.round(1)`</span> cents per mile reflects changes in gasoline prices and offsetting improvements in fuel economy. If the increse is modest (a few cents), it suggests that fuel economy gains have partially offset fuel price increases. A larger increase indicates that fuel prices rose faster than efficiency improved.</span>
+<span id="cb54-2153"><a href="#cb54-2153" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>**Light Trucks (AOC_LT):** The increase from 27.3 to <span class="in">`{python} AOC_LT.round(1)`</span> cents per mile shows how pickup trucks and SUVs, which have lower fuel economy than cars, experience larger operating cost increases when fuel prices rise. The percentage increase for light trucks typically exceeds that for automobiles unless light truck fuel economy improved unusually fast.</span>
+<span id="cb54-2154"><a href="#cb54-2154" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>**Medium Duty Trucks (AOC_MD):** The increase from 55.5 to <span class="in">`{python} AOC_MD.round(1)`</span> cents per mile reflects diesel price changes and medium truck efficiency trends. Medium trucks have roughly double the operating costs of light-duty vehicles due to much lower fuel economy (7-8 mpg vs. 16-24 mpg). These costs directly impact local freight delivery economics and potentially goods prices.</span>
+<span id="cb54-2155"><a href="#cb54-2155" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>**Heavy Duty Trucks (AOC_HV):** The increase from 74.3 to <span class="in">`{python} AOC_HV.round(1)`</span> cents per mile shows how tractor-trailers, with the lowest fuel economy (5-6 mpg), face the highest operating costs. Even modest diesel price increases create substantial cost pressures for trucking companies. These costs ultimately influence freight rates and the competitiveness of truck transport versus rail or other modes.</span>
 <span id="cb54-2156"><a href="#cb54-2156" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb54-2157"><a href="#cb54-2157" aria-hidden="true" tabindex="-1"></a>The table provides transparency by showing both the historical baseline (2019) and current estimates (2023). Users can assess whether cost changes are reasonable given fuel price movements between these years. The values can be directly imported into travel demand models as updated per-mile cost parameters.</span>
 <span id="cb54-2158"><a href="#cb54-2158" aria-hidden="true" tabindex="-1"></a></span>
