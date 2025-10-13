@@ -18,6 +18,7 @@ format:
     theme:
         light: flatly
         dark: darkly
+    respect-user-color-scheme: true
     toc: true
     number-sections: true
     number-depth: 2
