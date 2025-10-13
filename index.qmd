@@ -1641,7 +1641,7 @@ plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'${x:,.2f}'))
 # Customize the plot
 plt.title('Retail Gasoline Prices ($ per gallon) - Rocky Mountain (1994 - 2024)',
           fontsize=16, fontweight='bold', pad=20)
-plt.xlabel('Date', fontsize=13)
+plt.xlabel('Year', fontsize=13)
 plt.ylabel('USD', fontsize=13)
 
 # Show all x-axis labels with 90-degree rotation
@@ -1700,7 +1700,7 @@ plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'${x:,.2f}'))
 
 # Customize the plot
 plt.title('Retail Gasoline Prices ($ per gallon) - Rocky Mountain (2005 - 2024)', fontsize=16, fontweight='bold', pad=20)
-plt.xlabel('Date', fontsize=13)
+plt.xlabel('Year', fontsize=13)
 plt.ylabel('USD', fontsize=13)
 
 # Show all x-axis labels with 90-degree rotation
@@ -1762,7 +1762,7 @@ plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'${x:,.2f}'))
 # Customize the plot
 plt.title('Retail Diesel Prices ($ per gallon) - Rocky Mountain (1994 - 2024)',
           fontsize=16, fontweight='bold', pad=20)
-plt.xlabel('Date', fontsize=13)
+plt.xlabel('Year', fontsize=13)
 plt.ylabel('USD', fontsize=13)
 
 # Show all x-axis labels with 90-degree rotation
@@ -1827,7 +1827,7 @@ plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, p: f'${x:,.2f}'))
 # Customize the plot
 plt.title('Retail Diesel Prices ($ per gallon) - Rocky Mountain (2005 - 2024)',
           fontsize=16, fontweight='bold', pad=20)
-plt.xlabel('Date', fontsize=13)
+plt.xlabel('Year', fontsize=13)
 plt.ylabel('USD', fontsize=13)
 
 # Show all x-axis labels with 90-degree rotation
