@@ -44,6 +44,14 @@ title-block-banner: true
 
 This document updates the `0 - Auto Operating Cost - 2022-01-11.qmd` to the new base year `2023`.
 
+## Instruction
+
+This analysis calculates auto operating costs for different vehicle classes using a base year of 2023. Operating costs represent the variable expenses incurred per mile of vehicle travel, primarily fuel and maintenance. These costs are critical inputs for travel demand models, which use them to predict how people make transportation choices based on the relative costs of driving.
+
+The methodology combines data from multiple federal agencies. The Bureau of Transportation Statistics (BTS) provides historical data on fuel prices, vehicle expenditures, fleet characteristics, and average costs of vehicle ownership. The Energy Information Administration (EIA) supplies detailed regional fuel price data specific to the Rocky Mountain area, which includes Utah and neighboring states. The Bureau of Labor Statistics (BLS) provides the Consumer Price Index, allowing us to adjust historical costs for inflation. The American Automobile Association (AAA) publishes annual driving cost surveys that break down expenses into variable and fixed components. Finally, the Oak Ridge National Laboratory maintains the Transportation Energy Data Book with detailed fuel economy statistics by vehicle size class.
+
+By synthesizing these diverse data sources, we can identify long-term trends, compare actual costs against historical patterns, and produce defensible estimates for current-year operating costs across four vehicle classes: automobiles (passenger cars), light-duty trucks (pickups and SUVs), medium-duty trucks (single-unit delivery trucks), and heavy-duty trucks (tractor-trailers).
+
 ## Environment Setup
 
 ### Load Libraries
@@ -81,11 +89,40 @@ import re
 BASE_YEAR = 2023
 ```
 
-This analysis calculates auto operating costs for different vehicle classes using a base year of 2023. Operating costs represent the variable expenses incurred per mile of vehicle travel, primarily fuel and maintenance. These costs are critical inputs for travel demand models, which use them to predict how people make transportation choices based on the relative costs of driving.
+## Define Helper Functions
 
-The methodology combines data from multiple federal agencies. The Bureau of Transportation Statistics (BTS) provides historical data on fuel prices, vehicle expenditures, fleet characteristics, and average costs of vehicle ownership. The Energy Information Administration (EIA) supplies detailed regional fuel price data specific to the Rocky Mountain area, which includes Utah and neighboring states. The Bureau of Labor Statistics (BLS) provides the Consumer Price Index, allowing us to adjust historical costs for inflation. The American Automobile Association (AAA) publishes annual driving cost surveys that break down expenses into variable and fixed components. Finally, the Oak Ridge National Laboratory maintains the Transportation Energy Data Book with detailed fuel economy statistics by vehicle size class.
+To maintain code reusability and follow DRY (Don't Repeat Yourself) principles, we define helper functions for common operations throughout the analysis.
 
-By synthesizing these diverse data sources, we can identify long-term trends, compare actual costs against historical patterns, and produce defensible estimates for current-year operating costs across four vehicle classes: automobiles (passenger cars), light-duty trucks (pickups and SUVs), medium-duty trucks (single-unit delivery trucks), and heavy-duty trucks (tractor-trailers).
+### Fetch Excel Files from BLS or BTS
+
+This utility function automates downloading data files from federal agencies. It checks if a file already exists locally before attempting to download, avoiding unnecessary network requests and respecting the agencies' servers. The function includes proper HTTP headers to ensure reliable downloads.
+
+```{python}
+def ensure_exists(path, url):
+    """
+    Download Excel file if it doesn't exist locally.
+
+    Parameters:
+    -----------
+    path : str or Path
+        Local file path to save the Excel file
+    url : str
+        URL to download the Excel file from
+    """
+    # Convert to Path object if string
+    filepath = Path(path)
+
+    # Download file if it doesn't exist
+    if not filepath.exists():
+        filepath.parent.mkdir(parents=True, exist_ok=True)
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+
+        response = requests.get(url, headers=headers)
+        filepath.write_bytes(response.content)
+```
 
 ## Read Raw Data
 
@@ -104,12 +141,12 @@ Table 3-11: Sales Price of Transportation Fuel to End-Users \[Source: [Bureau of
 ```{python}
 #| eval: false
 
-# Ensure file exists
+# Set file path and source URL
 filepath_3_11 = Path("data/bts/table_03_11_032824.xlsx")
-if not filepath_3_11.exists():
-    filepath_3_11.parent.mkdir(parents=True, exist_ok=True)
-    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2024-03/table_03_11_032824.xlsx")
-    filepath_3_11.write_bytes(response.content)
+url_3_11 = "https://www.bts.gov/sites/bts.dot.gov/files/2024-03/table_03_11_032824.xlsx"
+
+# Ensure the file exists, Download if not
+ensure_exists(path=filepath_3_11, url=url_3_11)
 
 # Read Excel file
 df_3_11 = pd.read_excel(
@@ -133,12 +170,12 @@ Table 3-12: Price Trends of Gasoline v. Other Consumer Goods and Services \[Sour
 ```{python}
 #| eval: false
 
-# Ensure file exists
+# Set file path and source URL
 filepath_3_12 = Path("data/bts/table_03_12_032824_1.xlsx")
-if not filepath_3_12.exists():
-    filepath_3_12.parent.mkdir(parents=True, exist_ok=True)
-    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2024-03/table_03_12_032824_1.xlsx")
-    filepath_3_12.write_bytes(response.content)
+url_3_12 = "https://www.bts.gov/sites/bts.dot.gov/files/2024-03/table_03_12_032824_1.xlsx"
+
+# Ensure the file exists, Download if not
+ensure_exists(path=filepath_3_12, url=url_3_12)
 
 # Read Excel file
 df_3_12 = pd.read_excel(
@@ -162,12 +199,12 @@ Table 3-25: Average Wage and Salary Accruals per Full-Time Equivalent Employee b
 ```{python}
 #| eval: false
 
-# Ensure file exists
+# Set file path and source URL
 filepath_3_25 = Path("data/bts/table_03_25_102122.xlsx")
-if not filepath_3_25.exists():
-    filepath_3_25.parent.mkdir(parents=True, exist_ok=True)
-    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2022-10/table_03_25_102122.xlsx")
-    filepath_3_25.write_bytes(response.content)
+url_3_25 = "https://www.bts.gov/sites/bts.dot.gov/files/2022-10/table_03_25_102122.xlsx"
+
+# Ensure the file exists, Download if not
+ensure_exists(path=filepath_3_25, url=url_3_25)
 
 # Read Excel file
 df_3_25 = pd.read_excel(
@@ -192,12 +229,12 @@ Table 4-12: Light Duty Vehicle, Long Wheel Base Fuel Consumption and Travel \[So
 ```{python}
 #| eval: false
 
-# Ensure file exists
+# Set file path and source URL
 filepath_4_12 = Path("data/bts/table_04_12M_032725.xlsx")
-if not filepath_4_12.exists():
-    filepath_4_12.parent.mkdir(parents=True, exist_ok=True)
-    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_12M_032725.xlsx")
-    filepath_4_12.write_bytes(response.content)
+url_4_12 = "https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_12M_032725.xlsx"
+
+# Ensure the file exists, Download if not
+ensure_exists(path=filepath_4_12, url=url_4_12)
 
 # Read Excel file
 df_4_12 = pd.read_excel(
@@ -221,12 +258,12 @@ Table 4-9: Motor Vehicle Fuel Consumption and Travel \[Source: [Bureau of Transp
 ```{python}
 #| eval: false
 
-# Ensure file exists
+# Set file path and source URL
 filepath_4_9 = Path("data/bts/table_04_09_032825.xlsx")
-if not filepath_4_9.exists():
-    filepath_4_9.parent.mkdir(parents=True, exist_ok=True)
-    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_09_032825.xlsx")
-    filepath_4_9.write_bytes(response.content)
+url_4_9 = "https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_09_032825.xlsx"
+
+# Ensure the file exists, Download if not
+ensure_exists(path=filepath_4_9, url=url_4_9)
 
 # Read Excel file
 df_FE_CombinedVehType = pd.read_excel(
@@ -248,15 +285,13 @@ Table 4-23 focuses specifically on light-duty vehicles (passenger cars and light
 Table 4-23:  Average Fuel Efficiency of U.S. Light Duty Vehicles \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/average-fuel-efficiency-us-light-duty-vehicles)\]
 
 ```{python}
-# Ensure file exists
+
+# Set file path and source URL
 filepath_4_23 = Path("data/bts/table_04_23_042425.xlsx")
-if not filepath_4_23.exists():
-    filepath_4_23.parent.mkdir(parents=True, exist_ok=True)
-    response = requests.get(
-        "https://www.bts.gov/sites/bts.dot.gov/files/2025-04/table_04_23_042425.xlsx",
-        headers={"User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'}
-    )
-    filepath_4_23.write_bytes(response.content)
+url_4_23 = "https://www.bts.gov/sites/bts.dot.gov/files/2025-04/table_04_23_042425.xlsx"
+
+# Ensure the file exists, Download if not
+ensure_exists(path=filepath_4_23, url=url_4_23)
 
 # Read Excel file
 df_FE_LightDuty = pd.read_excel(
@@ -280,12 +315,12 @@ Table 3-15: Personal Expenditures by Category (Millions of current dollars) \[So
 ```{python}
 #| eval: false
 
-# Ensure file exists
+# Set file path and source URL
 filepath_3_15 = Path("data/bts/table_03_15_022525.xlsx")
-if not filepath_3_15.exists():
-    filepath_3_15.parent.mkdir(parents=True, exist_ok=True)
-    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2025-02/table_03_15_022525.xlsx")
-    filepath_3_15.write_bytes(response.content)
+url_3_15 = "https://www.bts.gov/sites/bts.dot.gov/files/2025-02/table_03_15_022525.xlsx"
+
+# Ensure the file exists, Download if not
+ensure_exists(path=filepath_3_15, url=url_3_15)
 
 # Read Excel file
 df_PersonalExpenditure = pd.read_excel(
@@ -315,12 +350,12 @@ Table 3-16: Personal Consumption Expenditures on Transportation by Subcategory (
 ```{python}
 #| eval: false
 
-# Ensure file exists
+# Set file path and source URL
 filepath_3_16 = Path("data/bts/table_03_16_022525.xlsx")
-if not filepath_3_16.exists():
-    filepath_3_16.parent.mkdir(parents=True, exist_ok=True)
-    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2025-02/table_03_16_022525.xlsx")
-    filepath_3_16.write_bytes(response.content)
+url_3_16 = "https://www.bts.gov/sites/bts.dot.gov/files/2025-02/table_03_16_022525.xlsx"
+
+# Ensure the file exists, Download if not
+ensure_exists(path=filepath_3_16, url=url_3_16)
 
 # Read Excel file
 df_PersonalConsumption = pd.read_excel(
@@ -419,12 +454,13 @@ The EIA publishes weekly retail diesel prices by region. Diesel fuel powers medi
 Retail Prices for Diesel (On-Highway) - All Types \[Source: [Energy Information Administration](http://www.eia.gov/dnav/pet/pet_pri_gnd_a_epd2d_pte_dpgal_w.htm)]
 
 ```{python}
-# Ensure file exists
+
+# Set file path and source URL
 filepath_retaildiesel = Path("data/eia/PET_PRI_GND_A_EPD2D_PTE_DPGAL_W.xls")
-if not filepath_retaildiesel.exists():
-    filepath_retaildiesel.parent.mkdir(parents=True, exist_ok=True)
-    response = requests.get("https://www.eia.gov/dnav/pet/xls/PET_PRI_GND_A_EPD2D_PTE_DPGAL_W.xls")
-    filepath_retaildiesel.write_bytes(response.content)
+url_retaildiesel = "https://www.eia.gov/dnav/pet/xls/PET_PRI_GND_A_EPD2D_PTE_DPGAL_W.xls"
+
+# Ensure the file exists, Download if not
+ensure_exists(path=filepath_retaildiesel, url=url_retaildiesel)
 
 # Read Excel file directly from URL
 df_RetailDieselPrices = pd.read_excel(
@@ -445,12 +481,13 @@ Similar to diesel prices, the EIA provides weekly retail gasoline prices for all
 Retail Prices for Gasoline, All Grades \[Source: [Energy Information Administration](https://www.eia.gov/dnav/pet/pet_pri_gnd_a_epm0_pte_dpgal_w.htm)]
 
 ```{python}
-# Ensure file exists
+
+# Set file path and source URL
 filepath_retailgas = Path("data/eia/PET_PRI_GND_A_EPM0_PTE_DPGAL_W.xls")
-if not filepath_retailgas.exists():
-    filepath_retailgas.parent.mkdir(parents=True, exist_ok=True)
-    response = requests.get("https://www.eia.gov/dnav/pet/xls/PET_PRI_GND_A_EPM0_PTE_DPGAL_W.xls")
-    filepath_retailgas.write_bytes(response.content)
+url_retailgas = "https://www.eia.gov/dnav/pet/xls/PET_PRI_GND_A_EPM0_PTE_DPGAL_W.xls"
+
+# Ensure the file exists, Download if not
+ensure_exists(path=filepath_retailgas, url=url_retailgas)
 
 # Read Excel file directly from URL
 df_RetailGasPrices = pd.read_excel(
@@ -471,12 +508,13 @@ Table 3-17 reports the average cost of owning and operating an automobile assumi
 Table 3-17:  Average Cost of Owning and Operating an Automobilea (Assuming 15,000 Vehicle-Miles per Year) \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/average-cost-owning-and-operating-automobilea-assuming-15000-vehicle-miles-year)\]
 
 ```{python}
-# Ensure file exists
+
+# Set file path and source URL
 filepath_3_17 = Path("data/bts/table_03_17_032725.xlsx")
-if not filepath_3_17.exists():
-    filepath_3_17.parent.mkdir(parents=True, exist_ok=True)
-    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_03_17_032725.xlsx")
-    filepath_3_17.write_bytes(response.content)
+url_3_17 = "https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_03_17_032725.xlsx"
+
+# Ensure the file exists, Download if not
+ensure_exists(path=filepath_3_17, url=url_3_17)
 
 # Read Excel file directly from URL
 df_AverageCost = pd.read_excel(
@@ -505,12 +543,12 @@ Table 4-11: Light Duty Vehicle, Short Wheel Base and Motorcycle Fuel Consumption
 ```{python}
 #| eval: false
 
-# Ensure file exists
+# Set file path and source URL
 filepath_4_11 = Path("data/bts/table_04_11_032825.xlsx")
-if not filepath_4_11.exists():
-    filepath_4_11.parent.mkdir(parents=True, exist_ok=True)
-    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_11_032825.xlsx")
-    filepath_4_11.write_bytes(response.content)
+url_4_11 = "https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_11_032825.xlsx"
+
+# Ensure the file exists, Download if not
+ensure_exists(path=filepath_4_11, url=url_4_11)
 
 # Read Excel file directly from URL
 df_4_11 = pd.read_excel(
@@ -532,12 +570,13 @@ Table 4-13 addresses single-unit trucks with two axles and six or more tires—t
 Table 4-13:  Single-Unit 2-Axle 6-Tire or More Truck Fuel Consumption and Travel \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/single-unit-2-axle-6-tire-or-more-truck-fuel-consumption-and-travel)\]
 
 ```{python}
-# Ensure file exists
+
+# Set file path and source URL
 filepath_4_13 = Path("data/bts/table_04_13_032725.xlsx")
-if not filepath_4_13.exists():
-    filepath_4_13.parent.mkdir(parents=True, exist_ok=True)
-    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_13_032725.xlsx")
-    filepath_4_13.write_bytes(response.content)
+url_4_13 = "https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_13_032725.xlsx"
+
+# Ensure the file exists, Download if not
+ensure_exists(path=filepath_4_13, url=url_4_13)
 
 # Read Excel file directly from URL
 df_FE_Medium = pd.read_excel(
@@ -559,12 +598,13 @@ Table 4-14 covers combination trucks—tractor-trailers consisting of a powered 
 Table 4-14:  Combination Truck Fuel Consumption and Travel \[Source: [Bureau of Transportation Statistics](https://www.bts.gov/content/combination-truck-fuel-consumption-and-travel)\]
 
 ```{python}
-# Ensure file exists
+
+# Set file path and source URL
 filepath_4_14 = Path("data/bts/table_04_14_032725.xlsx")
-if not filepath_4_14.exists():
-    filepath_4_14.parent.mkdir(parents=True, exist_ok=True)
-    response = requests.get("https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_14_032725.xlsx")
-    filepath_4_14.write_bytes(response.content)
+url_4_14 = "https://www.bts.gov/sites/bts.dot.gov/files/2025-03/table_04_14_032725.xlsx"
+
+# Ensure the file exists, Download if not
+ensure_exists(path=filepath_4_14, url=url_4_14)
 
 # Read Excel file directly from URL
 df_FE_Heavy = pd.read_excel(
@@ -586,12 +626,13 @@ The Transportation Energy Data Book provides detailed truck fuel economy broken 
 Table 5.6 Truck Harmonic Mean Fuel Economy by Size Class, 1992, 1997, and 2002 (miles per gallon) \[Source: [Oak Ridge National Laboratory](https://tedb.ornl.gov/wp-content/uploads/2022/03/TEDB_Ed_40.pdf)\]
 
 ```{python}
-# Ensure file exists
+
+# Set file path and source URL
 filepath_tedb = Path("data/doe/TEDB_Ed_40.pdf")
-if not filepath_tedb.exists():
-    filepath_tedb.parent.mkdir(parents=True, exist_ok=True)
-    response = requests.get("https://tedb.ornl.gov/wp-content/uploads/2022/03/TEDB_Ed_40.pdf")
-    filepath_tedb.write_bytes(response.content)
+url_tedb = "https://tedb.ornl.gov/wp-content/uploads/2022/03/TEDB_Ed_40.pdf"
+
+# Ensure the file exists, Download if not
+ensure_exists(path=filepath_tedb, url=url_tedb)
 
 # Read Table 5.6 in Page 152
 df_FE_SizeClass_1 = pd.DataFrame({
@@ -698,12 +739,13 @@ AAA publishes an annual "Your Driving Costs" report based on vehicle ownership c
 Data Source: [American Automobile Association]('https://exchange.aaa.com/wp-content/uploads/2019/09/AAA-Your-Driving-Costs-2019.pdf')
 
 ```{python}
-# Ensure file exists
+
+# Set file path and source URL
 filepath_drivingcost = Path("data/aaa/YDC-Brochure_2023-FINAL-8.30.23-.pdf")
-if not filepath_drivingcost.exists():
-    filepath_drivingcost.parent.mkdir(parents=True, exist_ok=True)
-    response = requests.get("https://newsroom.aaa.com/wp-content/uploads/2023/08/YDC-Brochure_2023-FINAL-8.30.23-.pdf")
-    filepath_drivingcost.write_bytes(response.content)
+url_drivingcost = "https://newsroom.aaa.com/wp-content/uploads/2023/08/YDC-Brochure_2023-FINAL-8.30.23-.pdf"
+
+# Ensure the file exists, Download if not
+ensure_exists(path=filepath_drivingcost, url=url_drivingcost)
 ```
 
 ```{python}
