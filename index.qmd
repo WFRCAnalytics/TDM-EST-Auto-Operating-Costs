@@ -715,17 +715,28 @@ df_FE_SizeClass_2.loc[df_FE_SizeClass_2['Year'] == 2021, 'Diesel to Average Rati
 
 Heavy truck maintenance costs come from industry surveys conducted by the American Transportation Research Institute (ATRI), which tracks operating costs for commercial trucking fleets. Maintenance costs include scheduled preventive maintenance (oil changes, filter replacements, inspections), repairs (brakes, tires, engine work), and roadside breakdowns. The data shows maintenance costs per mile ranging from $0.12 to $0.17, considerably higher than light-duty vehicle maintenance due to more frequent service intervals, larger and more expensive parts, and the severe duty cycles that commercial trucks experience.
 
-![Repair and Maintenance Cost per Mile](https://fleetimages.bobitstudios.com/upload/trucking-info/content/article/2021-08/maintenance_chart4-__-720x516-s.jpg)
+![Repair and Maintenance Cost per Mile (2010-2019)](https://fleetimages.bobitstudios.com/upload/trucking-info/content/article/2021-08/maintenance_chart4-__-720x516-s.jpg)
 
 Source: [TruckingInfo.com]('https://www.truckinginfo.com/10150350/2021-hdt-fact-book-maintenance-costs-expected-to-rise')
 
-Further Research: American Transportation Research Institute
+![Repair and Maintenance Cost per Mile (2014-2023)](https://img.fleetmaintenance.com/files/base/ebm/fm/image/2024/06/667d4d1390c7873530cf42a4-average_marginal_costs_per_mile_use.png)
+
+Source: [FleetMaintenance.com]('https://www.fleetmaintenance.com/equipment/article/55091624/atri-releases-2024-operational-costs-survey-report')
+
+```{python}
+# Set file path and source URL
+filepath_truckops = Path("data/atri/parsed/ATRI-Operational-Costs-of-Trucking-07-2025.pdf")
+url_truckops = "https://truckingresearch.org/wp-content/uploads/2025/07/ATRI-Operational-Costs-of-Trucking-07-2025.pdf"
+
+# Ensure the file exists, Download if not
+ensure_exists(path=filepath_truckops, url=url_truckops)
+```
 
 ```{python}
 # Manually Entering the data from above image
 df_RepairMaintenanceCost_Heavy = pd.DataFrame({
-    "Year": ["2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019"],
-    "CostMile": [0.124, 0.152, 0.138, 0.148, 0.158, 0.156, 0.166, 0.167, 0.171, 0.14]
+    "Year": ["2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
+    "CostMile": [0.124, 0.152, 0.138, 0.148, 0.158, 0.156, 0.166, 0.167, 0.171, 0.149, 0.148, 0.175, 0.196, 0.202, 0.198]
 })
 
 # display the data
@@ -1929,7 +1940,7 @@ Comparing gasoline and diesel trends shows whether the historical price spread i
 
 ```{python}
 # Create the comparison DataFrame
-comparison_dates = [pd.to_datetime("2019-01-01"), pd.to_datetime("2023-12-31"), pd.to_datetime("2023-07-01")]
+comparison_dates = [pd.to_datetime("2023-01-01"), pd.to_datetime("2023-12-31"), pd.to_datetime("2023-07-01")]
 
 df_FuelCost_Comparison_1 = pd.DataFrame({
     'Gasoline Trend': [
@@ -1971,7 +1982,7 @@ The three-decimal-place precision enables analysts to see small but meaningful d
 ```{python}
 
 # Create the comparison DataFrame
-comparison_dates = [pd.to_datetime("2019-01-01"), pd.to_datetime("2023-12-31"), pd.to_datetime("2023-07-01")]
+comparison_dates = [pd.to_datetime("2023-01-01"), pd.to_datetime("2023-12-31"), pd.to_datetime("2023-07-01")]
 
 # Filter for dates >= 2005-01-01 and fit trends
 date_filter = pd.to_datetime(df_FuelCosts['Date']) >= pd.to_datetime("2005-01-01")
@@ -2035,7 +2046,7 @@ AOC_MD = (
     df_FuelCost_Comparison_1.loc[pd.to_datetime("2023-07-01"), 'Diesel Trend'] /
     df_FuelEconomy_Comparision.loc['Medium Duty', 'Trend'] * 100 +
     # Maintenance cost: approximation as average of light and heavy
-    (df_AutoCost_Comparision.loc['Maint+Tires', 'Trend'] + (df_RepairMaintenanceCost_Heavy['CostMile'].mean() * 100)) / 2
+    (df_AutoCost_Comparision.loc['Maint+Tires', 'Trend'] + (df_RepairMaintenanceCost_Heavy[df_RepairMaintenanceCost_Heavy['Year'] == '2023']['CostMile'].iloc[0] * 100)) / 2
 )
 
 # Heavy Duty Trucks
