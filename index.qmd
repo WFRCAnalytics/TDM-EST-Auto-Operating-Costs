@@ -25,8 +25,7 @@ By synthesizing these diverse data sources, we can identify long-term trends, co
 ### Load Libraries
 
 ``` python
-!conda install numpy pandas geopandas matplotlib seaborn scipy openpyxl python-dotenv
-!pip install pdfplumber
+!conda install numpy pandas geopandas matplotlib seaborn scipy openpyxl python-dotenv tabula-py
 ```
 
 ```{python}

@@ -18,7 +18,7 @@
     "href": "index.html#environment-setup",
     "title": "Auto Operating Costs Calculation",
     "section": "2 Environment Setup",
-    "text": "2 Environment Setup\n\nLoad Libraries\n!conda install numpy pandas geopandas matplotlib seaborn scipy openpyxl python-dotenv\n!pip install pdfplumber\n\n\nShow the code\n# For Analysis\nimport numpy as np\nimport pandas as pd\n\n# For Visualization\nimport matplotlib.pyplot as plt\nimport matplotlib.dates as mdates\nfrom matplotlib.ticker import FuncFormatter\nimport seaborn as sns\nfrom scipy.interpolate import make_interp_spline\nfrom scipy import stats\n\n# misc\nimport datetime\nimport os\nfrom pathlib import Path\nimport requests\nimport tabula\nimport re\n\n\n\n\nSet Base Year for Calculations\n\n\nShow the code\nBASE_YEAR = 2023"
+    "text": "2 Environment Setup\n\nLoad Libraries\n!conda install numpy pandas geopandas matplotlib seaborn scipy openpyxl python-dotenv tabula-py\n\n\nShow the code\n# For Analysis\nimport numpy as np\nimport pandas as pd\n\n# For Visualization\nimport matplotlib.pyplot as plt\nimport matplotlib.dates as mdates\nfrom matplotlib.ticker import FuncFormatter\nimport seaborn as sns\nfrom scipy.interpolate import make_interp_spline\nfrom scipy import stats\n\n# misc\nimport datetime\nimport os\nfrom pathlib import Path\nimport requests\nimport tabula\nimport re\n\n\n\n\nSet Base Year for Calculations\n\n\nShow the code\nBASE_YEAR = 2023"
   },
   {
     "objectID": "index.html#define-helper-functions",
