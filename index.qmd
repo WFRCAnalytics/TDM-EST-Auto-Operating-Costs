@@ -47,7 +47,7 @@ import datetime
 import os
 from pathlib import Path
 import requests
-import pdfplumber
+import tabula
 import re
 ```
 
@@ -728,32 +728,30 @@ ensure_exists(path=filepath_drivingcost, url=url_drivingcost)
 ```
 
 ```{python}
-with pdfplumber.open(filepath_drivingcost) as pdf:
-    # Page 1 (index 0)
-    page1 = pdf.pages[0]
+# Extract tables from PDF
+tables_page1 = tabula.read_pdf(
+  str(filepath_drivingcost),
+  pages=1,
+  multiple_tables=True,
+  encoding='latin-1'  # or 'cp1252'
+)
 
-    # Page 2 (index 1)
-    page2 = pdf.pages[1]
+tables_page2 = tabula.read_pdf(
+  str(filepath_drivingcost),
+  pages=2,
+  multiple_tables=True,
+  encoding='latin-1'
+)
 
-    # Use lines strategy for table detection
-    table_settings = {
-        "vertical_strategy": "lines",
-        "horizontal_strategy": "lines",
-    }
+# Get the first table from each page
+df_page1 = tables_page1[0]
+df_page2 = tables_page2[0]
 
-    # Extract tables from both pages
-    table1 = page1.extract_table(table_settings=table_settings)
-    table2 = page2.extract_table(table_settings=table_settings)
+# Remove the first column from df_page2 (equivalent to your drop operation)
+df_page2_clean = df_page2.drop(df_page2.columns[0], axis=1)
 
-    # Create DataFrames
-    df_page1 = pd.DataFrame(table1[1:], columns=table1[0])
-    df_page2 = pd.DataFrame(table2[1:], columns=table2[0])
-
-    # Remove the 6th column (index 5) from df_page2
-    df_page2_clean = df_page2.drop(df_page2.columns[0], axis=1)
-
-    # Concatenate horizontally (side by side)
-    df_DrivingCosts = pd.concat([df_page1, df_page2_clean], axis=1)
+# Concatenate horizontally
+df_DrivingCosts = pd.concat([df_page1, df_page2_clean], axis=1)
 
 df_DrivingCosts
 ```
